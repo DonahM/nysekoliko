@@ -1,0 +1,32 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 300px;
+  margin-top: 10px;
+}
+
+.row-fields {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 48%;
+}
+
+.error-msg {
+  color: #f44336;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+mat-dialog-actions {
+  padding-bottom: 20px;
+  padding-right: 20px;
+}

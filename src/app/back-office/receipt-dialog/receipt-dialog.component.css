@@ -1,0 +1,184 @@
+.receipt-dialog-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f1f5f9;
+  padding: 20px;
+  position: relative;
+  max-width: 100%;
+}
+
+.dialog-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+  background: white;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.receipt-box {
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  margin-top: 40px;
+}
+
+.receipt-wrapper {
+  /* A5 landscape format roughly */
+  width: 190mm;
+  height: 130mm;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  padding: 30px;
+  position: relative;
+  font-family: 'Inter', Roboto, sans-serif;
+  color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.receipt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 15px;
+}
+
+.school-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.school-info img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.default-logo {
+  font-size: 50px;
+  width: 50px;
+  height: 50px;
+  color: #94a3b8;
+}
+
+.school-info h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.receipt-title {
+  text-align: right;
+}
+
+.receipt-title h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #3b82f6;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.receipt-title p {
+  margin: 5px 0 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.receipt-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.info-block {
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.info-label {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.info-value {
+  font-size: 16px;
+  color: #0f172a;
+  font-weight: bold;
+  margin: 0;
+}
+
+.amount-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e0f2fe;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.amount-label {
+  font-size: 18px;
+  color: #0369a1;
+  font-weight: bold;
+  margin: 0;
+}
+
+.amount-date {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  color: #0284c7;
+}
+
+.amount-value {
+  font-size: 32px;
+  color: #0284c7;
+  font-weight: 900;
+}
+
+.receipt-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.date-place p {
+  margin: 0;
+  color: #475569;
+  font-style: italic;
+}
+
+.signature-box {
+  border-top: 1px dashed #cbd5e1;
+  width: 200px;
+  text-align: center;
+  padding-top: 10px;
+  color: #64748b;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

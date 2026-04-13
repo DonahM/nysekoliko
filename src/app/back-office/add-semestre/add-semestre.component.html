@@ -1,0 +1,40 @@
+<div class="semestre-container">
+  <h2>Ajouter un semestre</h2>
+  <p class="subtitle">Remplissez les informations pour ajouter un nouveau semestre</p>
+  
+  <form [formGroup]="matiereForm" (ngSubmit)="onSubmit()" class="semestre-form">
+    <div class="form-group">
+      <label for="name">Nom du semestre</label>
+      <input id="name" formControlName="name" type="text" class="form-control" placeholder="Ex: Premier semestre, Semestre 1, etc." />
+      <div *ngIf="matiereForm.get('name')?.invalid && matiereForm.get('name')?.touched" class="error-messages">
+        <small *ngIf="matiereForm.get('name')?.hasError('required')" class="error">Le nom du semestre est requis.</small>
+        <small *ngIf="matiereForm.get('name')?.hasError('maxlength')" class="error">Le nom ne peut pas dépasser 225 caractères.</small>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="idSchool">Année scolaire</label>
+      <mat-form-field appearance="fill" class="year-select">
+        <mat-label>Sélectionnez une année scolaire</mat-label>
+        <mat-select
+          name="idSchool"
+          formControlName="idSchool"
+          required
+        >
+          <mat-option *ngFor="let year of yearsSchools" [value]="year.idSchool">
+            {{ year.annee_scolaire }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="matiereForm.get('idSchool')?.hasError('required')">
+          L'année scolaire est requise.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  
+    <button type="submit" [disabled]="matiereForm.invalid" class="submit-btn">
+      <span *ngIf="!matiereForm.pristine">Ajouter le semestre</span>
+      <span *ngIf="matiereForm.pristine">Remplissez le formulaire</span>
+    </button>
+  </form>
+</div>
+  

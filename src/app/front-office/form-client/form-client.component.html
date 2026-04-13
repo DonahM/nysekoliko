@@ -1,0 +1,101 @@
+<div class="login-container">
+  <!-- Background animated elements -->
+  <div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+  </div>
+
+  <!-- Main content -->
+  <div class="login-content">
+    <!-- Logo and title section -->
+    <div class="auth-header">
+      <div class="logo-container">
+        <img src="logoNySekoliko.png" alt="NySekoliko" class="auth-logo">
+        <div class="logo-glow"></div>
+      </div>
+      <h1 class="auth-title">
+        <span class="title-word">Se</span>
+        <span class="title-word highlight">connecter</span>
+        <span class="title-word">en tant</span>
+        <span class="title-word">qu'étudiant(e)</span>
+      </h1>
+      <p class="auth-subtitle">
+        <mat-icon class="subtitle-icon">school</mat-icon>
+        Accédez à votre espace personnel
+      </p>
+    </div>
+
+    <!-- Login form -->
+    <div class="form-container">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <!-- Matricule field -->
+        <div class="form-field">
+          <div class="field-header">
+            <mat-icon class="field-icon">badge</mat-icon>
+            <label class="field-label">Matricule</label>
+          </div>
+          <mat-form-field appearance="outline" class="custom-form-field">
+            <input matInput 
+                   placeholder="Entrez votre matricule" 
+                   formControlName="idEdt"
+                   type="text">
+            <mat-icon matSuffix class="input-icon">person</mat-icon>
+            <mat-hint *ngIf="loginForm.controls['idEdt'].invalid && loginForm.controls['idEdt'].touched">
+              <span class="error-message">Matricule requis</span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Password field -->
+        <div class="form-field">
+          <div class="field-header">
+            <mat-icon class="field-icon">lock</mat-icon>
+            <label class="field-label">Mot de passe</label>
+          </div>
+          <mat-form-field appearance="outline" class="custom-form-field">
+            <input matInput 
+                   placeholder="Entrez votre mot de passe" 
+                   formControlName="password"
+                   type="password">
+            <mat-icon matSuffix class="input-icon">visibility</mat-icon>
+            <mat-hint *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">
+              <span class="error-message">Mot de passe requis</span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Submit button -->
+        <button mat-flat-button 
+                color="primary" 
+                type="submit" 
+                [disabled]="loginForm.invalid"
+                class="submit-btn">
+          <mat-icon class="btn-icon">login</mat-icon>
+          <span class="btn-text">Connexion</span>
+          <div class="btn-shine"></div>
+        </button>
+
+        <!-- Additional links -->
+        <div class="form-links">
+          <a href="#" class="link-forgot">
+            <mat-icon class="link-icon">help_outline</mat-icon>
+            Mot de passe oublié ?
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer info -->
+    <div class="auth-footer">
+      <div class="footer-content">
+        <mat-icon class="footer-icon">security</mat-icon>
+        <p class="footer-text">
+          Connexion sécurisée • Vos données sont protégées
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+  

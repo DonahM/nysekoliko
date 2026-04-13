@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Ajouter une Note</h2>
+<mat-dialog-content>
+  <div class="form-container">
+    <div *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Matière</mat-label>
+      <mat-select [(ngModel)]="noteModel.idMat" required>
+        <mat-option *ngFor="let matiere of matieres" [value]="matiere.idMat">
+          {{ matiere.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Semestre</mat-label>
+      <mat-select [(ngModel)]="noteModel.idSem" required>
+        <mat-option *ngFor="let semestre of semestres" [value]="semestre.idSem">
+          {{ semestre.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="row-fields">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Note (sur 20)</mat-label>
+        <input matInput type="number" [(ngModel)]="noteModel.note" required min="0" max="20">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Coefficient</mat-label>
+        <input matInput type="number" [(ngModel)]="noteModel.coefficient" required min="1">
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="isLoading">Annuler</button>
+  <button mat-flat-button color="primary" (click)="onSave()" [disabled]="isLoading">
+    {{ isLoading ? 'Enregistrement...' : 'Ajouter' }}
+  </button>
+</mat-dialog-actions>

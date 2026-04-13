@@ -1,0 +1,173 @@
+.timetable-container {
+  padding: 24px;
+  background: var(--bg-color, #f5f7fb);
+  min-height: 100vh;
+}
+
+.header-section {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2b3674;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.filters-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.add-btn {
+  height: 54px;
+  border-radius: 8px;
+  margin-top: -16px;
+}
+
+.timetable-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.day-column {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+.day-header {
+  background: #4318FF;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.slots-container {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100px;
+}
+
+.slot-card {
+  background: #f8f9fc;
+  border-left: 4px solid #4318FF;
+  padding: 12px;
+  border-radius: 6px;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.slot-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.slot-time {
+  font-size: 13px;
+  color: #a3aed1;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.slot-subject {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2b3674;
+  margin-bottom: 6px;
+}
+
+.slot-teacher {
+  font-size: 12px;
+  color: #707eae;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tiny-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.delete-slot-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.slot-card:hover .delete-slot-btn {
+  opacity: 1;
+}
+
+.delete-slot-btn:hover {
+  background: #f44336;
+  color: white;
+}
+
+.empty-day {
+  text-align: center;
+  padding: 20px 0;
+  color: #a3aed1;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.loading-state, .no-selection-state {
+  text-align: center;
+  padding: 40px;
+  color: #707eae;
+  font-size: 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  color: #d1d5db;
+}

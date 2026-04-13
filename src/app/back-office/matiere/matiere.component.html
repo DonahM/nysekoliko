@@ -1,0 +1,30 @@
+<div class="matiere-container">
+  <h2>Ajouter une matière</h2>
+  <p class="subtitle">Remplissez les informations pour ajouter une nouvelle matière</p>
+  
+  <form [formGroup]="matiereForm" (ngSubmit)="onSubmit()" class="matiere-form">
+    <div class="form-group">
+      <label for="name">Nom de la matière</label>
+      <input id="name" formControlName="name" type="text" class="form-control" placeholder="Ex: Mathématiques" />
+      <div *ngIf="matiereForm.get('name')?.invalid && matiereForm.get('name')?.touched" class="error-messages">
+        <small *ngIf="matiereForm.get('name')?.hasError('required')" class="error">Le nom de la matière est requis.</small>
+        <small *ngIf="matiereForm.get('name')?.hasError('maxlength')" class="error">Le nom ne peut pas dépasser 225 caractères.</small>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="idSchool">ID École</label>
+      <input id="idSchool" formControlName="idSchool" type="number" class="form-control" readonly />
+      <small class="info">Automatiquement associé à votre compte</small>
+      <div *ngIf="matiereForm.get('idSchool')?.invalid && matiereForm.get('idSchool')?.touched" class="error-messages">
+        <small *ngIf="matiereForm.get('idSchool')?.hasError('required')" class="error">L'ID de l'école est requis.</small>
+      </div>
+    </div>
+  
+    <button type="submit" [disabled]="matiereForm.invalid" class="submit-btn">
+      <span *ngIf="!matiereForm.pristine">Ajouter la matière</span>
+      <span *ngIf="matiereForm.pristine">Remplissez le formulaire</span>
+    </button>
+  </form>
+</div>
+  

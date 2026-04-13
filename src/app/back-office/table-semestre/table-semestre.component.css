@@ -1,0 +1,511 @@
+/* ===================================
+   DESIGN MAGNIFIQUE - PAGE SEMESTRES
+   =================================== */
+
+/* Variables de couleur */
+:root {
+  --primary-color: #667eea;
+  --primary-dark: #5a67d8;
+  --secondary-color: #764ba2;
+  --accent-color: #f093fb;
+  --success-color: #48bb78;
+  --warning-color: #ed8936;
+  --danger-color: #f56565;
+  --info-color: #4299e1;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7fafc;
+  --bg-tertiary: #edf2f7;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+  --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  --gradient-success: linear-gradient(135deg, var(--success-color) 0%, #38a169 100%);
+  --gradient-warning: linear-gradient(135deg, var(--warning-color) 0%, #dd6b20 100%);
+  --gradient-danger: linear-gradient(135deg, var(--danger-color) 0%, #e53e3e 100%);
+  --gradient-info: linear-gradient(135deg, var(--info-color) 0%, #3182ce 100%);
+  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+/* ===================================
+   CONTAINER PRINCIPAL
+   =================================== */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 30px 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background pattern */
+:host::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===================================
+   HEADER HERO AMÉLIORÉ */
+.headerTable {
+  position: relative;
+  background: var(--gradient-hero);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.headerTable::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  overflow: hidden;
+}
+
+.headerTable::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: heroRotate 20s linear infinite;
+}
+
+@keyframes heroRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.headerTable h1 {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-size: 42px;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  letter-spacing: -1px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+.headerTable h1::before {
+  content: '📅';
+  font-size: 48px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  from { text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.2); }
+  to { text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 255, 255, 0.4); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ===================================
+   AJOUT BUTTON AMÉLIORÉ */
+.ajout {
+  position: relative;
+  z-index: 2;
+}
+
+.btnAdd {
+  background: var(--gradient-success);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 16px rgba(72, 187, 120, 0.3);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.btnAdd::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btnAdd:hover::before {
+  left: 100%;
+}
+
+.btnAdd:hover {
+  background: var(--gradient-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+.btnAdd::after {
+  content: '➕';
+  font-size: 16px;
+}
+
+/* ===================================
+   TABLE CONTAINER MODERNE */
+.table-container {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-primary);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease;
+}
+
+.table-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.paginator-wrapper {
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: 0 0 20px 20px;
+  padding: 20px 30px 0;
+}
+
+/* ===================================
+   TABLE MODERNE */
+.modern-table {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.mat-mdc-table {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.header-row {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+}
+
+.data-row {
+  transition: all 0.3s ease;
+}
+
+.data-row:hover {
+  background: var(--bg-secondary);
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.header-cell {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 14px;
+  padding: 20px 16px;
+  border-bottom: 2px solid var(--border-color);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-icon {
+  font-size: 18px;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+.header-icon:nth-child(odd) {
+  animation-delay: 0.5s;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+.mat-mdc-cell {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ===================================
+   CELL STYLES SPÉCIFIQUES */
+.semestre-cell {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 16px;
+}
+
+.semestre-name {
+  font-weight: 800;
+  color: var(--primary-color);
+  background: rgba(102, 126, 234, 0.1);
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  display: inline-block;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.semestre-name::before {
+  content: '🎯';
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.year-cell {
+  font-weight: 600;
+  color: var(--info-color);
+}
+
+.year-badge {
+  font-weight: 700;
+  color: var(--info-color);
+  background: rgba(66, 153, 225, 0.1);
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(66, 153, 225, 0.2);
+  display: inline-block;
+  font-size: 14px;
+}
+
+.year-badge::before {
+  content: '🎓';
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* ===================================
+   ACTION BUTTONS AMÉLIORÉS */
+.actions-cell {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.delete-btn {
+  background: var(--gradient-danger);
+  color: white;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.delete-btn:hover {
+  background: var(--gradient-warning);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);
+}
+
+.delete-icon {
+  font-size: 18px;
+}
+
+/* ===================================
+   PAGINATOR MODERNE */
+.modern-paginator {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mat-mdc-paginator-container {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-mdc-paginator-page-size {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.mat-mdc-paginator-range-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mat-mdc-paginator .mat-mdc-icon-button {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  transition: all 0.3s ease;
+}
+
+.mat-mdc-paginator .mat-mdc-icon-button:hover {
+  background: var(--gradient-primary);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* ===================================
+   ANIMATIONS */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================================
+   RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .headerTable {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+    padding: 30px;
+  }
+  
+  .headerTable h1 {
+    font-size: 32px;
+  }
+  
+  .ajout {
+    align-self: center;
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    padding: 20px 15px;
+  }
+  
+  .headerTable {
+    padding: 30px 20px;
+    margin-bottom: 30px;
+  }
+  
+  .headerTable h1 {
+    font-size: 28px;
+  }
+  
+  .table-container {
+    padding: 20px;
+    overflow-x: auto;
+  }
+  
+  .table-wrapper {
+    min-width: 600px;
+  }
+  
+  .header-cell,
+  .mat-mdc-cell {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+  
+  .btnAdd {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerTable {
+    padding: 20px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .headerTable h1 {
+    font-size: 24px;
+  }
+  
+  .table-container {
+    padding: 16px;
+  }
+  
+  .header-cell,
+  .mat-mdc-cell {
+    padding: 10px 6px;
+    font-size: 12px;
+  }
+  
+  .semestre-name::before,
+  .year-badge::before {
+    font-size: 14px;
+  }
+  
+  .delete-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .delete-icon {
+    font-size: 16px;
+  }
+  
+  .btnAdd {
+    padding: 10px 20px;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+}
+  

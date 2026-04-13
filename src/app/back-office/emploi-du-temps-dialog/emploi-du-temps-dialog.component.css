@@ -1,0 +1,43 @@
+.dialog-title {
+  color: #2b3674;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.dialog-content {
+  padding-top: 10px;
+  overflow-y: auto;
+}
+
+.slot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.time-row {
+  display: flex;
+  gap: 16px;
+}
+
+.half-width {
+  flex: 1;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #f44336;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.dialog-actions {
+  padding: 16px 24px;
+  margin-bottom: 0;
+}

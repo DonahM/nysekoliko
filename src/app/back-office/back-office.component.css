@@ -1,0 +1,367 @@
+/* Styles de base */
+.logo {
+  width: 50px;
+  height: 50px;
+  background-image: url(./img/logo.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-left: 0;
+  background-color: rgb(254, 254, 254);
+  border-radius: 50%;
+}
+
+.right-sidebar {
+  position: fixed;
+  top: 64px; /* Matches navbar height roughly if we assume 64px. Let's force navbar height to ensure no gaps. */
+  right: 0;
+  width: 250px;
+  height: calc(100vh - 64px);
+  background: #1e293b;
+  box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+  z-index: 900;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.navBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px; /* Fixed height for navbar */
+  z-index: 1000;
+  box-sizing: border-box;
+  background: #333;
+  padding: 0 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+/* User Info Styles - positioned on the right */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 10px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.user-name-text {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #f8fafc;
+  line-height: 1.2;
+}
+
+.user-role-text {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: capitalize;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid #3b82f6;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-avatar .fallback-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  color: #cbd5e1;
+}
+
+/* Header Actions & Notifications */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notif-container {
+  position: relative;
+}
+
+.notif-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.notif-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.notif-btn .badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #ef4444; 
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid #333;
+}
+
+.notif-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  width: 320px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+  z-index: 1000;
+  animation: fadeInDown 0.2s ease-out;
+}
+
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.notif-header h4 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.notif-count {
+  background: #fee2e2;
+  color: #ef4444;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.notif-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notif-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.2s;
+}
+
+.notif-item:hover {
+  background: #f8fafc;
+}
+
+.alert-icon {
+  color: #f59e0b;
+}
+
+.notif-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.notif-info strong {
+  color: #1e293b;
+  font-size: 0.9rem;
+  margin:0;
+}
+
+.notif-info span {
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+
+.menu-title {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0 24px 10px 24px;
+  font-weight: 600;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.sidebar-nav a:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.sidebar-nav a.active-link {
+  background: rgba(59, 130, 246, 0.1); /* blue tint */
+  color: #60a5fa;
+  border-left: 4px solid #3b82f6;
+}
+
+.sidebar-nav a mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 15px 24px;
+}
+
+.logout-link {
+  color: #fca5a5 !important;
+}
+.logout-link:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #f87171 !important;
+}
+
+/* Main Layout */
+.main-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-top: 64px; /* match navbar height */
+  padding-right: 250px; /* leaves room for the right sidebar */
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .main-layout {
+    padding-right: 0;
+    padding-bottom: 70px; /* Prevent bottom bar overlap */
+  }
+  
+  .right-sidebar {
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    height: 60px;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    padding: 0;
+    align-items: center;
+    width: 100%;
+  }
+  .menu-title, .sidebar-divider { display: none; }
+  
+  .sidebar-nav a {
+    flex-direction: column;
+    padding: 8px 12px;
+    gap: 4px;
+    font-size: 10px;
+    flex: 1; /* evenly distribute */
+    justify-content: center;
+  }
+  .sidebar-nav a span { display: none; } /* keep only icons for mobile */
+  .sidebar-nav a.active-link { border-left: none; border-bottom: 3px solid #3b82f6; }
+
+  /* Navbar adjustments for mobile */
+  .navBar {
+    padding: 0 10px;
+  }
+  .user-details {
+    display: none; /* Hide name and role */
+  }
+  .logo-title {
+    font-size: 1.1rem;
+  }
+  .notif-dropdown {
+    width: 280px;
+    right: -40px; /* avoid edge overflow */
+  }
+}

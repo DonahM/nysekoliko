@@ -1,0 +1,82 @@
+<div class="receipt-dialog-container">
+  <div class="dialog-actions no-print">
+    <button mat-icon-button (click)="exportToPDF()" color="primary" matTooltip="Télécharger en PDF">
+      <mat-icon>picture_as_pdf</mat-icon>
+    </button>
+    <button mat-icon-button (click)="printReceipt()" color="primary" matTooltip="Imprimer">
+      <mat-icon>print</mat-icon>
+    </button>
+    <button mat-icon-button mat-dialog-close color="warn" matTooltip="Fermer">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="receipt-box">
+    <!-- Receipt content to print/export -->
+    <div class="receipt-wrapper">
+      
+      <div class="receipt-header">
+        <div class="school-info">
+          <img *ngIf="userLogo" [src]="baseUrl + '/upload/users/' + userLogo" alt="Logo">
+          <mat-icon *ngIf="!userLogo" class="default-logo">school</mat-icon>
+          <h2>{{ schoolName }}</h2>
+        </div>
+        <div class="receipt-title">
+          <h1>REÇU DE PAIE</h1>
+          <p>N° {{ data.item.idEco || data.item.idSal }}</p>
+        </div>
+      </div>
+
+      <div class="receipt-body">
+        
+        <div class="receipt-details">
+          <!-- Type Ecolage -->
+          <ng-container *ngIf="data.type === 'ecolage'">
+            <div class="info-block">
+              <span class="info-label">Reçu de</span>
+              <p class="info-value">{{ data.item.etudiants?.name }} {{ data.item.etudiants?.surname || data.studentName }}</p>
+            </div>
+            <div class="info-block">
+              <span class="info-label">Matricule / Classe</span>
+              <p class="info-value">{{ data.item.etudiants?.matricule }} / {{ data.className || 'Non spécifié' }}</p>
+            </div>
+          </ng-container>
+
+          <!-- Type Salaire -->
+          <ng-container *ngIf="data.type === 'salaire'">
+            <div class="info-block">
+              <span class="info-label">Payé à</span>
+              <p class="info-value">{{ data.item.profName }}</p>
+            </div>
+            <div class="info-block">
+              <span class="info-label">Statut</span>
+              <p class="info-value">Professeur / Enseignant</p>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="amount-row">
+          <div class="amount-info">
+            <span class="amount-label">Règlement : {{ data.item.mois }} {{ data.yearName }}</span>
+            <p class="amount-date">Effectué le {{ data.item.date }}</p>
+          </div>
+          <div class="amount-value">
+            {{ data.item.valeur | number:'1.0-0' }} Ar
+          </div>
+        </div>
+
+      </div>
+
+      <div class="receipt-footer">
+        <div class="date-place">
+          <p>Fait à {{ schoolName.split(' ')[0] }}, le {{ receiptDate }}</p>
+        </div>
+        <div class="signature-box">
+          Signature & Cachet
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

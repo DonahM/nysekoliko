@@ -1,0 +1,317 @@
+<div class="class-form-container" [formGroup]="addClassForm">
+  <!-- Header magnifique -->
+  <div class="form-header">
+    <div class="header-background">
+      <div class="header-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+      </div>
+      <div class="header-particles">
+        <div class="particle particle-1"></div>
+        <div class="particle particle-2"></div>
+        <div class="particle particle-3"></div>
+        <div class="particle particle-4"></div>
+        <div class="particle particle-5"></div>
+        <div class="particle particle-6"></div>
+      </div>
+      <div class="header-grid"></div>
+    </div>
+    
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">class</mat-icon>
+          Ajouter une classe
+        </h1>
+        <p class="subtitle">Créer une nouvelle classe avec excellence</p>
+      </div>
+      
+      <div class="header-right">
+        <button mat-raised-button 
+                color="primary" 
+                (click)="onSubmit()"
+                [disabled]="!addClassForm.valid"
+                class="submit-btn">
+          <mat-icon class="btn-icon">save</mat-icon>
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="form-content">
+    <div class="form-grid">
+      
+      <!-- Section Informations Générales -->
+      <div class="form-section general-section">
+        <div class="section-header">
+          <div class="section-icon-container">
+            <mat-icon class="section-icon">info</mat-icon>
+          </div>
+          <div class="section-title">
+            <h3>Informations Générales</h3>
+            <p>Détails de base de la classe</p>
+          </div>
+        </div>
+        
+        <div class="section-content">
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">title</mat-icon>
+                  Nom de la classe
+                </mat-label>
+                <input matInput 
+                       placeholder="Ex: 6ème année A" 
+                       formControlName="name" />
+                <mat-icon matSuffix class="suffix-icon">school</mat-icon>
+                <mat-error *ngIf="addClassForm.get('name')?.invalid && addClassForm.get('name')?.touched">
+                  Le nom de la classe est requis.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">tag</mat-icon>
+                  Numéro de la classe
+                </mat-label>
+                <input matInput 
+                       placeholder="Ex: A, B, 1, 2..." 
+                       formControlName="num" />
+                <mat-icon matSuffix class="suffix-icon">label</mat-icon>
+                <mat-error *ngIf="addClassForm.get('num')?.invalid && addClassForm.get('num')?.touched">
+                  Le numéro de la classe est requis.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">calendar_today</mat-icon>
+                  Année scolaire
+                </mat-label>
+                <mat-select formControlName="idSchool">
+                  <mat-option *ngFor="let year of yearsSchools" [value]="year.idSchool">
+                    <div class="option-content">
+                      <mat-icon class="option-icon">school</mat-icon>
+                      {{ year.annee_scolaire }}
+                    </div>
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix class="suffix-icon">date_range</mat-icon>
+                <mat-error *ngIf="addClassForm.get('idSchool')?.invalid && addClassForm.get('idSchool')?.touched">
+                  L'année scolaire est requise.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">category</mat-icon>
+                  Niveau (facultatif)
+                </mat-label>
+                <mat-select formControlName="level">
+                  <mat-option value="Primaire">
+                    <mat-icon class="option-icon">child_care</mat-icon>
+                    Primaire
+                  </mat-option>
+                  <mat-option value="Collège">
+                    <mat-icon class="option-icon">school</mat-icon>
+                    Collège
+                  </mat-option>
+                  <mat-option value="Lycée">
+                    <mat-icon class="option-icon">account_balance</mat-icon>
+                    Lycée
+                  </mat-option>
+                  <mat-option value="Supérieur">
+                    <mat-icon class="option-icon">psychology</mat-icon>
+                    Supérieur
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix class="suffix-icon">grade</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Enseignant -->
+      <div class="form-section teacher-section">
+        <div class="section-header">
+          <div class="section-icon-container">
+            <mat-icon class="section-icon">person</mat-icon>
+          </div>
+          <div class="section-title">
+            <h3>Enseignant Titulaire</h3>
+            <p>Assigner un professeur à la classe</p>
+          </div>
+        </div>
+        
+        <div class="section-content">
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">person_search</mat-icon>
+                  Sélectionner un professeur
+                </mat-label>
+                <mat-select formControlName="titulaire">
+                  <mat-option *ngFor="let teacher of teachers" [value]="teacher.idProf">
+                    <div class="teacher-option">
+                      <div class="teacher-avatar">
+                        <mat-icon class="avatar-icon">person</mat-icon>
+                      </div>
+                      <div class="teacher-info">
+                        <div class="teacher-name">{{ teacher.name }} {{ teacher.surname }}</div>
+                        <div class="teacher-details">ID: {{ teacher.idProf }}</div>
+                      </div>
+                    </div>
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix class="suffix-icon">supervisor_account</mat-icon>
+                <mat-error *ngIf="addClassForm.get('titulaire')?.invalid && addClassForm.get('titulaire')?.touched">
+                  Le titulaire est requis.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <!-- Statistiques professeurs -->
+          <div class="teacher-stats">
+            <div class="stat-card">
+              <div class="stat-icon-container">
+                <mat-icon class="stat-icon">groups</mat-icon>
+              </div>
+              <div class="stat-content">
+                <h4 class="stat-number">{{ teachers.length }}</h4>
+                <p class="stat-label">Professeurs disponibles</p>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon-container">
+                <mat-icon class="stat-icon">assignment_ind</mat-icon>
+              </div>
+              <div class="stat-content">
+                <h4 class="stat-number">{{ getAssignedTeachersCount() }}</h4>
+                <p class="stat-label">Déjà assignés</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Configuration -->
+      <div class="form-section config-section">
+        <div class="section-header">
+          <div class="section-icon-container">
+            <mat-icon class="section-icon">settings</mat-icon>
+          </div>
+          <div class="section-title">
+            <h3>Configuration Avancée</h3>
+            <p>Paramètres additionnels pour la classe</p>
+          </div>
+        </div>
+        
+        <div class="section-content">
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">people</mat-icon>
+                  Capacité maximale
+                </mat-label>
+                <input matInput 
+                       type="number"
+                       placeholder="Ex: 30" 
+                       formControlName="capacity" />
+                <mat-icon matSuffix class="suffix-icon">group_add</mat-icon>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">meeting_room</mat-icon>
+                  Salle de classe
+                </mat-label>
+                <input matInput 
+                       placeholder="Ex: Salle 101" 
+                       formControlName="room" />
+                <mat-icon matSuffix class="suffix-icon">door_sliding</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <div class="switch-container">
+                <mat-label class="switch-label">
+                  <mat-icon class="label-icon">schedule</mat-icon>
+                  Activer le suivi des absences
+                </mat-label>
+                <mat-slide-toggle formControlName="enableAttendance">
+                  Activer
+                </mat-slide-toggle>
+              </div>
+            </div>
+            
+            <div class="form-col">
+              <div class="switch-container">
+                <mat-label class="switch-label">
+                  <mat-icon class="label-icon">grade</mat-icon>
+                  Activer le suivi des notes
+                </mat-label>
+                <mat-slide-toggle formControlName="enableGrades">
+                  Activer
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Description -->
+      <div class="form-section description-section">
+        <div class="section-header">
+          <div class="section-icon-container">
+            <mat-icon class="section-icon">description</mat-icon>
+          </div>
+          <div class="section-title">
+            <h3>Description</h3>
+            <p>Informations complémentaires sur la classe</p>
+          </div>
+        </div>
+        
+        <div class="section-content">
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field textarea-field">
+                <mat-label>
+                  <mat-icon class="field-icon">notes</mat-icon>
+                  Description de la classe
+                </mat-label>
+                <textarea matInput 
+                          placeholder="Décrivez les caractéristiques particulières de cette classe..."
+                          formControlName="description"
+                          rows="4"></textarea>
+                <mat-icon matSuffix class="suffix-icon">edit_note</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

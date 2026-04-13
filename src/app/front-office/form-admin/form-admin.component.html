@@ -1,0 +1,129 @@
+
+<div class="admin-login-container">
+  <!-- Background animated elements -->
+  <div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+    <div class="shape shape-5"></div>
+  </div>
+
+  <!-- Security overlay -->
+  <div class="security-overlay">
+    <div class="security-grid"></div>
+    <div class="security-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="admin-login-content">
+    <!-- Logo and title section -->
+    <div class="auth-header">
+      <div class="logo-container">
+        <img src="logoNySekoliko.png" alt="NySekoliko" class="auth-logo">
+        <div class="logo-glow"></div>
+        <div class="security-badge">
+          <mat-icon class="badge-icon">security</mat-icon>
+        </div>
+      </div>
+      <h1 class="auth-title">
+        <span class="title-word">Portail</span>
+        <span class="title-word highlight">Administrateur</span>
+      </h1>
+      <p class="auth-subtitle">
+        <mat-icon class="subtitle-icon">admin_panel_settings</mat-icon>
+        Accès sécurisé au système de gestion
+      </p>
+    </div>
+
+    <!-- Login form -->
+    <div class="form-container">
+      <div class="form-header">
+        <div class="header-icon">
+          <mat-icon class="admin-icon">shield</mat-icon>
+        </div>
+        <h2 class="form-title">Authentification Sécurisée</h2>
+        <p class="form-description">Veuillez saisir vos identifiants administrateur</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <!-- Email field -->
+        <div class="form-field">
+          <div class="field-header">
+            <mat-icon class="field-icon">email</mat-icon>
+            <label class="field-label">Adresse Email</label>
+          </div>
+          <mat-form-field appearance="outline" class="custom-form-field">
+            <input matInput 
+                   placeholder="admin@nysekoliko.com" 
+                   formControlName="email"
+                   type="email">
+            <mat-icon matSuffix class="input-icon">verified_user</mat-icon>
+            <mat-hint *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched">
+              <span class="error-message">Email administrateur requis</span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Password field -->
+        <div class="form-field">
+          <div class="field-header">
+            <mat-icon class="field-icon">vpn_key</mat-icon>
+            <label class="field-label">Mot de passe</label>
+          </div>
+          <mat-form-field appearance="outline" class="custom-form-field">
+            <input matInput 
+                   placeholder="Entrez votre mot de passe sécurisé" 
+                   formControlName="password"
+                   type="password">
+            <mat-icon matSuffix class="input-icon">lock</mat-icon>
+            <mat-hint *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">
+              <span class="error-message">Mot de passe requis</span>
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Security note -->
+        <div class="security-note">
+          <mat-icon class="note-icon">info</mat-icon>
+          <p class="note-text">Cette connexion est protégée par chiffrement </p>
+        </div>
+
+        <!-- Submit button -->
+        <button mat-flat-button 
+                color="primary" 
+                type="submit" 
+                [disabled]="loginForm.invalid"
+                class="submit-btn">
+          <mat-icon class="btn-icon">admin_panel_settings</mat-icon>
+          <span class="btn-text">Accéder au Panneau</span>
+          <div class="btn-shine"></div>
+        </button>
+
+        <!-- Additional links -->
+        <div class="form-links">
+          <a href="#" class="link-forgot">
+            <mat-icon class="link-icon">help_outline</mat-icon>
+            Aide à la connexion
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer info -->
+    <div class="auth-footer">
+      <div class="footer-content">
+        <mat-icon class="footer-icon">gpp_good</mat-icon>
+        <p class="footer-text">
+          Accès administrateur • Session sécurisée • Audit activé
+        </p>
+      </div>
+    </div>
+  </div>
+</div> 

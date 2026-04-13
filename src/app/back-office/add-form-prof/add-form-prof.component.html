@@ -1,0 +1,295 @@
+<div class="prof-form-container">
+  <!-- Header magnifique -->
+  <div class="form-header">
+    <div class="header-background">
+      <div class="header-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+      </div>
+      <div class="header-particles">
+        <div class="particle particle-1"></div>
+        <div class="particle particle-2"></div>
+        <div class="particle particle-3"></div>
+        <div class="particle particle-4"></div>
+        <div class="particle particle-5"></div>
+        <div class="particle particle-6"></div>
+      </div>
+      <div class="header-grid"></div>
+    </div>
+    
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">person_add</mat-icon>
+          Ajouter un Professeur
+        </h1>
+        <p class="subtitle">Créer un nouveau profil enseignant avec excellence</p>
+      </div>
+      
+      <div class="header-right">
+        <button mat-raised-button 
+                color="primary" 
+                (click)="onCancel()"
+                class="cancel-btn">
+          <mat-icon class="btn-icon">arrow_back</mat-icon>
+          Retour
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="form-content">
+    <form #profForm="ngForm" (ngSubmit)="onSubmit(profForm)" class="modern-form">
+      
+      <!-- Section Informations Personnelles -->
+      <div class="form-section personal-section">
+        <div class="section-header">
+          <div class="section-icon-container">
+            <mat-icon class="section-icon">person</mat-icon>
+          </div>
+          <div class="section-title">
+            <h3>Informations Personnelles</h3>
+            <p>Détails d'identité du professeur</p>
+          </div>
+        </div>
+        
+        <div class="section-content">
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">badge</mat-icon>
+                  Nom
+                </mat-label>
+                <input matInput 
+                       id="name"
+                       name="name" 
+                       ngModel 
+                       required
+                       placeholder="Entrez le nom de famille" />
+                <mat-icon matSuffix class="suffix-icon">person</mat-icon>
+                <mat-error *ngIf="profForm.controls['name']?.invalid && profForm.controls['name']?.touched">
+                  Le nom est requis.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">person_outline</mat-icon>
+                  Prénom
+                </mat-label>
+                <input matInput 
+                       id="surname"
+                       name="surname" 
+                       ngModel 
+                       required
+                       placeholder="Entrez le prénom" />
+                <mat-icon matSuffix class="suffix-icon">face</mat-icon>
+                <mat-error *ngIf="profForm.controls['surname']?.invalid && profForm.controls['surname']?.touched">
+                  Le prénom est requis.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Professionnelle -->
+      <div class="form-section professional-section">
+        <div class="section-header">
+          <div class="section-icon-container">
+            <mat-icon class="section-icon">work</mat-icon>
+          </div>
+          <div class="section-title">
+            <h3>Informations Professionnelles</h3>
+            <p>Détails de l'enseignement</p>
+          </div>
+        </div>
+        
+        <div class="section-content">
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">school</mat-icon>
+                  Matière enseignée
+                </mat-label>
+                <input matInput 
+                       id="matiere"
+                       name="matiere" 
+                       ngModel 
+                       required
+                       placeholder="Ex: Mathématiques, Français..." />
+                <mat-icon matSuffix class="suffix-icon">menu_book</mat-icon>
+                <mat-error *ngIf="profForm.controls['matiere']?.invalid && profForm.controls['matiere']?.touched">
+                  La matière est requise.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">calendar_today</mat-icon>
+                  Année scolaire
+                </mat-label>
+                <mat-select id="anneeScolaire" name="anneeScolaire" ngModel required>
+                  <mat-option *ngFor="let year of yearsSchools" [value]="year.idSchool">
+                    <div class="option-content">
+                      <mat-icon class="option-icon">school</mat-icon>
+                      {{ year.annee_scolaire }}
+                    </div>
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix class="suffix-icon">date_range</mat-icon>
+                <mat-error *ngIf="profForm.controls['anneeScolaire']?.invalid && profForm.controls['anneeScolaire']?.touched">
+                  L'année scolaire est requise.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">email</mat-icon>
+                  Email (facultatif)
+                </mat-label>
+                <input matInput 
+                       type="email"
+                       name="email" 
+                       ngModel 
+                       placeholder="professeur@ecole.fr" />
+                <mat-icon matSuffix class="suffix-icon">mail_outline</mat-icon>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">phone</mat-icon>
+                  Téléphone (facultatif)
+                </mat-label>
+                <input matInput 
+                       type="tel"
+                       name="telephone" 
+                       ngModel 
+                       placeholder="06 12 34 56 78" />
+                <mat-icon matSuffix class="suffix-icon">call</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Additionnelle -->
+      <div class="form-section additional-section">
+        <div class="section-header">
+          <div class="section-icon-container">
+            <mat-icon class="section-icon">more_horiz</mat-icon>
+          </div>
+          <div class="section-title">
+            <h3>Informations Additionnelles</h3>
+            <p>Details complémentaires</p>
+          </div>
+        </div>
+        
+        <div class="section-content">
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">psychology</mat-icon>
+                  Spécialité (facultatif)
+                </mat-label>
+                <input matInput 
+                       name="specialite" 
+                       ngModel 
+                       placeholder="Ex: Mathématiques appliquées" />
+                <mat-icon matSuffix class="suffix-icon">stars</mat-icon>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field">
+                <mat-label>
+                  <mat-icon class="field-icon">history_edu</mat-icon>
+                  Expérience (années)
+                </mat-label>
+                <input matInput 
+                       type="number"
+                       name="experience" 
+                       ngModel 
+                       placeholder="5" />
+                <mat-icon matSuffix class="suffix-icon">timeline</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <mat-form-field appearance="outline" class="modern-field textarea-field">
+                <mat-label>
+                  <mat-icon class="field-icon">description</mat-icon>
+                  Biographie
+                </mat-label>
+                <textarea matInput 
+                          name="biographie" 
+                          ngModel 
+                          placeholder="Décrivez le parcours et les qualifications du professeur..."
+                          rows="4"></textarea>
+                <mat-icon matSuffix class="suffix-icon">edit_note</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Actions -->
+      <div class="form-section actions-section">
+        <div class="section-content">
+          <div class="actions-container">
+            <button type="submit" 
+                    mat-raised-button 
+                    color="primary" 
+                    class="submit-btn"
+                    [disabled]="profForm.invalid">
+              <mat-icon class="btn-icon">save</mat-icon>
+              Enregistrer le professeur
+            </button>
+            
+            <button type="button" 
+                    mat-stroked-button 
+                    color="warn" 
+                    (click)="onCancel()"
+                    class="cancel-action-btn">
+              <mat-icon class="btn-icon">cancel</mat-icon>
+              Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="error-state">
+      <div class="error-container">
+        <mat-icon class="error-icon">error_outline</mat-icon>
+        <h3 class="error-title">Erreur</h3>
+        <p class="error-message">{{ errorMessage }}</p>
+        <button mat-stroked-button class="retry-btn" (click)="errorMessage = null">
+          <mat-icon>close</mat-icon>
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+  

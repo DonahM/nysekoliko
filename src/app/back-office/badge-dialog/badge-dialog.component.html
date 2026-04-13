@@ -1,0 +1,191 @@
+<button mat-icon-button class="close-btn" mat-dialog-close title="Fermer" style="position: absolute; right: 10px; top: 10px; z-index: 1001;">
+  <mat-icon>close</mat-icon>
+</button>
+
+<mat-dialog-content style="padding: 30px; max-height: 65vh; overflow-x: hidden;">
+  <div class="badge-dialog-container photo-10x15">
+    <!-- Header du badge -->
+  <div class="badge-header">
+    <div class="badge-title-section" style="flex-direction: row; align-items: center; justify-content: center; gap: 15px;">
+      <img *ngIf="userLogo" [src]="baseUrl + '/upload/users/' + userLogo" alt="Logo de l'école" class="school-header-logo" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid white; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+      <mat-icon *ngIf="!userLogo" class="header-icon" style="font-size: 40px; width: 40px; height: 40px;">military_tech</mat-icon>
+      <div>
+        <h1 class="badge-title">Badge Étudiant</h1>
+        <p class="badge-subtitle">Année Scolaire {{ getStudentYearName() }}</p>
+      </div>
+    </div>
+    <div class="badge-status">
+      <span class="status-text">NY SEKOLIKO</span>
+    </div>
+  </div>
+
+  <!-- Contenu principal du badge -->
+  <div class="badge-content">
+    <div class="badge-card">
+      <!-- Photo et informations principales -->
+      <div class="badge-main-info">
+        <div class="student-photo-section">
+          <div class="photo-frame">
+            <img class="student-photo" [src]="baseUrl + '/upload/etudiants/' + student?.image" 
+                 [alt]="'Photo de ' + student?.name + ' ' + student?.surname" 
+                 *ngIf="student?.image" />
+            <div class="photo-placeholder" *ngIf="!student?.image">
+              <mat-icon class="placeholder-icon">person</mat-icon>
+              <span class="placeholder-text">{{ getStudentInitials() }}</span>
+            </div>
+          </div>
+          <div class="photo-overlay">
+            <div class="school-logo">
+              <img *ngIf="userLogo" [src]="baseUrl + '/upload/users/' + userLogo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; padding: 2px;">
+              <mat-icon *ngIf="!userLogo">school</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="student-details">
+          <div class="student-name-section">
+            <h2 class="student-full-name">{{ student?.name }} {{ student?.surname }}</h2>
+            <div class="student-id">
+              <mat-icon class="id-icon">badge</mat-icon>
+              <span class="id-text">N°{{ student?.idEdt || 'N/A' }}</span>
+            </div>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <mat-icon class="info-icon">cake</mat-icon>
+              <div class="info-content">
+                <span class="info-label">Né(e) le</span>
+                <span class="info-value">{{ student?.date_naiss || 'N/A' }}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon class="info-icon">location_on</mat-icon>
+              <div class="info-content">
+                <span class="info-label">À</span>
+                <span class="info-value">{{ student?.lieu_naiss || 'N/A' }}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon class="info-icon">phone</mat-icon>
+              <div class="info-content">
+                <span class="info-label">Contact</span>
+                <span class="info-value">{{ student?.tel || 'N/A' }}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon class="info-icon">home</mat-icon>
+              <div class="info-content">
+                <span class="info-label">Adresse</span>
+                <span class="info-value">{{ student?.adress_edt || 'N/A' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informations académiques -->
+      <div class="academic-section">
+        <div class="section-header">
+          <mat-icon class="section-icon">school</mat-icon>
+          <h3 class="section-title">Informations Académiques</h3>
+        </div>
+        
+        <div class="academic-info">
+          <div class="academic-item">
+            <mat-icon class="academic-icon">class</mat-icon>
+            <div class="academic-details">
+              <span class="academic-label">Classe Actuelle</span>
+              <span class="academic-value">{{ getStudentClassName() }}</span>
+            </div>
+          </div>
+
+          <div class="academic-item">
+            <mat-icon class="academic-icon">history_edu</mat-icon>
+            <div class="academic-details">
+              <span class="academic-label">Ancienne École</span>
+              <span class="academic-value">{{ student?.ecole_anter || 'N/A' }}</span>
+            </div>
+          </div>
+
+          <div class="academic-item">
+            <mat-icon class="academic-icon">family_restroom</mat-icon>
+            <div class="academic-details">
+              <span class="academic-label">Père</span>
+              <span class="academic-value">{{ student?.father || 'N/A' }} {{ student?.jobs_f || '' }}</span>
+            </div>
+          </div>
+
+          <div class="academic-item">
+            <mat-icon class="academic-icon">pregnant_woman</mat-icon>
+            <div class="academic-details">
+              <span class="academic-label">Mère</span>
+              <span class="academic-value">{{ student?.mother || 'N/A' }} {{ student?.jobs_m || '' }}</span>
+            </div>
+          </div>
+
+          <div class="academic-item">
+            <mat-icon class="academic-icon">supervisor_account</mat-icon>
+            <div class="academic-details">
+              <span class="academic-label">Tuteur</span>
+              <span class="academic-value">{{ student?.titeur || 'N/A' }} {{ student?.tel_titeur || '' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer du badge -->
+  <div class="badge-footer">
+    <div class="footer-content">
+      <div class="validity-info">
+        <mat-icon class="validity-icon">verified</mat-icon>
+        <span class="validity-text">Valide • Année {{ getStudentYearName() }}</span>
+      </div>
+      <div class="generation-date">
+        <span class="date-text">Généré le {{ getCurrentDate() }}</span>
+      </div>
+    </div>
+  </div>
+
+  </div> <!-- Fin du container imprimable 10x15 -->
+</mat-dialog-content>
+
+<div style="padding: 15px 25px; border-top: 1px solid rgba(0,0,0,0.1); background-color: #fcfcfc;">
+  <!-- Section d'actions -->
+  <div class="badge-actions card-mode" style="width: 100%;">
+    <div class="actions-header" style="display: block; margin-bottom: 15px; text-align: center;">
+      <h3 class="actions-title">Configuration du Badge</h3>
+    </div>
+
+    <!-- Dropdowns pour Année et Classe -->
+    <div style="display: flex; gap: 10px; margin-bottom: 20px; text-align: left; justify-content: center;">
+      <div style="flex: 1; min-width: 150px;">
+        <label style="display: block; font-size: 11px; font-weight: bold; color: #666; margin-bottom: 4px;">Année scolaire</label>
+        <select [(ngModel)]="selectedYear" [compareWith]="compareYear" class="modern-select" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          <option *ngFor="let annee of anneesScolaires" [ngValue]="annee">{{ annee.annee_scolaire }}</option>
+        </select>
+      </div>
+      <div style="flex: 1; min-width: 150px;">
+        <label style="display: block; font-size: 11px; font-weight: bold; color: #666; margin-bottom: 4px;">Classe</label>
+        <select [(ngModel)]="selectedClass" [compareWith]="compareClass" class="modern-select" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+          <option *ngFor="let classe of classes" [ngValue]="classe">{{ classe.name }}</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="actions-grid">
+      <button mat-raised-button class="action-btn jpg-btn" (click)="exportToJPG()">
+        <mat-icon class="btn-icon">download</mat-icon>
+        <span class="btn-text">Télécharger (10x15)</span>
+      </button>
+    </div>
+  </div>
+
+</div> <!-- Fin du outer wrapper -->
+
+

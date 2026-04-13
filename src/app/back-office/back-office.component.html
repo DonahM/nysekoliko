@@ -1,0 +1,110 @@
+<nav class="navBar">
+  <div class="container">
+    <div class="logo-container">
+      <div class="logo" style="cursor: pointer;" routerLink="/back-office/etudiant"></div>
+      <h1 class="logo-title" routerLink="/back-office/etudiant">NySekoliko</h1>
+    </div>
+    
+    <div class="header-actions">
+      <!-- Notification -->
+      <div class="notif-container" *ngIf="notifications && notifications.count > 0 && hasRole(['ADMIN', 'SUPPER ADMIN'])">
+        <button class="notif-btn" (click)="toggleNotif()">
+          <mat-icon>notifications_active</mat-icon>
+          <span class="badge">{{ notifications.count }}</span>
+        </button>
+        <div class="notif-dropdown" *ngIf="isNotifOpen">
+          <div class="notif-header">
+            <h4>Retards {{ notifications.month }}</h4>
+            <span class="notif-count">{{ notifications.count }}</span>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item" *ngFor="let student of notifications.students">
+              <mat-icon class="alert-icon">warning</mat-icon>
+              <div class="notif-info">
+                <strong>{{ student.name }} {{ student.surname }}</strong>
+                <span>Matricule: {{ student.matricule }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Profile moved to right side -->
+      <div class="user-info" *ngIf="userName">
+        <div class="user-details">
+          <span class="user-name-text">{{ userName }}</span>
+          <span class="user-role-text" *ngIf="userRole">{{ userRole }}</span>
+        </div>
+        <div class="user-avatar">
+          <img *ngIf="userLogo" [src]="baseUrl + '/upload/users/' + userLogo" alt="Avatar">
+          <mat-icon *ngIf="!userLogo" class="fallback-icon">account_circle</mat-icon>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<!-- Right Sidebar Menu -->
+<div class="right-sidebar">
+  <nav class="sidebar-nav">
+    <div class="menu-title">Menu Principal</div>
+    <!-- Visible pour tous les utilisateurs -->
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])" routerLink="/back-office/etudiant" routerLinkActive="active-link">
+      <mat-icon>school</mat-icon> <span>Etudiants</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])" routerLink="/back-office/class" routerLinkActive="active-link">
+      <mat-icon>class</mat-icon> <span>Classes</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])"  routerLink="/back-office/tablenote" routerLinkActive="active-link">
+      <mat-icon>assignment</mat-icon> <span>Notes</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])"  routerLink="/back-office/prof" routerLinkActive="active-link">
+      <mat-icon>person</mat-icon> <span>Professeurs</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])"  routerLink="/back-office/presence-prof" routerLinkActive="active-link">
+      <mat-icon>how_to_reg</mat-icon> <span>Présence Pro</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])"  routerLink="/back-office/tablematiere" routerLinkActive="active-link">
+      <mat-icon>library_books</mat-icon> <span>Matières</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])"  routerLink="/back-office/tablesemestre" routerLinkActive="active-link">
+      <mat-icon>date_range</mat-icon> <span>Semestres</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])"  routerLink="/back-office/emploi-du-temps" routerLinkActive="active-link">
+      <mat-icon>view_timeline</mat-icon> <span>Emploi du temps</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])"  routerLink="/back-office/tablesalaire" routerLinkActive="active-link">
+      <mat-icon>payments</mat-icon> <span>Salaires</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN'])"  routerLink="/back-office/actualites" routerLinkActive="active-link">
+      <mat-icon>campaign</mat-icon> <span>Actualités</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN'])"  routerLink="/back-office/finances" routerLinkActive="active-link">
+      <mat-icon>account_balance</mat-icon> <span>Budget / Finances</span>
+    </a>
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN'])"  routerLink="/back-office/depenses" routerLinkActive="active-link">
+      <mat-icon>receipt_long</mat-icon> <span>Dépenses Autres</span>
+    </a>
+
+    <!-- Visible uniquement pour SUPPER ADMIN -->
+     <a *ngIf="hasRole(['SUPPER ADMIN'])" routerLink="/back-office/ecole/add-user" routerLinkActive="active-link">
+      <mat-icon>domain_add</mat-icon> <span>Inscription Écoles</span>
+     </a>
+    <a *ngIf="hasRole(['SUPPER ADMIN'])" routerLink="/back-office/ecole" routerLinkActive="active-link">
+      <mat-icon>business</mat-icon> <span>Écoles</span>
+    </a>
+    
+    <div class="sidebar-divider"></div>
+    
+    <a *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN', 'ENSEIGNANT'])" (click)="logout()" class="logout-link">
+      <mat-icon>logout</mat-icon> <span>Se déconnecter</span>
+    </a>
+  </nav>
+</div>
+
+<div class="main-layout">
+  <div class="content-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</div>

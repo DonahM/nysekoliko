@@ -1,0 +1,732 @@
+/* Conteneur principal avec un style plus sobre et centré */
+#student-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Chaque ligne d'information */
+  #student-info p {
+    margin: 5px 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #444;
+  }
+  
+  /* Style pour les étiquettes */
+  #student-info strong {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  /* Titre avec un style simple et centré */
+  h1[mat-dialog-title] {
+    font-size: 22px;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Boutons alignés */
+  mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+  }
+  
+  /* Style pour les boutons */
+  mat-dialog-actions button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+  }
+  
+  mat-dialog-actions button:first-child {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  mat-dialog-actions button:nth-child(2) {
+    background-color: #FFA726;
+    color: white;
+  }
+  
+  mat-dialog-actions button:last-child {
+    background-color: #E57373;
+    color: white;
+  }
+  
+  mat-dialog-actions button:hover {
+    transform: scale(1.05);
+  }
+
+/* ===================================
+   DIALOG OUTER WRAPPER
+   =================================== */
+.dialog-outer-wrapper {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  position: relative;
+  align-items: center;
+}
+
+/* ===================================
+   CONTENEUR PRINCIPAL DU BADGE (10x15 PHOTO PAPER)
+   =================================== */
+.photo-10x15 {
+  width: 500px;
+  height: 750px; /* 10:15 ratio = 2:3 */
+  background: white;
+  margin: 0 auto;
+  border-radius: 8px; /* Slight rounding for elegant paper feel */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ===================================
+   HEADER DU BADGE
+   =================================== */
+.badge-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.badge-title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge-header-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.badge-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.badge-subtitle {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.badge-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4caf50;
+  position: relative;
+  animation: statusPulse 2s infinite;
+}
+
+.status-indicator.active::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  border: 2px solid #4caf50;
+  animation: statusRipple 2s infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes statusRipple {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.status-text {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ===================================
+   CONTENU PRINCIPAL
+   =================================== */
+.badge-content {
+  padding: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.badge-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ===================================
+   SECTION PHOTO ET INFORMATIONS
+   =================================== */
+.badge-main-info {
+  display: flex;
+  flex-direction: column; /* FORCED PORTRAIT MODE */
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: linear-gradient(135deg, #fafbfc 0%, #f0f9ff 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.student-photo-section {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.photo-frame {
+  width: 110px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border: 4px solid white;
+  position: relative;
+  background: #f5f5f5;
+  margin: 0 auto;
+}
+
+.student-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.photo-frame:hover .student-photo {
+  transform: scale(1.05);
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e3f2fd 0%, #667eea 100%);
+}
+
+.placeholder-icon {
+  font-size: 40px;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.placeholder-text {
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 2px;
+}
+
+.photo-overlay {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 35px;
+  height: 35px;
+}
+
+.school-logo {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 3px solid #667eea;
+}
+
+.school-logo mat-icon {
+  font-size: 18px;
+  color: #667eea;
+}
+
+/* ===================================
+   INFORMATIONS ÉTUDIANT
+   =================================== */
+.student-details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.student-name-section {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.student-full-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.student-id {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.id-icon {
+  font-size: 16px;
+  color: #667eea;
+}
+
+.id-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 3px 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.info-icon {
+  font-size: 14px;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.info-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.info-value {
+  font-size: 11px;
+  font-weight: 500;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===================================
+   SECTION ACADÉMIQUE
+   =================================== */
+.academic-section {
+  padding: 10px 15px;
+  flex: 1;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.section-icon {
+  font-size: 18px;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.academic-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.academic-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  background: rgba(102, 126, 234, 0.03);
+  border-radius: 6px;
+}
+
+.academic-item:hover {
+  background: rgba(102, 126, 234, 0.08);
+  transform: translateY(-1px);
+}
+
+.academic-icon {
+  font-size: 16px;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.academic-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.academic-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.academic-value {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+/* ===================================
+   SECTION ACTIONS
+   =================================== */
+.badge-actions {
+  background: transparent;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.actions-header {
+  display: none; /* Hide actions header to save space */
+}
+
+.actions-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.actions-grid {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  min-width: 140px;
+  height: 48px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.action-btn:hover::before {
+  left: 100%;
+}
+
+.pdf-btn {
+  background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);
+  color: white;
+  border: none;
+}
+
+.pdf-btn:hover {
+  background: linear-gradient(135deg, #e91e63 0%, #f44336 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(244, 67, 54, 0.3);
+}
+
+.jpg-btn {
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  color: white;
+  border: none;
+}
+
+.jpg-btn:hover {
+  background: linear-gradient(135deg, #1976d2 0%, #2196f3 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.3);
+}
+
+.print-btn {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  border: none;
+}
+
+.print-btn:hover {
+  background: linear-gradient(135deg, #45a049 0%, #4caf50 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3);
+}
+
+.btn-icon {
+  font-size: 18px;
+}
+
+.btn-text {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ===================================
+   FOOTER DU BADGE
+   =================================== */
+.badge-footer {
+  padding: 8px 15px;
+  background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.validity-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.validity-icon {
+  font-size: 14px;
+  color: #4caf50;
+}
+
+.validity-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4caf50;
+  letter-spacing: 0.5px;
+}
+
+.generation-date {
+  text-align: right;
+}
+
+.date-text {
+  font-size: 10px;
+  color: #666;
+  font-style: italic;
+}
+
+/* ===================================
+   BOUTON DE FERMETURE
+   =================================== */
+.close-btn {
+  position: absolute !important;
+  top: -10px !important;
+  right: -10px !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: white !important;
+  color: #f44336 !important;
+  border: none !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+  z-index: 1000 !important;
+}
+
+.close-btn:hover {
+  background: #f44336 !important;
+  color: white !important;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+@media (max-width: 768px) {
+  .badge-dialog-container {
+    min-width: 95vw;
+    max-width: 95vw;
+    margin: 10px;
+  }
+
+  .badge-header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .badge-main-info {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .academic-info {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-grid {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .badge-footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .badge-dialog-container {
+    min-width: 98vw;
+    max-width: 98vw;
+    margin: 5px;
+  }
+
+  .photo-frame {
+    width: 140px;
+    height: 180px;
+  }
+
+  .student-full-name {
+    font-size: 20px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .action-btn {
+    height: 44px;
+    font-size: 13px;
+  }
+}

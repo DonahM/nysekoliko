@@ -1,0 +1,175 @@
+<div class="profil-container" *ngIf="client">
+  <!-- Header avec photo et informations principales -->
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <div class="avatar-container">
+        <img *ngIf="client.image"
+             [src]="baseUrl + '/upload/etudiants/' + client.image" 
+             [alt]="client.name + ' ' + client.surname" 
+             class="avatar-image">
+        <mat-icon class="avatar-image" *ngIf="!client.image" style="font-size: 80px; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: #94a3b8; background: #f8fafc;">person</mat-icon>
+        <div class="avatar-status">
+          <mat-icon class="status-icon">check_circle</mat-icon>
+        </div>
+      </div>
+      <div class="avatar-actions">
+        <button mat-icon-button class="edit-avatar-btn" (click)="editProfile()">
+          <mat-icon>camera_alt</mat-icon>
+        </button>
+      </div>
+    </div>
+    
+    <div class="profile-main-info">
+      <h1 class="profile-name">{{ client?.name || 'Nom non disponible' }} {{ client?.surname || 'Prénom non disponible' }}</h1>
+      <div class="profile-badges">
+        <mat-chip class="badge-chip primary">
+          <mat-icon class="badge-icon">school</mat-icon>
+          {{ client?.idEdt || 'Non renseigné' }}
+        </mat-chip>
+        <mat-chip class="badge-chip secondary">
+          <mat-icon class="badge-icon">class</mat-icon>
+          {{ className || 'Classe non renseignée' }}
+        </mat-chip>
+        <mat-chip class="badge-chip accent">
+          <mat-icon class="badge-icon">wc</mat-icon>
+          {{ client?.sexe || 'Non renseigné' }}
+        </mat-chip>
+      </div>
+      <p class="profile-subtitle">Étudiant • {{ yearName || getCurrentYear() }}</p>
+    </div>
+  </div>
+
+  <!-- Sections d'informations -->
+  <div class="profile-content">
+    <!-- Informations Personnelles -->
+    <mat-card class="info-card">
+      <mat-card-header class="card-header">
+        <div class="header-content">
+          <mat-icon class="header-icon">person</mat-icon>
+          <mat-card-title>Informations Personnelles</mat-card-title>
+        </div>
+        <button mat-icon-button class="edit-btn" (click)="editPersonalInfo()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content class="card-content">
+        <div class="info-grid">
+          <div class="info-item">
+            <mat-icon class="info-icon">cake</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Date de naissance</span>
+              <span class="info-value">{{ client?.date_naiss || 'Date non disponible' }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">location_on</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Lieu de naissance</span>
+              <span class="info-value">{{ client?.lieu_naiss || 'Lieu non disponible' }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">phone</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Téléphone</span>
+              <span class="info-value">{{ client?.tel || 'Non renseigné' }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">home</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Adresse</span>
+              <span class="info-value">{{ client?.adress_edt || 'Non renseignée' }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Informations Familiales -->
+    <mat-card class="info-card">
+      <mat-card-header class="card-header">
+        <div class="header-content">
+          <mat-icon class="header-icon">family_restroom</mat-icon>
+          <mat-card-title>Informations Familiales</mat-card-title>
+        </div>
+        <button mat-icon-button class="edit-btn" (click)="editFamilyInfo()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content class="card-content">
+        <div class="info-grid">
+          <div class="info-item">
+            <mat-icon class="info-icon">man</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Nom du père</span>
+              <span class="info-value">{{ client?.father || 'Non renseigné' }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">woman</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Nom du mère</span>
+              <span class="info-value">{{ client?.mother || 'Non renseigné' }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">contact_phone</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Contact parent</span>
+              <span class="info-value">{{ client?.tel_parent || 'Non renseigné' }}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">home_work</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Adresse parent</span>
+              <span class="info-value">{{ client?.adresse_parent || 'Non renseignée' }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Actions Rapides -->
+    <mat-card class="actions-card">
+      <mat-card-header class="card-header">
+        <div class="header-content">
+          <mat-icon class="header-icon">bolt</mat-icon>
+          <mat-card-title>Actions Rapides</mat-card-title>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="card-content">
+        <div class="actions-grid">
+          <button mat-raised-button class="action-btn primary" [routerLink]="['/front-office/client', encode(client?.idEdt), 'ecolage']">
+            <mat-icon class="btn-icon">payments</mat-icon>
+            Mes Écolages
+          </button>
+          <button mat-raised-button class="action-btn secondary" [routerLink]="['/front-office/client', encode(client?.idEdt), 'note']">
+            <mat-icon class="btn-icon">assignment</mat-icon>
+            Mes Notes
+          </button>
+          <button mat-raised-button class="action-btn accent" (click)="downloadProfile()">
+            <mat-icon class="btn-icon">download</mat-icon>
+            Télécharger
+          </button>
+          <button mat-stroked-button class="action-btn" (click)="printProfile()">
+            <mat-icon class="btn-icon">print</mat-icon>
+            Imprimer
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- État vide -->
+  <div class="empty-state" *ngIf="!client">
+    <mat-card class="empty-card">
+      <mat-card-content class="empty-content">
+        <mat-icon class="empty-icon">person_off</mat-icon>
+        <h3>Profil non disponible</h3>
+        <p>Les informations du profil ne sont pas disponibles</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

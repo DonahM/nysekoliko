@@ -1,0 +1,93 @@
+<div class="page-container">
+  <div class="premium-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        <mat-icon>payments</mat-icon>
+      </div>
+      <h1 class="card-title">paiements du Salaire</h1>
+      <p class="card-subtitle">Enregistrement d'un nouveau paiement pour un professeur</p>
+    </div>
+
+    <form [formGroup]="matiereForm" (ngSubmit)="onSubmit()">
+      <div class="card-body">
+        
+        <div class="form-row">
+          <div class="form-col">
+            <label class="field-label">Professeur</label>
+            <mat-form-field appearance="outline" class="premium-input">
+              <mat-select formControlName="idProf" placeholder="Sélectionnez un professeur">
+                <mat-option *ngFor="let prof of professeur" [value]="prof.idProf">
+                  {{ prof.name }} {{ prof.surname }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix style="margin-right: 8px; color: #64748b;">school</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div class="form-col">
+            <label class="field-label">Année Scolaire</label>
+            <mat-form-field appearance="outline" class="premium-input">
+              <mat-select formControlName="idSchool" placeholder="Sélectionnez l'année">
+                <mat-option *ngFor="let annee of anneesScolaires" [value]="annee.idSchool">
+                  {{ annee.annee_scolaire }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix style="margin-right: 8px; color: #64748b;">event</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-col">
+            <label class="field-label">Mois</label>
+            <mat-form-field appearance="outline" class="premium-input">
+              <mat-select formControlName="mois" placeholder="Sélectionnez le mois">
+                <mat-option *ngFor="let month of months" [value]="month">
+                  {{ month }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix style="margin-right: 8px; color: #64748b;">calendar_today</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div class="form-col">
+            <label class="field-label">Statut</label>
+            <mat-form-field appearance="outline" class="premium-input">
+              <input matInput formControlName="statut" placeholder="Ex: Payé, En attente">
+              <mat-icon matPrefix style="margin-right: 8px; color: #64748b;">flag</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-col">
+            <label class="field-label">Montant (EUR)</label>
+            <mat-form-field appearance="outline" class="premium-input">
+              <input matInput type="number" formControlName="valeur" placeholder="0.00">
+              <mat-icon matPrefix style="margin-right: 8px; color: #64748b;">euro</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div class="form-col">
+            <label class="field-label">Date de Paiement</label>
+            <mat-form-field appearance="outline" class="premium-input">
+              <input matInput type="date" formControlName="date">
+              <mat-icon matPrefix style="margin-right: 8px; color: #64748b;">today</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-footer">
+        <button type="button" class="btn-cancel" [routerLink]="['/back-office/tablesalaire']">
+          Annuler
+        </button>
+        <button type="button" class="btn-submit" [disabled]="!matiereForm.valid" (click)="onSubmit()">
+          Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+  

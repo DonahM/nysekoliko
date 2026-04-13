@@ -1,0 +1,52 @@
+<div class="dialog-header-premium">
+  <div class="title-wrapper">
+    <mat-icon color="primary" class="header-icon">school</mat-icon>
+    <h2 mat-dialog-title>Affectation de Classe</h2>
+  </div>
+  <button mat-icon-button (click)="close()" class="close-btn" type="button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+  <mat-dialog-content class="dialog-body-premium">
+    <p class="instruction-text">Attribuez une classe à l'étudiant sélectionné ci-dessous.</p>
+
+    <div class="student-badge">
+      <mat-icon class="badge-icon">badge</mat-icon>
+      <div class="badge-content">
+        <span class="badge-label">Étudiant (Matricule)</span>
+        <span class="badge-value">{{ data.id }}</span>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Filtrer par année scolaire</mat-label>
+      <mat-select name="annee_scolaire" [(ngModel)]="selectedYearId" (selectionChange)="onYearChange()" required>
+        <mat-option *ngFor="let annee of anneesScolaires" [value]="annee.idSchool">
+          {{ annee.annee_scolaire }}
+        </mat-option>
+      </mat-select>
+      <mat-icon matPrefix>today</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Sélectionner une classe</mat-label>
+      <mat-select name="name" [(ngModel)]="classEStudent.idCls" [disabled]="!selectedYearId" required>
+        <mat-option *ngFor="let classe of classeEtudiants" [value]="classe.idCls">
+          {{ classe.name }}
+        </mat-option>
+      </mat-select>
+      <mat-icon matPrefix>class</mat-icon>
+      <mat-hint *ngIf="!selectedYearId">Veuillez d'abord choisir une année scolaire</mat-hint>
+      <mat-hint *ngIf="selectedYearId && classeEtudiants.length === 0">Aucune classe pour cette année</mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-footer-premium">
+    <button mat-button type="button" (click)="close()" class="cancel-btn">Annuler</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid" class="submit-btn">
+      Confirm l'affectation
+    </button>
+  </mat-dialog-actions>
+</form>

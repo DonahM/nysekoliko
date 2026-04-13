@@ -1,0 +1,295 @@
+<header class="header">
+  <div class="titre">
+    <div class="logo-container">
+      <img src="logo.png" alt="logo" class="logo">
+      <div class="logo-glow"></div>
+    </div>
+    <span class="brand-name">NySekoliko</span>
+    <div class="brand-decoration"></div>
+  </div>
+
+  <div class="header-center">
+    <div class="title-container">
+      <h1 class="main-title">
+        <span class="title-word">Ny</span>
+        <span class="title-word highlight">Finarana</span>
+        <span class="title-word">no</span>
+        <span class="title-word">lova</span>
+        <span class="title-word">tsara</span>
+        <span class="title-word">Indrindra</span>
+      </h1>
+      <div class="title-underline"></div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    
+    <nav class="nav">
+      <button mat-stroked-button class="btnl" routerLink="/front-office/actualites" style="margin-right: 15px; border-color: rgba(255,255,255,0.4); color: white;">
+        <span class="btn-content">
+          <mat-icon class="btn-icon">new_releases</mat-icon>
+          <!-- Actualités -->
+        </span>
+      </button>
+
+      <button mat-flat-button color="primary" class="btnl" [matMenuTriggerFor]="loginMenu">
+        <span class="btn-content">
+          <mat-icon class="btn-icon">login</mat-icon>
+          <!-- Se connecter -->
+        </span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #loginMenu="matMenu" class="login-menu">
+        <button mat-menu-item [routerLink]="['/front-office/form-client']">
+          <mat-icon class="menu-icon">school</mat-icon>
+          Espace Étudiant
+        </button>
+        <button mat-menu-item [routerLink]="['/front-office/form-admin']">
+          <mat-icon class="menu-icon">admin_panel_settings</mat-icon>
+          Espace Administrateur
+        </button>
+      </mat-menu>
+    </nav>
+  </div>
+</header>
+
+<!-- BODY -->
+<div class="body">
+  <div class="container">
+
+    <!-- DESCRIPTION DU SITE -->
+    <div class="description-panel">
+      <div class="description-header">
+        <div class="logo-showcase">
+          <img src="logoNySekoliko.png" alt="logo" class="site-logo">
+          <div class="logo-aura"></div>
+        </div>
+        <h3 class="welcome-title">
+          <span class="welcome-text">Bienvenue sur NySekoliko</span>
+          <!-- <span class="brand-highlight">NySekoliko</span> -->
+        </h3>
+      </div>
+      
+      <div class="description-content">
+        <div class="description-text">
+          <p class="intro-text">
+            <span class="highlight">NySekoliko</span> dia sehatra natao manokana ho an'ny fitantanana sekoly amin'ny fomba maoderina sy mahomby.
+          </p>
+          <p>
+            Ny tanjonay dia ny hanamora ny asa rehetra mifandraika amin'ny sekoly, na ho an'ny mpampianatra, ny 
+            mpianatra, na ny fitantanana.
+          </p>
+          <p>
+            Amin'ny alalan'i NySekoliko, afaka manaraka mora foana ny vaovao sy ny antontan-kevitra ara-pianarana ianao, 
+            mitantana ny mpianatra, ny mpampianatra ary ny kilasy, ary mahazo tatitra mazava sy marina ao amin'ny toerana iray ihany.
+          </p>
+          <p>
+            Ny rafitra rehetra dia natao hanampy anao hitsitsy fotoana sy hanatsara ny fandaminana andavanadro.
+          </p>
+          <p class="closing-text">
+            Ny laharam-pahamehanay dia ny mamorona traikefa mora ampiasaina, azo antoka ary azo itokisana ho an'ny 
+            mpampiasa rehetra. <span class="brand-name">NySekoliko</span> dia manova ny fitantanana sekoly ho dingana tsotra, mazava ary mahomby.
+          </p>
+          <p class="final-cta">
+            Tsidiho ireo fiasa atolotray ary midira ao amin'ny vondrom-piarahamonina <span class="brand-emphasis">NySekoliko</span> ho amin'ny fitantanana sekoly tsy misy adin-tsaina.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- LISTE ÉTABLISSEMENTS - SLIDER HORIZONTAL -->
+    <div class="schools-section">
+      <div class="schools-header">
+        <div class="section-title">
+          <span class="section-icon">🏫</span>
+          <h4>Nos établissements</h4>
+          <div class="title-decoration"></div>
+        </div>
+        <div class="search-container">
+          <div class="search-wrapper">
+            <mat-icon class="search-icon">search</mat-icon>
+            <input 
+              type="text" 
+              placeholder="Rechercher un établissement..." 
+              [(ngModel)]="searchText"
+              (input)="filterUsers()"
+              class="search-input"
+            />
+            <div class="search-glow"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="slider-container">
+        <div class="slider-wrapper" #sliderWrapper
+             (mouseenter)="stopAutoScroll()" (mouseleave)="startAutoScroll()">
+          <div class="slider-track">
+            <mat-card *ngFor="let user of filteredUsers" class="user-card">
+              <div class="user-content">
+                <div class="avatar-container">
+                  <img 
+                    [src]="user.logo ? baseUrl + '/upload/users/' + user.logo : 'assets/user.png'" 
+                    class="avatar"
+                  >
+                  <div class="avatar-border"></div>
+                  <div class="avatar-glow"></div>
+                </div>
+                <div class="user-info">
+                  <div class="user-name">
+                    <mat-icon class="name-icon">person</mat-icon>
+                    <h3>{{ user.name }} {{ user.surname }}</h3>
+                  </div>
+                  <div class="user-details">
+                    <p class="user-detail">
+                      <mat-icon class="detail-icon">badge</mat-icon>
+                      <span class="detail-label">Matricule:</span>
+                      <span class="detail-value">{{ user.idUser }}</span>
+                    </p>
+                    <p class="user-detail">
+                      <mat-icon class="detail-icon">location_on</mat-icon>
+                      <span class="detail-label">Lieu:</span>
+                      <span class="detail-value">{{ user.lieu }}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+<!-- SECTION CONTACT - STYLE SIMILAIRE AUX ÉTABLISSEMENTS -->
+<div class="contact-section">
+  <div class="contact-header">
+    <div class="section-title">
+      <span class="section-icon">📞</span>
+      <h4>Contactez-nous</h4>
+      <div class="title-decoration"></div>
+    </div>
+  </div>
+  
+  <div class="contact-container">
+    <div class="contact-grid">
+      <mat-card class="contact-card">
+        <div class="contact-content">
+          <div class="contact-avatar-container">
+            <mat-icon class="contact-avatar">facebook</mat-icon>
+            <div class="contact-avatar-border"></div>
+            <div class="contact-avatar-glow"></div>
+          </div>
+          <div class="contact-info">
+            <div class="contact-name">
+              <mat-icon class="contact-name-icon">public</mat-icon>
+              <h3>Facebook</h3>
+            </div>
+            <div class="contact-details">
+              <p class="contact-detail">
+                <mat-icon class="detail-icon">person</mat-icon>
+                <span class="detail-label">Profile:</span>
+                <span class="detail-value">nambinintsoa.donah</span>
+              </p>
+              <p class="contact-detail">
+                <mat-icon class="detail-icon">link</mat-icon>
+                <span class="detail-label">Lien:</span>
+                <a href="https://web.facebook.com/nambinintsoa.donah" target="_blank" class="detail-value contact-link-value">Visiter notre page</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="contact-card">
+        <div class="contact-content">
+          <div class="contact-avatar-container">
+            <mat-icon class="contact-avatar">whatsapp</mat-icon>
+            <div class="contact-avatar-border"></div>
+            <div class="contact-avatar-glow"></div>
+          </div>
+          <div class="contact-info">
+            <div class="contact-name">
+              <mat-icon class="contact-name-icon">phone</mat-icon>
+              <h3>WhatsApp</h3>
+            </div>
+            <div class="contact-details">
+              <p class="contact-detail">
+                <mat-icon class="detail-icon">phone_android</mat-icon>
+                <span class="detail-label">Numéro:</span>
+                <span class="detail-value">+261 34 64 651 67</span>
+              </p>
+              <p class="contact-detail">
+                <mat-icon class="detail-icon">chat</mat-icon>
+                <span class="detail-label">Service:</span>
+                <a href="https://wa.me/261346465167" target="_blank" class="detail-value contact-link-value">Envoyer un message</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="contact-card">
+        <div class="contact-content">
+          <div class="contact-avatar-container">
+            <mat-icon class="contact-avatar">telegram</mat-icon>
+            <div class="contact-avatar-border"></div>
+            <div class="contact-avatar-glow"></div>
+          </div>
+          <div class="contact-info">
+            <div class="contact-name">
+              <mat-icon class="contact-name-icon">send</mat-icon>
+              <h3>Telegram</h3>
+            </div>
+            <div class="contact-details">
+              <p class="contact-detail">
+                <mat-icon class="detail-icon">phone_android</mat-icon>
+                <span class="detail-label">Numéro:</span>
+                <span class="detail-value">+261 34 64 651 67</span>
+              </p>
+              <p class="contact-detail">
+                <mat-icon class="detail-icon">chat</mat-icon>
+                <span class="detail-label">Service:</span>
+                <a href="https://t.me/261346465167" target="_blank" class="detail-value contact-link-value">Nous écrire</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="contact-card">
+        <div class="contact-content">
+          <div class="contact-avatar-container">
+            <mat-icon class="contact-avatar">email</mat-icon>
+            <div class="contact-avatar-border"></div>
+            <div class="contact-avatar-glow"></div>
+          </div>
+          <div class="contact-info">
+            <div class="contact-name">
+              <mat-icon class="contact-name-icon">mail</mat-icon>
+              <h3>Email</h3>
+            </div>
+            <div class="contact-details">
+              <p class="contact-detail">
+                <mat-icon class="detail-icon">alternate_email</mat-icon>
+                <span class="detail-label">Adresse:</span>
+                <span class="detail-value">nambinintsoadonah6467&#64;mail.com</span>
+              </p>
+              <p class="contact-detail">
+                <mat-icon class="detail-icon">contact_mail</mat-icon>
+                <span class="detail-label">Service:</span>
+                <a href="mailto:nambinintsoadonah6467&#64;mail.com" class="detail-value contact-link-value">Nous envoyer un email</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<!-- COPYRIGHT -->
+<div class="copyright-section">
+  <p class="copyright-text">&copy; 2024 NySekoliko - Tous droits réservés</p>
+</div>

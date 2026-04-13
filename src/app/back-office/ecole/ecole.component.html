@@ -1,0 +1,149 @@
+<div class="headerTable">
+    <h1>Listes des écoles</h1>
+    <button class="btnAdd" [routerLink]="['/back-office/ecole/add-user']">
+      Inscription d'une Etablissement
+    </button>
+</div>
+<hr>
+<div class="filter-container">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Rechercher une école...</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Nom, Email, CIN, Lieu..." #input>
+  </mat-form-field>
+</div>
+<div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 modern-table">
+        <ng-container matColumnDef="logo">
+          <th mat-header-cell *matHeaderCellDef class="header-cell" style="width: 70px;"> 
+            <span class="header-content">
+              <span class="header-icon">🖼️</span>
+              Profil
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="user-avatar-container">
+              <img [src]="element.logo ? baseUrl + '/upload/users/' + element.logo : 'data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2394a3b8%22%3E%3Cpath%20d%3D%22M12%2012c2.21%200%204-1.79%204-4s-1.79-4-4-4-4%201.79-4%204%201.79%204%204%204zm0%202c-2.67%200-8%201.34-8%204v2h16v-2c0-2.66-5.33-4-8-4z%22%2F%3E%3C%2Fsvg%3E'" 
+                   [alt]="element.name" 
+                   class="user-avatar"
+                   onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2394a3b8%22%3E%3Cpath%20d%3D%22M12%2012c2.21%200%204-1.79%204-4s-1.79-4-4-4-4%201.79-4%204%201.79%204%204%204zm0%202c-2.67%200-8%201.34-8%204v2h16v-2c0-2.66-5.33-4-8-4z%22%2F%3E%3C%2Fsvg%3E';">
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="idUser">
+          <th mat-header-cell *matHeaderCellDef class="header-cell"> 
+            <span class="header-content">
+              <span class="header-icon">👤</span>
+              Matricule
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.idUser }} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">
+            <span class="header-content">
+              <span class="header-icon">📝</span>
+              Nom
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="surname">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">
+            <span class="header-content">
+              <span class="header-icon">👋</span>
+              Drène
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.surname }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cin">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">
+            <span class="header-content">
+              <span class="header-icon">🆔</span>
+              CODE
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.cin }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">
+            <span class="header-content">
+              <span class="header-icon">📧</span>
+              Email
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.email }} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="roles">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">
+            <span class="header-content">
+              <span class="header-icon">👑</span>
+              Rôle
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.roles }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lieu">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">
+            <span class="header-content">
+              <span class="header-icon">📍</span>
+              Lieu
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.lieu }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">
+            <span class="header-content">
+              <span class="header-icon">🚥</span>
+              Statut
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span [ngStyle]="{'color': element.isActive ? 'green' : 'red', 'font-weight': 'bold'}">
+              {{ element.isActive ? 'Actif' : 'Désactivé' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">
+            <span class="header-content">
+              <span class="header-icon">⚙️</span>
+              Actions
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="action-buttons">
+              <button mat-icon-button 
+                      color="primary"
+                      matTooltip="Modifier l'école"
+                      matTooltipPosition="above"
+                      (click)="editUser(element)"
+                      class="edit-btn">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-raised-button 
+                      [style.background]="element.isActive ? '#f56565' : '#48bb78'" 
+                      style="color: white; border-radius: 8px; padding: 0 16px; font-weight: bold; border: none; cursor: pointer; height: 36px;"
+                      (click)="toggleStatus(element)">
+                {{ element.isActive ? 'Désactiver' : 'Activer' }}
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="data-row"></tr>
+      </table>
+</div>
+  

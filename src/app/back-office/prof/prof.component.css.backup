@@ -1,0 +1,495 @@
+/* ===================================
+   DESIGN MAGNIFIQUE - PAGE PROFESSEURS
+   =================================== */
+
+/* Variables de couleur */
+:root {
+  --primary-color: #667eea;
+  --primary-dark: #5a67d8;
+  --secondary-color: #764ba2;
+  --accent-color: #f56565;
+  --success-color: #48bb78;
+  --warning-color: #ed8936;
+  --info-color: #4299e1;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7fafc;
+  --bg-tertiary: #edf2f7;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+  --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  --gradient-success: linear-gradient(135deg, var(--success-color) 0%, #38a169 100%);
+  --gradient-warning: linear-gradient(135deg, var(--warning-color) 0%, #dd6b20 100%);
+  --gradient-info: linear-gradient(135deg, var(--info-color) 0%, #3182ce 100%);
+  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+/* ===================================
+   CONTAINER PRINCIPAL
+   =================================== */
+.prof {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 30px 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background pattern */
+.prof::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(72, 187, 120, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===================================
+   HEADER HERO
+   =================================== */
+.headerTable {
+  position: relative;
+  background: var(--gradient-primary);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.headerTable::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  overflow: hidden;
+}
+
+.headerTable::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: heroRotate 20s linear infinite;
+}
+
+@keyframes heroRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.prof h1 {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-size: 42px;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  letter-spacing: -1px;
+  line-height: 1.2;
+  flex: 1;
+}
+
+/* ===================================
+   HEADER ACTIONS MODERNE
+   =================================== */
+.header-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.year-filter {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  min-width: 220px;
+  transition: all 0.3s ease;
+}
+
+.year-filter:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.year-filter .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.year-filter .mat-mdc-text-field-wrapper {
+  background: transparent;
+  border: none;
+}
+
+.year-filter .mat-mdc-select-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.btnAdd {
+  background: var(--gradient-success);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 16px rgba(72, 187, 120, 0.3);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.btnAdd::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btnAdd:hover::before {
+  left: 100%;
+}
+
+.btnAdd:hover {
+  background: var(--gradient-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+.btnAdd::after {
+  content: '➕';
+  font-size: 16px;
+}
+
+/* ===================================
+   SEPARATOR MODERNE */
+hr {
+  border: none;
+  height: 2px;
+  background: var(--gradient-primary);
+  margin: 40px 0;
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+/* ===================================
+   ERROR STATE MODERNE */
+.error-msg {
+  background: rgba(244, 67, 54, 0.1);
+  border: 2px solid rgba(244, 67, 54, 0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: var(--accent-color);
+  font-weight: 500;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeInUp 0.6s ease;
+}
+
+.error-msg::before {
+  content: '⚠️';
+  font-size: 20px;
+}
+
+/* ===================================
+   YEAR BLOCK MODERNE */
+.year-block {
+  background: var(--bg-primary);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.year-block::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.year-block:hover::before {
+  transform: scaleX(1);
+}
+
+.year-block:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary-color);
+}
+
+.year-title {
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.year-title::before {
+  content: '🎓';
+  font-size: 32px;
+}
+
+.year-count {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.empty-year {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 16px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px dashed var(--border-color);
+}
+
+.empty-year::before {
+  content: '📚';
+  display: block;
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* ===================================
+   TABLE MODERNE */
+.full-width {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.mat-mdc-table {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mat-mdc-header-row {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 14px;
+  padding: 16px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.mat-mdc-cell {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.mat-mdc-row:hover {
+  background: var(--bg-secondary);
+  transition: background 0.3s ease;
+}
+
+/* Action buttons */
+.mat-mdc-icon-button {
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  transition: all 0.3s ease;
+}
+
+.mat-mdc-icon-button:hover {
+  background: var(--gradient-success);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+/* ===================================
+   ANIMATIONS */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.year-block:nth-child(odd) {
+  animation: float 4s ease-in-out infinite;
+}
+
+.year-block:nth-child(even) {
+  animation: float 4s ease-in-out infinite 2s;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .headerTable {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+    padding: 30px;
+  }
+  
+  .prof h1 {
+    font-size: 32px;
+  }
+  
+  .header-actions {
+    justify-content: center;
+  }
+  
+  .year-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .prof {
+    padding: 20px 15px;
+  }
+  
+  .headerTable {
+    padding: 30px 20px;
+    margin-bottom: 30px;
+  }
+  
+  .prof h1 {
+    font-size: 28px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .year-filter {
+    width: 100%;
+  }
+  
+  .btnAdd {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .year-block {
+    padding: 20px;
+  }
+  
+  .year-title {
+    font-size: 22px;
+  }
+  
+  .notShow {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerTable {
+    padding: 20px 15px;
+  }
+  
+  .prof h1 {
+    font-size: 24px;
+  }
+  
+  .year-block {
+    padding: 16px;
+  }
+  
+  .year-title {
+    font-size: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .year-count {
+    align-self: flex-start;
+  }
+  
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+  
+  .mat-mdc-icon-button {
+    width: 32px;
+    height: 32px;
+  }
+}

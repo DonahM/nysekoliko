@@ -1,0 +1,83 @@
+<div class="finances-dashboard">
+  <div class="header-section">
+    <h1>Résumé Financier</h1>
+    <div class="filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Année Scolaire</mat-label>
+        <mat-select [(ngModel)]="selectedSchoolId" (selectionChange)="onFilterChange()">
+          <mat-option *ngFor="let ys of yearsSchools" [value]="ys.idSchool">
+            {{ ys.annee_scolaire }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mois</mat-label>
+        <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onFilterChange()">
+          <mat-option value="">Toute l'année</mat-option>
+          <mat-option *ngFor="let m of months" [value]="m">{{ m }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="cards-container" *ngIf="bilanGlobal">
+    <!-- Card Revenus -->
+    <mat-card class="dashboard-card revenues-card">
+      <mat-card-header>
+        <div mat-card-avatar class="card-icon revenues-icon">
+          <mat-icon>account_balance_wallet</mat-icon>
+        </div>
+        <mat-card-title>Revenus (Écolages)</mat-card-title>
+        <mat-card-subtitle>Entrées totales</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ bilanGlobal.revenus | number:'1.0-0' }} Ar</h2>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card Salaires -->
+    <mat-card class="dashboard-card expenses-card">
+      <mat-card-header>
+        <div mat-card-avatar class="card-icon expenses-icon">
+          <mat-icon>payments</mat-icon>
+        </div>
+        <mat-card-title>Charges Salariales</mat-card-title>
+        <mat-card-subtitle>Paies des professeurs</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ bilanGlobal.salaires | number:'1.0-0' }} Ar</h2>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card Dépenses Diverses -->
+    <mat-card class="dashboard-card expenses-card">
+      <mat-card-header>
+        <div mat-card-avatar class="card-icon expenses-icon">
+          <mat-icon>receipt</mat-icon>
+        </div>
+        <mat-card-title>Autres Dépenses</mat-card-title>
+        <mat-card-subtitle>Achats, Factures, etc.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ bilanGlobal.depenses | number:'1.0-0' }} Ar</h2>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card Bénéfice -->
+    <mat-card class="dashboard-card profit-card" [ngClass]="{'loss-card': bilanGlobal.benefice < 0}">
+      <mat-card-header>
+        <div mat-card-avatar class="card-icon profit-icon">
+          <mat-icon>{{ bilanGlobal.benefice >= 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
+        </div>
+        <mat-card-title>Bénéfice Net</mat-card-title>
+        <mat-card-subtitle>Soit Revenus - Dépenses</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ abs(bilanGlobal.benefice) | number:'1.0-0' }} Ar</h2>
+        <span *ngIf="bilanGlobal.benefice < 0" class="loss-text">Déficit financier</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

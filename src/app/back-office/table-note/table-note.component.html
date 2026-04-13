@@ -1,0 +1,53 @@
+<div class="card-container">
+  <!-- Header Hero -->
+  <div class="header-row">
+    <div class="title-block">
+      <h2>Gestion des Notes</h2>
+      <p>Consultez et gérez les notes de toutes les classes. Accédez rapidement aux tableaux de notes par classe.</p>
+    </div>
+    <div class="year-filter">
+      <label for="yearFilter">Année scolaire :</label>
+      <select id="yearFilter" [(ngModel)]="selectedYearId" (ngModelChange)="onYearChange()">
+        <option [ngValue]="null">Toutes les années</option>
+        <option *ngFor="let year of years" [ngValue]="year.idSchool">{{ year.annee_scolaire }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Classes Grid Grouped by Year -->
+  <div *ngFor="let group of groupedClasses" class="year-group-section">
+    <div class="year-group-header">
+      <span class="year-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#ffffff"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+        Année : {{ group.yearName }}
+      </span>
+      <div class="line-divider"></div>
+    </div>
+
+    <div class="cards-grid">
+      <div *ngFor="let classe of group.classes" class="classe-card">
+        <mat-card class="classe-card-content">
+          <mat-card-header>
+            <mat-card-title>
+              <span class="class-name">{{ classe.name }}</span>
+              <span class="class-number">{{ classe.num }}</span>
+            </mat-card-title>
+            <mat-card-subtitle>Titulaire : {{ classe.titulaire }}</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-actions>
+            <button mat-flat-button class="view-btn" [routerLink]="['/back-office/tablenote/tablenoteclasse', encode(classe.idCls)]">
+              Voir notes
+            </button>
+          </mat-card-actions>
+          
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <p class="empty-state" *ngIf="filteredClasses.length === 0">
+    Aucune classe trouvée pour cette année scolaire.
+  </p>
+</div>

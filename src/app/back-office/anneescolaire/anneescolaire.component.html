@@ -1,0 +1,47 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="header-icon-wrapper">
+      <mat-icon class="header-icon">event</mat-icon>
+    </div>
+    <h2 mat-dialog-title class="dialog-title">Ajouter une Année Scolaire</h2>
+    <p class="dialog-subtitle">Configurez la nouvelle période académique</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="addYear()">
+    <mat-dialog-content class="dialog-content">
+      <div class="form-instructions">
+        <mat-icon color="primary">info</mat-icon>
+        <span>L'année scolaire sera ajoutée au système et disponible pour toutes les inscriptions et les évaluations.</span>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width-input">
+        <mat-label>Année Scolaire (ex: 2024-2025)</mat-label>
+        <mat-icon matPrefix color="primary" class="input-icon">date_range</mat-icon>
+        <input matInput formControlName="annee_scolaire" placeholder="Entrez l'année scolaire..." required>
+        <mat-hint *ngIf="!form.get('annee_scolaire')?.touched">Format recommandé: AAAA-AAAA</mat-hint>
+        
+        <mat-error *ngIf="form.get('annee_scolaire')?.hasError('required')">
+          L'année scolaire est obligatoire
+        </mat-error>
+        <mat-error *ngIf="form.get('annee_scolaire')?.hasError('maxlength')">
+          Maximum 255 caractères autorisés
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="errorMessage" class="error-banner">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button mat-button type="button" (click)="onCancel()" class="btn-cancel">
+        Annuler
+      </button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid" class="btn-submit">
+        <mat-icon>add_circle</mat-icon>
+        Enregistrer
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

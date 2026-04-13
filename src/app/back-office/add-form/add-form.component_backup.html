@@ -1,0 +1,76 @@
+<div class="classform" [formGroup]="addClassForm">
+    <div class="headerTableform">
+      <h1>Ajouter une classe</h1>
+    </div>
+    <hr />
+    <div class="cardClass">
+      <div class="cardform">
+        <h3>Nom de la classe :</h3>
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="Entrez le nom de la classe"
+          />
+        </mat-form-field>
+      </div>
+  
+      <div class="cardform">
+        <h3>Nom du titulaire :</h3>
+        <mat-form-field>
+          <mat-label>Sélectionner un professeur</mat-label>
+          <mat-select formControlName="titulaire">
+            <mat-option *ngFor="let teacher of teachers" [value]="teacher.idProf">
+              {{ teacher.name }} {{ teacher.surname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="cardform">
+        <h3>Numéro de la classe :</h3>
+        <mat-form-field>
+          <mat-label>Numéro</mat-label>
+          <input
+            matInput
+            formControlName="num"
+            placeholder="Entrez le numero de la classe"
+          />
+        </mat-form-field>
+      </div>
+  
+      <!-- <div class="cardform">
+        <h3>Numéro de la classe :</h3>
+        <mat-form-field>
+          <mat-label>Numéro</mat-label>
+          <mat-select formControlName="num">
+            <mat-option value="A">A</mat-option>
+            <mat-option value="B">B</mat-option>
+            <mat-option value="C">C</mat-option>
+            <mat-option value="D">D</mat-option>
+            <mat-option value="E">E</mat-option>
+            <mat-option value="F">F</mat-option>
+            <mat-option value="G">G</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+
+      <div class="cardform">
+          <h3>Année scolaire :</h3>
+          <mat-form-field appearance="fill">
+            <mat-label>Année Scolaire</mat-label>
+            <mat-select formControlName="idSchool">
+              <mat-option *ngFor="let year of yearsSchools" [value]="year.idSchool">
+                {{ year.annee_scolaire }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>                        
+      </div>
+    </div>
+  
+    <div class="classbtn">
+      <button mat-flat-button color="primary" (click)="onSubmit()">Enregistrer</button>
+    </div>
+  </div>
+  

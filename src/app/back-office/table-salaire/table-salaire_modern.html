@@ -1,0 +1,147 @@
+<div class="salaire-container">
+  <div class="form-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon class="title-icon">payments</mat-icon>
+        Gestion des Salaires
+      </h1>
+      <button mat-raised-button class="add-btn" [routerLink]="['/back-office/salaire']">
+        <mat-icon class="btn-icon">add_circle</mat-icon>
+        Ajouter
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-section">
+    <div class="stats-container">
+      <div class="stat-card">
+        <mat-icon class="stat-icon">account_balance_wallet</mat-icon>
+        <h4>{{ getTotalSalaires() | currency:'EUR' }}</h4>
+        <p>Total salaires</p>
+      </div>
+      <div class="stat-card">
+        <mat-icon class="stat-icon">people</mat-icon>
+        <h4>{{ getUniqueProfesseurs() }}</h4>
+        <p>Professeurs</p>
+      </div>
+      <div class="stat-card">
+        <mat-icon class="stat-icon">check_circle</mat-icon>
+        <h4>{{ getPayesCount() }}</h4>
+        <p>Payés</p>
+      </div>
+      <div class="stat-card">
+        <mat-icon class="stat-icon">pending</mat-icon>
+        <h4>{{ getEnAttenteCount() }}</h4>
+        <p>En attente</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div *ngIf="errorMessage" class="error-state">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <h3>Erreur</h3>
+      <p>{{ errorMessage }}</p>
+      <button mat-stroked-button (click)="ngOnInit()">Réessayer</button>
+    </div>
+
+    <div *ngIf="!errorMessage && dataSource.data.length === 0" class="empty-state">
+      <mat-icon class="empty-icon">payments_off</mat-icon>
+      <h3>Aucun salaire</h3>
+      <p>Ajoutez votre premier salaire</p>
+      <button mat-stroked-button [routerLink]="['/back-office/salaire']">Ajouter</button>
+    </div>
+
+    <div *ngIf="!errorMessage && dataSource.data.length > 0" class="table-section">
+      <table mat-table [dataSource]="dataSource" class="modern-table">
+        <ng-container matColumnDef="profName">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            <mat-icon class="header-icon">person</mat-icon>
+            Professeur
+          </th>
+          <td mat-cell *matCellDef="let salaire" class="table-cell">
+            <div class="professor-info">
+              <div class="professor-avatar">
+                <mat-icon>person</mat-icon>
+              </div>
+              <span>{{ salaire.profName }}</span>
+            </div>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="mois">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            <mat-icon class="header-icon">calendar_month</mat-icon>
+            Mois
+          </th>
+          <td mat-cell *matCellDef="let salaire" class="table-cell">
+            <span class="badge">{{ salaire.mois }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="valeur">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            <mat-icon class="header-icon">payments</mat-icon>
+            Salaire
+          </th>
+          <td mat-cell *matCellDef="let salaire" class="table-cell">
+            <span class="salary">{{ salaire.valeur | currency:'EUR' }}</span>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="annee_scolaire">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            <mat-icon class="header-icon">school</mat-icon>
+            Année
+          </th>
+          <td mat-cell *matCellDef="let salaire" class="table-cell">
+            <span class="badge">{{ salaire.annee_scolaire }}</span>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            <mat-icon class="header-icon">event</mat-icon>
+            Date
+          </th>
+          <td mat-cell *matCellDef="let salaire" class="table-cell">
+            <span>{{ salaire.date | date:'dd/MM/yyyy' }}</span>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="statut">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            <mat-icon class="header-icon">status</mat-icon>
+            Statut
+          </th>
+          <td mat-cell *matCellDef="let salaire" class="table-cell">
+            <span class="status-badge" [ngClass]="getStatusClass(salaire.statut)">
+              <mat-icon>{{ getStatusIconMaterial(salaire.statut) }}</mat-icon>
+              {{ salaire.statut }}
+            </span>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            <mat-icon class="header-icon">settings</mat-icon>
+            Actions
+          </th>
+          <td mat-cell *matCellDef="let salaire" class="table-cell">
+            <button mat-icon-button class="edit-btn" matTooltip="Modifier">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete-btn" (click)="deleteElement(salaire.idSal)" matTooltip="Supprimer">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="data-row"></tr>
+      </table>
+      
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="modern-paginator"></mat-paginator>
+    </div>
+  </div>
+</div>

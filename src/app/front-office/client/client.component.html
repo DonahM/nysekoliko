@@ -1,0 +1,96 @@
+<div class="etudiant">
+  <!-- Header fixe -->
+  <header class="fixed-header">
+    <div class="header-content">
+      <div class="header-left">
+        <div class="header-logo">
+          <div class="logo"></div>
+          <!-- <img src="assets/img/logoNySekoliko.png" alt="NySekoliko" class="header-logo-img"> -->
+        </div>
+        
+        <h1 class="header-title">NySekoliko</h1>
+      </div>
+      <div class="header-right">
+        <div class="notif-container">
+          <button mat-icon-button class="header-notification-btn notif-btn" (click)="toggleNotificationPanel()" [class.has-notifications]="getUnpaidMonthsCount() > 0">
+            <mat-icon>notifications_active</mat-icon>
+            <span class="badge" *ngIf="getUnpaidMonthsCount() > 0">{{ getUnpaidMonthsCount() }}</span>
+          </button>
+
+          <div class="notif-dropdown" *ngIf="showNotificationPanel">
+            <div class="notif-header">
+              <h4>Notifications d'Écolage</h4>
+              <span class="notif-count">{{ getUnpaidMonthsCount() }}</span>
+            </div>
+            
+            <div class="notif-list" *ngIf="unpaidMonths.length > 0; else noUnpaidMonths">
+              <div class="notif-item" *ngFor="let month of unpaidMonths">
+                <mat-icon class="alert-icon">warning</mat-icon>
+                <div class="notif-info">
+                  <strong>{{ month.monthName }} {{ month.year }}</strong>
+                  <span>{{ month.amount | number:'0.0-0' }} Ar</span>
+                </div>
+                <button mat-stroked-button color="accent" class="pay-btn-dropdown" [routerLink]="['/front-office/client', encode(client?.idEdt), 'ecolage']" (click)="toggleNotificationPanel()">Payer</button>
+              </div>
+            </div>
+            <ng-template #noUnpaidMonths>
+              <div class="notif-item" style="justify-content: center;">
+                 <span style="color: #64748b;">Tous vos écolages sont à jour</span>
+              </div>
+            </ng-template>
+            <div class="notif-footer-link" style="text-align: center; padding: 10px; border-top: 1px solid #f1f5f9; background: #f8fafc;">
+               <a [routerLink]="['/front-office/client', encode(client?.idEdt), 'ecolage']" (click)="toggleNotificationPanel()" style="color: #3b82f6; font-size: 0.9rem; text-decoration: none; font-weight: 500;">
+                 Voir tous les historiques
+               </a>
+            </div>
+          </div>
+        </div>
+        <button mat-icon-button class="header-timetable-btn" [routerLink]="['/front-office/client', encode(client?.idEdt), 'emploi-du-temps']" matTooltip="Emploi du temps">
+          <mat-icon>calendar_view_week</mat-icon>
+        </button>
+        <button mat-icon-button class="header-profile-btn" [routerLink]="['/front-office/client', encode(client?.idEdt), 'profil']" matTooltip="Profil">
+          <mat-icon>person</mat-icon>
+        </button>
+        <div class="user-info" *ngIf="client">
+          <span class="user-name">{{ client?.name }} {{ client?.surname }}</span>
+          <span class="user-id">Mat: {{ client?.matricule || client?.idEdt }} 
+            <span *ngIf="className">• {{ className }}</span> 
+            <span *ngIf="yearName" class="year-badge">{{ yearName }}</span>
+          </span>
+        </div>
+        <button mat-icon-button class="header-logout-btn" [routerLink]="['/front-office/accueil']">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Old notification panel removed -->
+
+  <!-- Notifications d'écolage -->
+  <div class="notification-banner" *ngIf="shouldShowEcolageNotification()">
+    <div class="notification-content warning">
+      <mat-icon class="notification-icon">warning</mat-icon>
+      <div class="notification-text">
+        <h4>⚠️ Paiement d'écolage en attente</h4>
+        <p>Vous avez {{ getUnpaidMonthsCount() }} mois d'écolage enregistré(s) non réglé(s) ou en attente. Ne pas oublier d'effectuer le paiement de vos dus.</p>
+      </div>
+      <div class="notification-actions">
+        <button mat-raised-button class="pay-now-btn" [routerLink]="['/front-office/client', encode(client?.idEdt), 'ecolage']">
+          <mat-icon>payments</mat-icon>
+          Payer maintenant
+        </button>
+        <button mat-icon-button class="dismiss-btn" (click)="dismissNotification()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="info">
+    <div class="trueinfo">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

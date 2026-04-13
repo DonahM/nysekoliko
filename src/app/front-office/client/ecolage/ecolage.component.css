@@ -1,0 +1,450 @@
+/* ===================================
+   CONTAINER PRINCIPAL
+   =================================== */
+.ecolage-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* ===================================
+   HEADER ÉTUDIANT
+   =================================== */
+.student-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.student-info h2 {
+  margin: 0 0 12px 0;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.student-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.student-name {
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.student-id {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.header-actions .header-icon {
+  font-size: 48px;
+  opacity: 0.8;
+}
+
+/* ===================================
+   SECTION FILTRES
+   =================================== */
+.filters-section {
+  margin-bottom: 24px;
+}
+
+.filter-card {
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+}
+
+.filter-row {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.year-select {
+  min-width: 250px;
+  flex: 1;
+}
+
+.stats-summary {
+  display: flex;
+  gap: 24px;
+  flex: 2;
+  justify-content: flex-end;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: var(--background-secondary);
+  min-width: 120px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stat-value.paid {
+  color: var(--success-color);
+}
+
+.stat-value.remaining {
+  color: var(--warning-color);
+}
+
+/* ===================================
+   MESSAGE D'ERREUR
+   =================================== */
+.error-message {
+  margin-bottom: 24px;
+}
+
+.error-card {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+}
+
+.error-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.error-icon {
+  color: var(--error-color);
+  font-size: 24px;
+}
+
+.error-text {
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+/* ===================================
+   GRILLE ÉCOLAGES
+   =================================== */
+.ecolages-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.year-card {
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.year-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.year-header {
+  background: var(--background-secondary);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.year-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.year-icon {
+  color: var(--primary-color);
+  font-size: 20px;
+}
+
+.year-title mat-card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.year-summary {
+  background: var(--primary-color);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.year-content {
+  padding: 0;
+}
+
+/* ===================================
+   LISTE ÉCOLAGES
+   =================================== */
+.ecolages-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.ecolage-item {
+  display: grid;
+  grid-template-columns: 120px 1fr 120px 120px;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.ecolage-item:hover {
+  background-color: var(--background-hover);
+}
+
+.ecolage-item:last-child {
+  border-bottom: none;
+}
+
+.ecolage-item.paid {
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+.ecolage-item.pending {
+  background-color: rgba(255, 152, 0, 0.05);
+}
+
+/* Mois */
+.ecolage-month {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-icon {
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.month-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Montant */
+.ecolage-amount {
+  text-align: left;
+}
+
+.amount-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Statut */
+.ecolage-status {
+  display: flex;
+  justify-content: center;
+}
+
+.status-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-icon {
+  font-size: 14px;
+}
+
+/* Date */
+.ecolage-date {
+  text-align: right;
+}
+
+.date-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ===================================
+   ÉTAT VIDE
+   =================================== */
+.no-ecolages {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-icon {
+  font-size: 48px;
+  color: var(--text-disabled);
+  margin-bottom: 16px;
+}
+
+.no-ecolages p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.empty-state {
+  margin-top: 40px;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 60px 20px;
+  border-radius: 12px;
+  background: var(--background-secondary);
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-content .empty-icon {
+  font-size: 64px;
+  color: var(--text-disabled);
+  margin-bottom: 16px;
+}
+
+.empty-content h3 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.empty-content p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+@media (max-width: 768px) {
+  .ecolage-container {
+    padding: 16px;
+  }
+
+  .student-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .year-select {
+    min-width: auto;
+  }
+
+  .stats-summary {
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .stat-item {
+    min-width: auto;
+    flex: 1;
+    padding: 8px 12px;
+  }
+
+  .stat-value {
+    font-size: 16px;
+  }
+
+  .ecolage-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .ecolage-month {
+    justify-content: center;
+  }
+
+  .ecolage-amount {
+    text-align: center;
+  }
+
+  .ecolage-date {
+    text-align: center;
+  }
+
+  .year-header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .student-info h2 {
+    font-size: 24px;
+  }
+
+  .stats-summary {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stat-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .year-select {
+    width: 100%;
+  }
+}  
+.cardClass{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+h3{
+    font-size: 25px;
+    margin: 0 25px;
+}
+.year-card{
+    margin: 2vh 0;
+}

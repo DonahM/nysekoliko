@@ -1,0 +1,64 @@
+<div class="timetable-container">
+  <div class="header-section">
+    <h1 class="page-title"><mat-icon>calendar_view_week</mat-icon> Emploi du Temps</h1>
+    
+    <div class="filters-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Année Scolaire</mat-label>
+        <mat-select [(ngModel)]="selectedYear" (selectionChange)="onYearChange()">
+          <mat-option *ngFor="let year of yearsList" [value]="year.idSchool">
+            {{ year.annee_scolaire }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Classe</mat-label>
+        <mat-select [(ngModel)]="selectedClass" (selectionChange)="onClassChange()" [disabled]="!selectedYear">
+          <mat-option *ngFor="let cls of filteredClasses" [value]="cls.idCls">
+            {{ cls.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" 
+              class="add-btn" 
+              [disabled]="!selectedClass" 
+              (click)="openAddDialog()">
+        <mat-icon>add</mat-icon> Ajouter
+      </button>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <mat-icon class="spinner">autorenew</mat-icon> Chargement...
+  </div>
+
+  <div class="timetable-grid" *ngIf="!isLoading && selectedClass">
+    <div class="day-column" *ngFor="let day of daysOfWeek">
+      <div class="day-header">{{ day }}</div>
+      <div class="slots-container">
+        
+        <div class="slot-card" *ngFor="let slot of getSlotsForDay(day)">
+          <div class="slot-time">{{ slot.heureDebut }} - {{ slot.heureFin }}</div>
+          <div class="slot-subject">{{ slot.matieres?.name }}</div>
+          <div class="slot-teacher">
+            <mat-icon class="tiny-icon">person</mat-icon> 
+            {{ slot.professeurs?.name }} {{ slot.professeurs?.surname }}
+          </div>
+          <button class="delete-slot-btn" (click)="deleteSlot(slot.id)">×</button>
+        </div>
+        
+        <div class="empty-day" *ngIf="getSlotsForDay(day).length === 0">
+          Pas de cours
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="no-selection-state" *ngIf="!selectedClass && !isLoading">
+    <mat-icon class="empty-icon">school</mat-icon>
+    <p>Veuillez sélectionner une année scolaire et une classe pour voir l'emploi du temps.</p>
+  </div>
+</div>

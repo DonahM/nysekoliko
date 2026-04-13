@@ -1,0 +1,53 @@
+.add-form {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.add-form mat-form-field {
+  width: 120px;
+}
+
+.add-form mat-form-field.remarque {
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.add-btn {
+  margin-bottom: 22px; /* align with inputs */
+}
+
+.dialog-table {
+  width: 100%;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.status-badge.present {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.absent {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.retard {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.empty-state {
+  text-align: center;
+  color: #64748b;
+  padding: 24px;
+}

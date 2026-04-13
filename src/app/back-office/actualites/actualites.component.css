@@ -1,0 +1,441 @@
+/* Variables et Thème Général */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 30px 20px;
+  position: relative;
+  overflow-x: hidden;
+  
+  --primary-color: #667eea;
+  --accent-color: #764ba2;
+  --success-color: #48bb78;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.12);
+  --radius-lg: 20px;
+  --radius-md: 12px;
+}
+
+/* Background patterns */
+:host::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(circle at 10% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.actualites-container {
+  position: relative;
+  z-index: 1;
+  max-width: 850px;
+  margin: 0 auto;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header Hero */
+.headerHero {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  border-radius: var(--radius-lg);
+  padding: 40px 20px;
+  margin-bottom: 40px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.headerHero::after {
+  content: '';
+  position: absolute;
+  top: -100%; left: -100%; width: 300%; height: 300%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 40%);
+  animation: heroRotate 25s linear infinite;
+}
+
+@keyframes heroRotate { 
+  100% { transform: rotate(360deg); } 
+}
+
+.headerHero h1 {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 800;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 2;
+  letter-spacing: -1px;
+}
+
+.headerHero p {
+  margin: 12px 0 0 0;
+  font-size: 16px;
+  opacity: 0.95;
+  font-weight: 500;
+  position: relative;
+  z-index: 2;
+}
+
+/* Formulaire (Form Card) */
+.form-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 30px;
+  margin-bottom: 50px;
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+.form-card mat-card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-card mat-card-title::before {
+  content: '✍️';
+  font-size: 24px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+
+::ng-deep .mdc-text-field--outlined {
+  border-radius: var(--radius-md) !important;
+}
+
+/* Upload de Fichier */
+.file-upload-wrapper {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  background: rgba(102, 126, 234, 0.05);
+  color: var(--primary-color);
+  border: 2px dashed rgba(102, 126, 234, 0.5);
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.custom-file-upload:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.file-name {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+/* Bouton Publier */
+.submit-btn {
+  background: linear-gradient(135deg, var(--success-color), #38a169) !important;
+  color: white !important;
+  border-radius: 30px !important;
+  padding: 8px 32px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 15px rgba(72, 187, 120, 0.4) !important;
+  transition: all 0.3s ease !important;
+  margin-top: 10px;
+}
+
+.submit-btn:hover:not([disabled]) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(72, 187, 120, 0.5) !important;
+}
+
+.submit-btn[disabled] {
+  background: #cbd5e1 !important;
+  box-shadow: none !important;
+  color: #94a3b8 !important;
+}
+
+/* Liste des Actualités */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.section-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.section-title::before {
+  content: '📰';
+  font-size: 28px;
+  animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.news-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 25px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.7);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.news-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.news-author mat-icon {
+  color: var(--primary-color);
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 50%;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.news-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  background: rgba(0,0,0,0.04);
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.news-date::before {
+  content: '🕒';
+  font-size: 12px;
+}
+
+.news-body {
+  padding-top: 5px;
+}
+
+.news-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  margin-bottom: 20px;
+}
+
+.news-media {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #f8fafc;
+  display: flex;
+  justify-content: center;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+  border: 1px solid #e2e8f0;
+}
+
+.media-preview {
+  max-width: 100%;
+  max-height: 450px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.media-preview:hover {
+  transform: scale(1.02);
+}
+
+.delete-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(245, 101, 101, 0.08) !important;
+  color: #f56565 !important;
+  transition: all 0.3s ease !important;
+}
+
+.delete-btn:hover {
+  background: #f56565 !important;
+  color: white !important;
+  transform: rotate(8deg) scale(1.1);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  border: 2px dashed #cbd5e1;
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 15px;
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  :host { padding: 15px; }
+  .headerHero { padding: 30px 15px; margin-bottom: 30px; }
+  .headerHero h1 { font-size: 28px; }
+  .form-card { padding: 20px; }
+  .news-card { padding: 20px; }
+  .news-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .delete-btn { top: 15px; right: 15px; }
+  .news-author { flex: 1; margin-bottom: 10px; }
+}
+
+/* ===================================
+   THEME EDITEUR (Angular Editor / "Le Word")
+   =================================== */
+
+/* Container de l'editeur */
+::ng-deep .angular-editor-wrapper {
+  background: white !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .angular-editor-wrapper:focus-within {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+}
+
+/* Barre d'outils (Toolbar) */
+::ng-deep .angular-editor-toolbar {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-top-left-radius: var(--radius-md) !important;
+  border-top-right-radius: var(--radius-md) !important;
+  padding: 10px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+}
+
+/* Boutons de la Toolbar */
+::ng-deep .angular-editor-toolbar .angular-editor-button {
+  background: white !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  color: var(--text-primary) !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+}
+
+::ng-deep .angular-editor-toolbar .angular-editor-button:hover {
+  background: var(--primary-color) !important;
+  color: white !important;
+  border-color: var(--primary-color) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Boutons de la Toolbar quand actifs */
+::ng-deep .angular-editor-toolbar .angular-editor-button.active {
+  background: rgba(102, 126, 234, 0.1) !important;
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Zone de texte (Textarea) */
+::ng-deep .angular-editor-textarea {
+  min-height: 200px !important;
+  padding: 20px !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  color: var(--text-primary) !important;
+  line-height: 1.6 !important;
+  outline: none !important;
+  border: none !important;
+}
+
+::ng-deep .angular-editor-toolbar-set {
+  margin-right: 15px !important;
+}

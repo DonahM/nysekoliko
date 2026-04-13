@@ -1,0 +1,157 @@
+<div class="class-container">
+  <!-- Header Hero -->
+  <div class="hero-header">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <h1 class="hero-title">Gestion des Classes</h1>
+        <p class="hero-subtitle">
+          Organisez et gérez toutes vos classes par année scolaire. Accédez rapidement aux informations de chaque classe.
+        </p>
+      </div>
+      <div class="hero-right">
+        <div class="controls-section">
+          <mat-form-field appearance="fill" class="year-selector">
+            <mat-label>
+              <mat-icon>calendar_today</mat-icon>
+              Année scolaire
+            </mat-label>
+            <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange()">
+              <mat-option [value]="null">
+                <div class="option-content">
+                  <mat-icon>all_inclusive</mat-icon>
+                  Toutes les années
+                </div>
+              </mat-option>
+              <mat-option *ngFor="let year of years" [value]="year.annee_scolaire">
+                <div class="option-content">
+                  <mat-icon>school</mat-icon>
+                  {{ year.annee_scolaire }}
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <button mat-stroked-button class="add-class-btn" [routerLink]="['/back-office/class/addClass']">
+            <mat-icon class="btn-icon">add_circle</mat-icon>
+            Ajouter une classe
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Years Container -->
+  <div class="years-container">
+    <!-- Loading State -->
+    <div *ngIf="!years.length && !errorMessage" class="loading-state">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Chargement des classes...</div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage" class="error-state">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <h3 class="error-title">Erreur de chargement</h3>
+      <p class="error-message">{{ errorMessage }}</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="years.length === 0 && !errorMessage" class="empty-state">
+      <mat-icon class="empty-icon">class</mat-icon>
+      <h3 class="empty-title">Aucune classe trouvée</h3>
+      <p class="empty-description">
+        Commencez par ajouter votre première classe pour organiser vos élèves par année scolaire.
+      </p>
+      <button mat-stroked-button class="empty-action-btn" [routerLink]="['/back-office/class/addClass']">
+        <mat-icon>add_circle</mat-icon>
+        Créer une classe
+      </button>
+    </div>
+
+    <!-- Years Sections -->
+    <div *ngFor="let year of filteredYears; trackBy: trackByYear" class="year-section">
+      <div class="year-header">
+        <div class="year-icon">
+          <mat-icon>calendar_month</mat-icon>
+        </div>
+        <h2 class="year-title">{{ year.annee_scolaire }}</h2>
+        <div class="year-stats">
+          <div class="stat-badge">
+            <mat-icon>groups</mat-icon>
+            <span class="stat-number">{{ year.classes?.length || 0 }}</span>
+            <span>classes</span>
+          </div>
+          <div class="stat-badge">
+            <mat-icon>person</mat-icon>
+            <span class="stat-number">{{ getTotalStudents(year) }}</span>
+            <span>élèves</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classes Grid -->
+      <div class="classes-grid">
+        <div *ngFor="let class of year.classes; trackBy: trackByClass" 
+             class="class-card" 
+             [routerLink]="['/back-office/class/listEtClass', encode(class.idCls)]">
+          
+          <div class="class-card-header">
+            <div class="class-card-content">
+              <h3 class="class-name">
+                {{ class.name }}
+                <span class="class-badge">{{ class.num }}</span>
+              </h3>
+            </div>
+          </div>
+          
+          <div class="class-card-body">
+            <div class="class-info">
+              <div class="info-item">
+                <mat-icon class="info-icon">person</mat-icon>
+                <div class="info-content">
+                  <div class="info-label">Titulaire</div>
+                  <div class="info-value">{{ class.titulaire || 'Non assigné' }}</div>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <mat-icon class="info-icon">groups</mat-icon>
+                <div class="info-content">
+                  <div class="info-label">Nombre d'élèves</div>
+                  <div class="info-value" *ngIf="class.studentCount !== undefined; else showZero">
+                    {{ class.studentCount }} élèves
+                  </div>
+                  <ng-template #showZero>
+                    <div class="info-value">0 élèves</div>
+                  </ng-template>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <mat-icon class="info-icon">category</mat-icon>
+                <div class="info-content">
+                  <div class="info-label">Niveau</div>
+                  <div class="info-value">{{ class.level || 'Non défini' }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty Classes State -->
+      <div *ngIf="!year.classes || year.classes.length === 0" class="empty-state">
+        <mat-icon class="empty-icon">no_class</mat-icon>
+        <h3 class="empty-title">Aucune classe cette année</h3>
+        <p class="empty-description">
+          Ajoutez des classes pour l'année {{ year.annee_scolaire }} pour commencer à organiser vos élèves.
+        </p>
+        <button mat-stroked-button class="empty-action-btn" [routerLink]="['/back-office/class/addClass']">
+          <mat-icon>add_circle</mat-icon>
+          Ajouter une classe
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

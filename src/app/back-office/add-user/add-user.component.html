@@ -1,0 +1,106 @@
+<div class="premium-page-container">
+  <div class="premium-form-card">
+    <div class="form-header">
+      <div class="icon-wrapper">
+        <mat-icon>person_add</mat-icon>
+      </div>
+      <h2>Inscription d'une Etablissement</h2>
+      <p>Créez un nouveau compte d'accès pour la gestion scolaire</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm" class="modern-form">
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="name">Nom</label>
+          <div class="input-wrapper">
+            <mat-icon>badge</mat-icon>
+            <input id="name" type="text" [(ngModel)]="user.name" name="name" required placeholder="Ex: Dupont" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="surname">Prénom</label>
+          <div class="input-wrapper">
+            <mat-icon>person_outline</mat-icon>
+            <input id="surname" type="text" [(ngModel)]="user.surname" name="surname" required placeholder="Ex: Jean" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="cin">N° CIN</label>
+          <div class="input-wrapper">
+            <mat-icon>credit_card</mat-icon>
+            <input id="cin" type="text" [(ngModel)]="user.cin" name="cin" required placeholder="Ex: 101234567890" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="email">Adresse Email</label>
+          <div class="input-wrapper">
+            <mat-icon>mail_outline</mat-icon>
+            <input id="email" type="email" [(ngModel)]="user.email" name="email" required placeholder="jean.dupont@email.com" />
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="lieu">Lieu / Adresse</label>
+          <div class="input-wrapper">
+            <mat-icon>place</mat-icon>
+            <input id="lieu" type="text" [(ngModel)]="user.lieu" name="lieu" required placeholder="Ex: Antananarivo" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-wrapper">
+            <mat-icon>lock_outline</mat-icon>
+            <input id="password" type="password" [(ngModel)]="user.password" name="password" required placeholder="••••••••" />
+          </div>
+        </div>
+      </div>
+
+      <div class="roles-section">
+        <label>Rôles d'accès</label>
+        <div class="roles-grid">
+          <label class="role-card" [class.selected]="selectedRoles.admin">
+            <input type="checkbox" [(ngModel)]="selectedRoles.admin" name="rolesAdmin" value="ADMIN" />
+            <div class="role-content">
+              <mat-icon>admin_panel_settings</mat-icon>
+              <span>Administrateur</span>
+            </div>
+          </label>
+          <label class="role-card" [class.selected]="selectedRoles.user">
+            <input type="checkbox" [(ngModel)]="selectedRoles.user" name="rolesUser" value="USER" />
+            <div class="role-content">
+              <mat-icon>person</mat-icon>
+              <span>Utilisateur</span>
+            </div>
+          </label>
+          <label class="role-card" [class.selected]="selectedRoles.enseignant">
+            <input type="checkbox" [(ngModel)]="selectedRoles.enseignant" name="rolesEnseignant" value="ENSEIGNANT" />
+            <div class="role-content">
+              <mat-icon>school</mat-icon>
+              <span>Enseignant</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="upload-section">
+        <label>Photo de profil</label>
+        <div class="file-drop-area" [class.has-file]="selectedFile">
+          <mat-icon *ngIf="!selectedFile">cloud_upload</mat-icon>
+          <mat-icon *ngIf="selectedFile" style="color: #10b981;">check_circle</mat-icon>
+          <span class="file-msg">{{ selectedFile ? selectedFile.name : 'Glissez une image ou cliquez pour parcourir' }}</span>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="!userForm.form.valid" class="btn-submit">
+          Créer l'utilisateur <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

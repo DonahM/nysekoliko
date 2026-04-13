@@ -1,0 +1,746 @@
+/* ===================================
+   CONTAINER PRINCIPAL
+   =================================== */
+.profil-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* ===================================
+   GESTION DU SCROLL OPTIMISÉE
+   =================================== */
+html, body {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+.profil-container {
+  scroll-padding-top: 80px; /* Espace pour le header fixe */
+  scroll-snap-type: y mandatory;
+}
+
+/* ===================================
+   HEADER PROFIL
+   =================================== */
+.profile-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  min-height: 300px;
+}
+
+.profile-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+}
+
+.profile-avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.avatar-container:hover {
+  transform: scale(1.05);
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-status {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: #4caf50;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+.status-icon {
+  font-size: 14px;
+  color: white;
+}
+
+.avatar-actions {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+}
+
+.edit-avatar-btn {
+  background: var(--primary-color);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-main-info {
+  flex: 1;
+  z-index: 1;
+}
+
+.profile-name {
+  margin: 0 0 16px 0;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.profile-badges {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.badge-chip {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-icon {
+  font-size: 14px;
+}
+
+.profile-subtitle {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+.profile-actions {
+  margin-top: 16px;
+}
+
+.logout-header-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.logout-header-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ===================================
+   CONTENU PROFIL
+   =================================== */
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 20px;
+}
+
+/* ===================================
+   CARDS D'INFORMATIONS
+   =================================== */
+.info-card {
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  scroll-snap-align: start;
+  scroll-margin-top: 100px; /* Espace pour éviter le header fixe */
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* ===================================
+   OPTIMISATION DU SCROLL
+   =================================== */
+.info-card {
+  scroll-snap-align: start;
+  scroll-margin-top: 90px;
+}
+
+.actions-card {
+  scroll-snap-align: start;
+  scroll-margin-top: 90px;
+}
+
+/* Scrollbar personnalisée */
+.profil-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.profil-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.profil-container::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.profil-container::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Animation de scroll smooth */
+.profil-container {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Sections avec scroll snap */
+.profile-header,
+.info-card,
+.actions-card {
+  scroll-snap-align: start;
+  scroll-margin-top: 90px;
+}
+
+.card-header {
+  background: var(--background-secondary);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  color: var(--primary-color);
+  font-size: 24px;
+}
+
+.card-header mat-card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.edit-btn {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.edit-btn:hover {
+  color: var(--primary-color);
+}
+
+.card-content {
+  padding: 24px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--background-hover);
+  transition: background-color 0.3s ease;
+}
+
+.info-item:hover {
+  background: var(--background-secondary);
+}
+
+.info-icon {
+  color: var(--primary-color);
+  font-size: 20px;
+  margin-top: 2px;
+}
+
+.info-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* ===================================
+   CARD ACTIONS RAPIDES
+   =================================== */
+.actions-card {
+  background: linear-gradient(135deg, var(--background-secondary), var(--background-primary));
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-transform: none;
+}
+
+.action-btn.primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.action-btn.primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.action-btn.secondary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.action-btn.secondary:hover {
+  background: var(--secondary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--secondary-rgb), 0.3);
+}
+
+.action-btn.accent {
+  background: var(--accent-color);
+  color: white;
+}
+
+.action-btn.accent:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3);
+}
+
+.action-btn:not(.primary):not(.secondary):not(.accent) {
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.action-btn:not(.primary):not(.secondary):not(.accent):hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(var(--primary-rgb), 0.05);
+}
+
+.btn-icon {
+  font-size: 18px;
+}
+
+/* ===================================
+   ÉTAT VIDE
+   =================================== */
+.empty-state {
+  margin-top: 40px;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 60px 20px;
+  border-radius: 12px;
+  background: var(--background-secondary);
+  border: 2px dashed var(--border-color);
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-icon {
+  font-size: 64px;
+  color: var(--text-disabled);
+  margin-bottom: 16px;
+}
+
+.empty-content h3 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.empty-content p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+@media (max-width: 768px) {
+  .profil-container {
+    padding: 16px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .profile-name {
+    font-size: 28px;
+  }
+
+  .profile-badges {
+    justify-content: center;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-header {
+    padding: 20px;
+  }
+
+  .profile-name {
+    font-size: 24px;
+  }
+
+  .info-item {
+    padding: 12px;
+  }
+
+  .action-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+}
+
+/* ===================================
+   PRINT STYLES
+   =================================== */
+@media print {
+  .profil-container {
+    padding: 0;
+    max-width: none;
+  }
+
+  .profile-header {
+    background: none !important;
+    color: black !important;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+
+  .info-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+  }
+
+  .edit-btn,
+  .avatar-actions,
+  .actions-card {
+    display: none !important;
+  }
+}
+
+  /* ===================================
+   RESPONSIVE DESIGN - SCROLL OPTIMISÉ
+   =================================== */
+@media (max-width: 768px) {
+  .profil-container {
+    padding: 12px;
+    scroll-padding-top: 70px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px;
+    scroll-margin-top: 70px;
+  }
+
+  .profile-content {
+    gap: 16px;
+  }
+
+  .info-card,
+  .actions-card {
+    scroll-margin-top: 70px;
+  }
+
+  .profil-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .profil-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profil-container {
+    padding: 8px;
+    scroll-padding-top: 60px;
+  }
+
+  .profile-header {
+    padding: 20px;
+    scroll-margin-top: 60px;
+  }
+
+  .info-card,
+  .actions-card {
+    scroll-margin-top: 60px;
+  }
+
+  .profil-container::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
+/* ===================================
+   PERFORMANCE DE SCROLL
+   =================================== */
+.profil-container {
+  will-change: scroll-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Scroll fluide sur tous les navigateurs */
+@supports (scroll-behavior: smooth) {
+  .profil-container {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Animation pendant le scroll */
+.info-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Scroll indicator */
+.profil-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.profil-container::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 4px;
+  background: var(--primary-color);
+  z-index: 1001;
+  transform-origin: top;
+  transition: transform 0.3s ease;
+}
+
+/* Smooth scroll pour les ancres */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Optimisation pour les écrans tactiles */
+@media (pointer: coarse) {
+  .info-card:hover {
+    transform: none;
+  }
+  
+  .info-card:active {
+    transform: scale(0.98);
+  }
+}
+  
+  
+  /* Media Queries pour la responsivité */
+  
+  /* Tablette en mode portrait */
+  @media (max-width: 768px) {
+    .profil {
+      margin: 10px;
+    }
+  
+    .apropos {
+      padding: 15px;
+    }
+  
+    .apropos h1 {
+      font-size: 20px;
+    }
+  
+    .apropos p {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .profil {
+      display: block;
+    }
+    
+    .image{
+        background-color: #f4f4f4;
+        margin: 0 5vh;
+        width: 225px;
+        height: 200px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .apropos {
+      padding: 10px;
+      width: 70%;
+    }
+  
+    .apropos h1 {
+      font-size: 18px;
+    }
+  
+    .apropos p {
+      font-size: 12px;
+    }
+  
+  }
+  
+  /* Écrans larges, comme les ordinateurs de bureau */
+  @media (min-width: 1024px) {
+    .profil {
+      margin: 30px auto;
+      max-width: 960px;
+    }
+  
+    .apropos {
+      padding: 25px;
+    }
+  
+    .apropos h1 {
+      font-size: 28px;
+    }
+  
+    .apropos p {
+      font-size: 18px;
+    }
+  }
+  

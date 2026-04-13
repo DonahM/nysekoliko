@@ -1,0 +1,59 @@
+<h2 mat-dialog-title class="dialog-title">Ajouter un créneau horaire</h2>
+
+<mat-dialog-content class="dialog-content">
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <form class="slot-form">
+    <!-- Jour -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Jour de la semaine</mat-label>
+      <mat-select [(ngModel)]="slotModel.jour" name="jour" required>
+        <mat-option *ngFor="let day of daysOfWeek" [value]="day">
+          {{ day }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Horaires -->
+    <div class="time-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Heure de début</mat-label>
+        <input matInput type="time" [(ngModel)]="slotModel.heureDebut" name="heureDebut" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Heure de fin</mat-label>
+        <input matInput type="time" [(ngModel)]="slotModel.heureFin" name="heureFin" required>
+      </mat-form-field>
+    </div>
+
+    <!-- Matière -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Matière</mat-label>
+      <mat-select [(ngModel)]="slotModel.idMat" name="idMat" required>
+        <mat-option *ngFor="let m of matieres" [value]="m.idMat">
+          {{ m.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Professeur -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Professeur</mat-label>
+      <mat-select [(ngModel)]="slotModel.idProf" name="idProf" required>
+        <mat-option *ngFor="let p of professeurs" [value]="p.idProf">
+          {{ p.name }} {{ p.surname }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button (click)="onCancel()" [disabled]="isLoading">Annuler</button>
+  <button mat-flat-button color="primary" (click)="onSave()" [disabled]="isLoading">
+    {{ isLoading ? 'Enregistrement...' : 'Enregistrer' }}
+  </button>
+</mat-dialog-actions>

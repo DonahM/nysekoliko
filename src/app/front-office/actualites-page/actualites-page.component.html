@@ -1,0 +1,80 @@
+<header class="header">
+  <div class="titre" style="cursor: pointer;" routerLink="/front-office/accueil">
+    <div class="logo-container">
+      <img src="logo.png" alt="logo" class="logo">
+      <div class="logo-glow"></div>
+    </div>
+    <span class="brand-name">NySekoliko</span>
+    <div class="brand-decoration"></div>
+  </div>
+
+  <div class="header-center">
+    <div class="title-container">
+      <h1 class="main-title">
+        <span class="title-word">Toutes</span>
+        <span class="title-word highlight">Les Actualités</span>
+      </h1>
+      <div class="title-underline"></div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    
+    <nav class="nav">
+      <button mat-stroked-button class="btn-news" routerLink="/front-office/accueil" style="margin-right: 15px; color: #fff; border-color: rgba(255,255,255,0.4);">
+        <mat-icon style="margin-right: 5px;">home</mat-icon>
+        Accueil
+      </button>
+
+      <button mat-flat-button color="primary" class="btnl" [matMenuTriggerFor]="loginMenu">
+        <span class="btn-content">
+          <mat-icon class="btn-icon">login</mat-icon>
+          Se connecter
+        </span>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #loginMenu="matMenu" class="login-menu">
+        <button mat-menu-item [routerLink]="['/front-office/form-client']">
+          <mat-icon class="menu-icon">school</mat-icon>
+          Espace Étudiant
+        </button>
+        <button mat-menu-item [routerLink]="['/front-office/form-admin']">
+          <mat-icon class="menu-icon">admin_panel_settings</mat-icon>
+          Espace Administrateur
+        </button>
+      </mat-menu>
+    </nav>
+  </div>
+</header>
+
+<div class="body">
+  <div class="actualites-page">
+
+  <div class="news-grid">
+    <div class="no-news" *ngIf="actualites.length === 0">
+      <mat-icon>new_releases</mat-icon>
+      <p>Aucune actualité pour le moment. Revenez plus tard !</p>
+    </div>
+
+    <mat-card class="news-card" *ngFor="let act of actualites">
+      <mat-card-header>
+        <div mat-card-avatar class="news-avatar-wrapper">
+          <img *ngIf="act.user?.logo" [src]="baseUrl + '/upload/users/' + act.user.logo" alt="logo" class="news-avatar">
+          <mat-icon *ngIf="!act.user?.logo" class="news-fallback-avatar">account_circle</mat-icon>
+        </div>
+        <mat-card-title>{{ act.user ? act.user.name + ' ' + act.user.surname : 'Direction' }}</mat-card-title>
+        <mat-card-subtitle>{{ act.datePublication | date:'medium' }}</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <p class="news-text" [innerHTML]="act.texte"></p>
+        
+        <div class="news-media" *ngIf="act.mediaUrl">
+          <img *ngIf="act.mediaType === 'IMAGE'" [src]="baseUrl + '/upload/actualites/' + act.mediaUrl" alt="Illustration" class="media-preview"/>
+          <video *ngIf="act.mediaType === 'VIDEO'" [src]="baseUrl + '/upload/actualites/' + act.mediaUrl" controls class="media-preview"></video>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+</div>

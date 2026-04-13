@@ -1,0 +1,106 @@
+.depenses-container {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: calc(100vh - 100px);
+  font-family: 'Inter', Roboto, sans-serif;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.add-btn {
+  height: 56px;
+  border-radius: 8px;
+  padding: 0 24px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.add-form-card {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.table-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  background-color: #f1f5f9;
+  color: #475569;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-container strong {
+  color: #1e293b;
+  font-size: 15px;
+}
+
+.desc-text {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.amount {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.cat-badge {
+  background: #e2e8f0;
+  color: #475569;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px !important;
+  color: #64748b;
+  font-size: 15px;
+}

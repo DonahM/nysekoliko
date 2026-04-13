@@ -1,0 +1,135 @@
+<div class="page-container">
+  <div class="content-wrapper">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-title-group">
+        <h1>
+          <mat-icon>school</mat-icon>
+          Professeurs
+        </h1>
+        <p>Gérez votre équipe enseignante avec fluidité et élégance</p>
+      </div>
+      <button class="btn-add" [routerLink]="['/back-office/prof/add-form-prof']">
+        <mat-icon>person_add</mat-icon>
+        Ajouter un professeur
+      </button>
+    </div>
+
+    <!-- Controls Section -->
+    <div class="controls-card">
+      <div class="filter-group">
+        <mat-form-field appearance="outline" class="modern-field" style="width: 100%; margin-bottom: -1.25em;">
+          <mat-label>Filtrer par année scolaire</mat-label>
+          <mat-icon matPrefix style="margin-right: 8px; color: #64748b;">calendar_today</mat-icon>
+          <mat-select [(value)]="selectedYearId">
+            <mat-option [value]="null">Toutes les années</mat-option>
+            <mat-option *ngFor="let group of profsByYear" [value]="group.idSchool">
+              {{ group.yearLabel }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="stats-group">
+        <div class="stat-item">
+          <div class="stat-icon"><mat-icon>groups</mat-icon></div>
+          <div class="stat-text">
+            <h4>{{ getTotalProfesseurs() }}</h4>
+            <p>Total professeurs</p>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><mat-icon>history_edu</mat-icon></div>
+          <div class="stat-text">
+            <h4>{{ filteredProfsByYear.length }}</h4>
+            <p>Années actives</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="state-card" *ngIf="errorMessage">
+      <mat-icon class="state-icon" style="color: #ef4444;">error_outline</mat-icon>
+      <h3>Erreur de chargement</h3>
+      <p>{{ errorMessage }}</p>
+      <button class="btn-add" style="margin: 0 auto;" (click)="loadProfs()">Réessayer</button>
+    </div>
+
+    <!-- Empty State -->
+    <div class="state-card" *ngIf="!errorMessage && filteredProfsByYear.length === 0">
+      <mat-icon class="state-icon">person_off</mat-icon>
+      <h3>Aucun professeur trouvé</h3>
+      <p>Votre liste de professeurs est vide pour les critères sélectionnés.</p>
+    </div>
+
+    <!-- Professors Tables by Year -->
+    <ng-container *ngIf="!errorMessage">
+      <div class="year-card" *ngFor="let group of filteredProfsByYear; trackBy: trackByYear">
+        
+        <div class="year-header">
+          <div class="year-title">
+            <mat-icon class="year-icon">event</mat-icon>
+            <div>
+              <h2>{{ group.yearLabel }}</h2>
+              <span>{{ group.profs.length }} professeur(s)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrapper" *ngIf="group.profs.length > 0">
+          <table mat-table [dataSource]="group.profs" class="premium-table">
+            
+            <ng-container matColumnDef="nom">
+              <th mat-header-cell *matHeaderCellDef> Professeur </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="prof-info">
+                  <div class="prof-avatar"><mat-icon>person</mat-icon></div>
+                  <span class="prof-name">{{ element.nom }} {{ element.prenom }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="matiere">
+              <th mat-header-cell *matHeaderCellDef> Matière </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="subject-badge">
+                  <mat-icon>menu_book</mat-icon>
+                  {{ element.matiere }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef style="text-align: right;"> Actions </th>
+              <td mat-cell *matCellDef="let element" style="text-align: right;">
+                <div class="action-buttons" style="justify-content: flex-end;">
+                  <button mat-icon-button class="btn-icon-action view" (click)="viewDetails(element.matricule)">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                  <button mat-icon-button class="btn-icon-action edit">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button class="btn-icon-action delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+
+        <!-- Empty state inside year -->
+        <div *ngIf="group.profs.length === 0" style="padding: 2rem; text-align: center; color: #64748b;">
+          Aucun professeur inscrit pour cette année.
+        </div>
+
+      </div>
+    </ng-container>
+    
+  </div>
+</div>

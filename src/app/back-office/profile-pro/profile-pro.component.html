@@ -1,0 +1,66 @@
+<section class="profile-page" *ngIf="prof; else errorTemplate">
+  <div class="profile-card">
+    <div class="profile-hero">
+      <div class="avatar">{{ (prof.name.charAt(0) || 'P') | uppercase }}</div>
+      <div class="hero-text">
+        <h1>{{ prof.name }} {{ prof.surname }}</h1>
+        <p>Profil professeur</p>
+      </div>
+      <span class="badge">ID #{{ prof.idProf }}</span>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">Nom</span>
+        <span class="value">{{ prof.name }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Prenom</span>
+        <span class="value">{{ prof.surname }}</span>
+      </div>
+      <div class="info-item full">
+        <span class="label">Matiere</span>
+        <span class="value">{{ prof.matiere }}</span>
+      </div>
+    </div>
+
+    <div class="salary-section">
+      <h3>
+        <mat-icon style="vertical-align: middle; margin-right: 8px;">payments</mat-icon> 
+        Historique des salaires
+      </h3>
+      
+      <div *ngIf="!prof.salaires || prof.salaires.length === 0" class="no-salary-card">
+        <mat-icon>info</mat-icon>
+        <p>Aucune information de salaire disponible pour ce professeur.</p>
+      </div>
+
+      <div class="salary-years-container" *ngIf="prof.salaires && prof.salaires.length > 0">
+        <div class="salary-year-card" *ngFor="let group of getSalariesByYear()">
+          <div class="year-header">
+            <mat-icon>date_range</mat-icon>
+            <h4>{{ group.year }}</h4>
+            <span class="total-badge">{{ group.salaries.length }} mois payé(s)</span>
+          </div>
+          <div class="salary-list">
+            <div class="salary-item" *ngFor="let s of group.salaries">
+              <div class="salary-month">
+                <mat-icon class="month-icon">calendar_month</mat-icon>
+                <span>{{ s.mois }}</span>
+              </div>
+              <div class="salary-amount" [ngClass]="{'paid': s.status === 'Payé' || s.status === 'Paye'}">
+                {{ s.valeur }} Ar
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #errorTemplate>
+  <div class="error-card">
+    <p>{{ errorMessage }}</p>
+  </div>
+</ng-template>

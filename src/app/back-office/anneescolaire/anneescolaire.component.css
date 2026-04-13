@@ -1,0 +1,189 @@
+/* Container override to reset default dialog paddings if any */
+::ng-deep .mat-mdc-dialog-container {
+  border-radius: 16px !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+/* Beautiful Header */
+.dialog-header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 32px 24px 24px;
+  text-align: center;
+  color: white;
+  position: relative;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.header-icon-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(5px);
+}
+
+.header-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.dialog-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px !important;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.dialog-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Content Area */
+.dialog-content {
+  padding: 32px 24px 16px !important;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.form-instructions {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f0f7ff;
+  border-left: 4px solid #1e3c72;
+  padding: 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 24px;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.form-instructions mat-icon {
+  color: #1e3c72;
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+.input-icon {
+  margin-right: 8px;
+}
+
+/* Modern Input Styling */
+::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: #f8fafc !important;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: #cbd5e1 !important;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
+  border-color: #94a3b8 !important;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  background-color: #ffffff !important;
+}
+
+/* Error Banner */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #fecaca;
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* Actions Area */
+.dialog-actions {
+  padding: 16px 24px 24px !important;
+  margin-bottom: 0 !important;
+  gap: 16px;
+  border-top: 1px solid #f1f5f9;
+  background: #fcfcfc;
+}
+
+.btn-cancel {
+  color: #64748b !important;
+  font-weight: 500 !important;
+  padding: 8px 20px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 8px 24px !important;
+  border-radius: 8px !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(42, 82, 152, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-submit:hover:not([disabled]) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(42, 82, 152, 0.4) !important;
+}
+
+.btn-submit:active:not([disabled]) {
+  transform: translateY(0);
+}
+
+.btn-submit[disabled] {
+  background: #cbd5e1 !important;
+  box-shadow: none !important;
+  color: #94a3b8 !important;
+}
+
+.btn-submit mat-icon {
+  margin-right: 4px;
+}

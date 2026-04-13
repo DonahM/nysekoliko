@@ -1,0 +1,77 @@
+<h2 mat-dialog-title>Présences de {{ data.profName }}</h2>
+<div mat-dialog-content>
+  <p>Date : <strong>{{ data.date }}</strong></p>
+
+  <div class="add-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Heure Début</mat-label>
+      <input matInput type="time" [(ngModel)]="newPresence.heureDebut">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Heure Fin</mat-label>
+      <input matInput type="time" [(ngModel)]="newPresence.heureFin">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Statut</mat-label>
+      <mat-select [(ngModel)]="newPresence.status">
+        <mat-option value="Présent" class="status-present">Présent</mat-option>
+        <mat-option value="Absent" class="status-absent">Absent</mat-option>
+        <mat-option value="En retard" class="status-retard">En retard</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="remarque">
+      <mat-label>Remarque</mat-label>
+      <input matInput [(ngModel)]="newPresence.remarque" placeholder="Motif...">
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" class="add-btn" (click)="addPresence()">
+      <mat-icon>add</mat-icon> Ajouter
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="presences" class="dialog-table">
+    <ng-container matColumnDef="heureDebut">
+      <th mat-header-cell *matHeaderCellDef> De </th>
+      <td mat-cell *matCellDef="let p"> {{ p.heureDebut }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="heureFin">
+      <th mat-header-cell *matHeaderCellDef> À </th>
+      <td mat-cell *matCellDef="let p"> {{ p.heureFin }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Statut </th>
+      <td mat-cell *matCellDef="let p">
+        <span class="status-badge" [ngClass]="{'present': p.status === 'Présent', 'absent': p.status === 'Absent', 'retard': p.status === 'En retard'}">
+          {{ p.status }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="remarque">
+      <th mat-header-cell *matHeaderCellDef> Remarque </th>
+      <td mat-cell *matCellDef="let p"> {{ p.remarque || '-' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let p">
+        <button mat-icon-button color="warn" (click)="removePresence(p)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="presences.length === 0" class="empty-state">
+    Aucune présence enregistrée pour cette journée.
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Fermer</button>
+</div>

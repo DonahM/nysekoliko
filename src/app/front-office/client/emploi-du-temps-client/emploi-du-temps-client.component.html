@@ -1,0 +1,61 @@
+<div class="timetable-container">
+  <div class="header-section">
+    <h1 class="page-title"><mat-icon>calendar_view_week</mat-icon> Mon Emploi du Temps</h1>
+    <p class="subtitle">Consultez votre planning par année scolaire</p>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <mat-icon class="spinner">autorenew</mat-icon> Chargement de l'emploi du temps...
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage && !isLoading">
+    <mat-icon>error_outline</mat-icon> {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && academicHistory.length === 0" class="empty-day" style="padding: 40px;">
+    <h3>Aucune classe assignée</h3>
+    <p>Vous n'êtes actuellement associé(e) à aucune classe.</p>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && academicHistory.length > 0">
+    <mat-tab-group animationDuration="400ms" color="primary" backgroundColor="primary">
+      <mat-tab *ngFor="let hist of academicHistory" [label]="hist.yearName">
+        
+        <div class="tab-content-wrapper">
+          <div class="class-badge-container">
+            <span class="class-badge">
+              <mat-icon>school</mat-icon>
+              Classe associée: {{ hist.className }}
+            </span>
+          </div>
+
+          <div class="timetable-grid">
+            <div class="day-column" *ngFor="let day of daysOfWeek">
+              <div class="day-header">{{ day }}</div>
+              
+              <div class="slots-container">
+                <ng-container *ngIf="getSlotsForDay(day, hist).length > 0; else noSlots">
+                  <div class="slot-card" *ngFor="let slot of getSlotsForDay(day, hist)">
+                    <div class="slot-time">{{ slot.heureDebut }} - {{ slot.heureFin }}</div>
+                    <div class="slot-subject">{{ slot.matieres?.name || 'Matière Inconnue' }}</div>
+                    <div class="slot-teacher">
+                      <mat-icon class="tiny-icon">person</mat-icon> 
+                      {{ slot.professeurs?.name }} {{ slot.professeurs?.surname }}
+                    </div>
+                  </div>
+                </ng-container>
+                
+                <ng-template #noSlots>
+                  <div class="empty-day">
+                    <span>Libre</span>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

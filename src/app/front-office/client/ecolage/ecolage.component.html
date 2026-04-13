@@ -1,0 +1,125 @@
+<div class="ecolage-container">
+  <!-- Header avec informations de l'étudiant -->
+  <div class="student-header" *ngIf="student">
+    <div class="student-info">
+      <h2>📚 Gestion des écolages</h2>
+      <div class="student-details">
+        <span class="student-name">{{ student.name }} {{ student.surname }}</span>
+        <span class="student-id">Matricule: {{ student.idUser }}</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <mat-icon class="header-icon">account_balance_wallet</mat-icon>
+    </div>
+  </div>
+
+  <!-- Filtres et recherche -->
+  <div class="filters-section">
+    <mat-card class="filter-card">
+      <mat-card-content>
+        <div class="filter-row">
+          <mat-form-field appearance="outline" class="year-select">
+            <mat-label>📅 Année scolaire</mat-label>
+            <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange()">
+              <mat-option *ngFor="let year of years" [value]="year.annee_scolaire">
+                {{ year.annee_scolaire }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <div class="stats-summary" *ngIf="selectedYear">
+            <div class="stat-item">
+              <span class="stat-label">Total à payer:</span>
+              <span class="stat-value">{{ getTotalEcolage() | number:'0.0-0' }} Ar</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Payé:</span>
+              <span class="stat-value paid">{{ getTotalPaid() | number:'0.0-0' }} Ar</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Reste:</span>
+              <span class="stat-value remaining">{{ getRemaining() | number:'0.0-0' }} Ar</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div class="error-message" *ngIf="errorMessage">
+    <mat-card class="error-card">
+      <mat-card-content>
+        <div class="error-content">
+          <mat-icon class="error-icon">error_outline</mat-icon>
+          <span class="error-text">{{ errorMessage }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Affichage des écolages par année scolaire -->
+  <div class="ecolages-grid" *ngIf="!errorMessage">
+    <mat-card *ngFor="let year of filteredYears" class="year-card">
+      <mat-card-header class="year-header">
+        <div class="year-title">
+          <mat-icon class="year-icon">calendar_today</mat-icon>
+          <mat-card-title>{{ year.annee_scolaire }}</mat-card-title>
+        </div>
+        <div class="year-summary">
+          <span class="summary-text">{{ year.ecolages?.length || 0 }} mois</span>
+        </div>
+      </mat-card-header>
+      
+      <mat-card-content class="year-content">
+        <div class="ecolages-list" *ngIf="year.ecolages && year.ecolages.length > 0; else noEcolages">
+          <div class="ecolage-item" *ngFor="let ecolage of year.ecolages" 
+               [class.paid]="ecolage.statut === 'Payé'" 
+               [class.pending]="ecolage.statut === 'En attente'">
+            <div class="ecolage-month">
+              <mat-icon class="month-icon">event</mat-icon>
+              <span class="month-name">{{ ecolage.mois }}</span>
+            </div>
+            
+            <div class="ecolage-amount">
+              <span class="amount-value">{{ ecolage.valeur | number:'0.0-0' }} Ar</span>
+            </div>
+            
+            <div class="ecolage-status">
+              <mat-chip 
+                [color]="ecolage.statut === 'Payé' ? 'primary' : 'warn'"
+                class="status-chip">
+                <mat-icon class="status-icon">
+                  {{ ecolage.statut === 'Payé' ? 'check_circle' : 'schedule' }}
+                </mat-icon>
+                {{ ecolage.statut }}
+              </mat-chip>
+            </div>
+            
+            <div class="ecolage-date">
+              <span class="date-text">{{ ecolage.date | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <ng-template #noEcolages>
+          <div class="no-ecolages">
+            <mat-icon class="empty-icon">receipt_long</mat-icon>
+            <p>Aucun écolage enregistré pour cette année</p>
+          </div>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- État vide -->
+  <div class="empty-state" *ngIf="!errorMessage && (!years || years.length === 0)">
+    <mat-card class="empty-card">
+      <mat-card-content class="empty-content">
+        <mat-icon class="empty-icon">account_balance_wallet</mat-icon>
+        <h3>Aucun écolage disponible</h3>
+        <p>Les informations d'écolage seront bientôt disponibles</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

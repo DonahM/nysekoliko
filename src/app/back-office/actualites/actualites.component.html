@@ -1,0 +1,69 @@
+<div class="actualites-container">
+  <div class="headerHero">
+    <h1>Nouvelles & Mises à jour</h1>
+    <p>Gérez et diffusez les annonces de votre établissement</p>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Nouvelle publication</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="editor-container" style="margin-bottom: 20px;">
+        <label style="font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: block;">Texte de l'annonce</label>
+        <textarea 
+  matInput
+  [(ngModel)]="texte" 
+  placeholder="Que voulez-vous annoncer aujourd'hui ?"
+  rows="6"
+  style="width: 100%; min-height: 200px; resize: vertical; border: 1px solid #ccc; border-radius: 4px; padding: 12px; font-family: inherit; font-size: 14px; line-height: 1.5;">
+</textarea>
+      </div>
+
+      <div class="file-upload-wrapper">
+        <label for="file-upload" class="custom-file-upload">
+          <mat-icon>cloud_upload</mat-icon>
+          Joindre une image ou une vidéo
+        </label>
+        <input id="file-upload" type="file" (change)="onFileSelected($event)" accept="image/*,video/*"/>
+        <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="end" style="padding-bottom: 10px;">
+      <button mat-raised-button class="submit-btn" (click)="submitActualite()" [disabled]="!texte">
+        <mat-icon style="margin-right: 5px;">send</mat-icon> Publier
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div class="news-list">
+    <h3 class="section-title">Dernières Actualités</h3>
+    <div class="news-card" *ngFor="let act of actualites">
+      <div class="news-header">
+        <div class="news-author">
+          <mat-icon>account_circle</mat-icon>
+          <span>{{ act.user ? act.user.name + ' ' + act.user.surname : 'Administrateur' }}</span>
+        </div>
+        <span class="news-date">{{ act.datePublication | date:'dd MMM yyyy, HH:mm' }}</span>
+      </div>
+      
+      <div class="news-body">
+        <div class="news-text" [innerHTML]="act.texte"></div>
+        
+        <div class="news-media" *ngIf="act.mediaUrl">
+          <img *ngIf="act.mediaType === 'IMAGE'" [src]="baseUrl + '/upload/actualites/' + act.mediaUrl" alt="Media" class="media-preview"/>
+          <video *ngIf="act.mediaType === 'VIDEO'" [src]="baseUrl + '/upload/actualites/' + act.mediaUrl" controls class="media-preview"></video>
+        </div>
+      </div>
+      
+      <button mat-icon-button class="delete-btn" (click)="deleteActualite(act.idActualite)" matTooltip="Supprimer cette publication">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </div>
+    
+    <div class="empty-state" *ngIf="actualites.length === 0">
+      <mat-icon>inbox</mat-icon>
+      <p>Aucune actualité publiée pour le moment.</p>
+    </div>
+  </div>
+</div>

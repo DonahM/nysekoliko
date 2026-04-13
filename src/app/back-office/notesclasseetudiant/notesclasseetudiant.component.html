@@ -1,0 +1,70 @@
+<div class="page-wrap">
+  <section class="student-container">
+    <div class="table-header">
+      <div>
+        <h2>Notes des etudiants - Classe {{ idCls }}</h2>
+        <p class="subtitle">Consultez les notes par matiere, annee scolaire et semestre</p>
+      </div>
+      <div class="header-actions">
+        <div class="filters">
+          <div class="year-filter">
+            <label for="yearSelect">Annee scolaire :</label>
+            <select id="yearSelect" [(ngModel)]="selectedYearId" (ngModelChange)="onYearChange()">
+              <option [ngValue]="null">Toutes les annees</option>
+              <option *ngFor="let year of years" [ngValue]="year.idSchool">
+                {{ year.annee_scolaire }}
+              </option>
+            </select>
+          </div>
+          <div class="year-filter">
+            <label for="semSelect">Semestre :</label>
+            <select id="semSelect" [(ngModel)]="selectedSemId" (ngModelChange)="onSemestreChange()">
+              <option [ngValue]="null">Tous les semestres</option>
+              <option *ngFor="let semestre of semestres" [ngValue]="semestre.idSem">
+                {{ semestre.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <button mat-icon-button class="refresh-btn" (click)="refreshData()" matTooltip="Actualiser les données">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="notes-table">
+        <thead>
+          <tr>
+            <th class="sticky-col">Etudiant</th>
+            <th *ngFor="let matiere of matieres">{{ matiere.name }}</th>
+            <th>Moyenne</th>
+            <th>Total</th>
+            <th>Rang</th>
+          </tr>
+          <tr class="coef-row">
+            <th class="sticky-col">Coefficient</th>
+            <th *ngFor="let matiere of matieres">{{ getCoefficientForMatiere(matiere) }}</th>
+            <th>-</th>
+            <th>-</th>
+            <th>-</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students">
+            <td class="sticky-col student-name">{{ getStudentDisplayName(student) }}</td>
+            <td *ngFor="let matiere of matieres">{{ getNoteForStudent(student.idEdt, matiere) }}</td>
+            <td class="value-average">{{ calculateAverageForStudent(student.idEdt) }}</td>
+            <td class="value-total">{{ getTotalNotesForStudent(student.idEdt) }}</td>
+            <td class="value-rank" [class.rank-1]="getStudentRank(student.idEdt) === 1"
+              [class.rank-2]="getStudentRank(student.idEdt) === 2" [class.rank-3]="getStudentRank(student.idEdt) === 3">
+              {{ getRankDisplay(getStudentRank(student.idEdt)) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="empty-state" *ngIf="students.length === 0">Aucun etudiant trouve pour cette classe.</p>
+  </section>
+</div>

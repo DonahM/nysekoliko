@@ -1,0 +1,197 @@
+<!-- ===================================
+   DESIGN MAGNIFIQUE - PAGE DÉTAIL CLASSE
+   =================================== -->
+<div class="class-detail-container">
+  <!-- Header Hero -->
+  <div class="hero-header">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <h1 class="hero-title">
+          <span class="hero-icon">👥</span>
+          {{ className || 'Classe' }}
+        </h1>
+        <p class="hero-subtitle">
+          Gérez les notes et performances des étudiants de cette classe
+        </p>
+      </div>
+      <div class="hero-right">
+        <div class="stats-badges">
+          <div class="stat-badge primary">
+            <mat-icon class="stat-icon">groups</mat-icon>
+            <span class="stat-number">{{ studentCount }}</span>
+            <span class="stat-label">étudiants</span>
+          </div>
+          <div class="stat-badge success">
+            <mat-icon class="stat-icon">assignment</mat-icon>
+            <span class="stat-number">{{ students.length }}</span>
+            <span class="stat-label">inscrits</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Form Section -->
+    <div class="form-section">
+      <div class="form-card">
+        <div class="form-header">
+          <mat-icon class="form-icon">edit_note</mat-icon>
+          <h2 class="form-title">Ajout des Notes</h2>
+        </div>
+        
+        <form [formGroup]="matiereForm" (ngSubmit)="onSubmit()" class="notes-form">
+          <div *ngIf="students.length > 0; else noData" class="form-content">
+            <!-- Table Container -->
+            <div class="table-wrapper">
+              <table class="modern-table">
+                <thead>
+                  <tr class="table-header">
+                    <th class="table-header-action">
+                      <mat-icon class="header-icon">visibility</mat-icon>
+                      Voir
+                    </th>
+                    <th class="table-header-text">
+                      <mat-icon class="header-icon">badge</mat-icon>
+                      Matricule
+                    </th>
+                    <th class="table-header-text">
+                      <mat-icon class="header-icon">person</mat-icon>
+                      Nom et Prénom
+                    </th>
+                    <th class="table-header-input">
+                      <mat-icon class="header-icon">grade</mat-icon>
+                      Note
+                    </th>
+                    <th class="table-header-input">
+                      <mat-icon class="header-icon">calculate</mat-icon>
+                      Coeff
+                    </th>
+                    <th class="table-header-select">
+                      <mat-icon class="header-icon">book</mat-icon>
+                      Matière
+                    </th>
+                    <th class="table-header-select">
+                      <mat-icon class="header-icon">calendar_month</mat-icon>
+                      Semestre
+                    </th>
+                    <th class="table-header-select">
+                      <mat-icon class="header-icon">school</mat-icon>
+                      Année Scolaire
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let student of students; let i = index" class="table-row">
+                    <!-- Voir -->
+                    <td class="table-cell-action">
+                      <button mat-icon-button class="view-button" 
+                              [routerLink]="['/back-office/etudiant/profilEtudiant', encode(student.idEdt)]"
+                              matTooltip="Voir le profil">
+                        <mat-icon class="button-icon">person</mat-icon>
+                      </button>
+                    </td>
+                    
+                    <!-- Matricule -->
+                    <td class="table-cell-text">
+                      <span class="matricule-number">{{ student.idEdt }}</span>
+                    </td>
+                    
+                    <!-- Nom et Prénom -->
+                    <td class="table-cell-text">
+                      <div class="student-name">
+                        <span class="student-firstname">{{ student.name || student.nom || '—' }}</span>
+                        <span class="student-lastname">{{ student.surname || student.prenom || '—' }}</span>
+                      </div>
+                    </td>
+                    
+                    <!-- Note -->
+                    <td class="table-cell-input">
+                      <input class="modern-input" 
+                             [id]="'note' + student.idEdt" 
+                             type="number" 
+                             placeholder="Note"
+                             min="0" 
+                             max="20">
+                    </td>
+                    
+                    <!-- Coefficient -->
+                    <td class="table-cell-input">
+                      <input class="modern-input" 
+                             [id]="'coefficient' + student.idEdt" 
+                             type="number" 
+                             placeholder="Coefficient"
+                             min="0" 
+                             max="10" 
+                             step="0.5">
+                    </td>
+                    
+                    <!-- Matière -->
+                    <td class="table-cell-select">
+                      <select class="modern-select" [id]="'idMat' + student.idEdt">
+                        <option value="">— Matière —</option>
+                        <option *ngFor="let m of matieresList" [value]="m.idMat">
+                          {{ m.name }}
+                        </option>
+                      </select>
+                    </td>
+                    
+                    <!-- Semestre -->
+                    <td class="table-cell-select">
+                      <select class="modern-select" [id]="'idSem' + student.idEdt">
+                        <option value="">— Semestre —</option>
+                        <option *ngFor="let s of semestresList" [value]="s.idSem">
+                          {{ s.name }}
+                        </option>
+                      </select>
+                    </td>
+                    
+                    <!-- Année -->
+                    <td class="table-cell-select">
+                      <select class="modern-select" [id]="'idSchool' + student.idEdt">
+                        <option value="">— Année scolaire —</option>
+                        <option *ngFor="let y of yearsList" [value]="y.idSchool">
+                          {{ y.annee_scolaire }}
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-section">
+              <button mat-raised-button 
+                      type="submit" 
+                      [disabled]="matiereForm.invalid" 
+                      class="submit-button">
+                <mat-icon class="button-icon">save</mat-icon>
+                Enregistrer toutes les notes
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <ng-template #noData>
+            <div class="empty-state">
+              <mat-icon class="empty-icon">school</mat-icon>
+              <h3 class="empty-title">Aucun étudiant trouvé</h3>
+              <p class="empty-description">
+                Cette classe ne contient aucun étudiant pour le moment.
+              </p>
+              <button mat-stroked-button 
+                      class="empty-action-btn"
+                      [routerLink]="['/back-office/class']">
+                <mat-icon>arrow_back</mat-icon>
+                Retour aux classes
+              </button>
+            </div>
+          </ng-template>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+<div class="etudiant-container">
+  <div class="page-header">
+    <div class="page-title">
+      <div class="icon-wrapper">
+        <mat-icon>groups</mat-icon>
+      </div>
+      <div>
+        <h1>Liste des Étudiants</h1>
+        <p class="subtitle">Gérez les inscriptions et les profils de vos élèves</p>
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Rechercher un étudiant...</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Par matricule, nom...">
+      </mat-form-field>
+
+      <button mat-button class="btn-secondary" (click)="openAddYearDialog()">
+        <mat-icon>date_range</mat-icon>
+        Année scolaire
+      </button>
+      <button mat-button class="btn-primary" [routerLink]="['/back-office/etudiant/addEtudiant']">
+        <mat-icon>person_add</mat-icon>
+        Nouvelle inscription
+      </button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="full-width">
+      
+      <!-- Photo Column -->
+      <ng-container matColumnDef="photo">
+        <th mat-header-cell *matHeaderCellDef> Photo </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="avatar-container">
+            <img *ngIf="element.image" [src]="'http://localhost:3000/upload/etudiants/' + element.image" alt="Photo" class="avatar-image" onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2394a3b8%22%3E%3Cpath%20d%3D%22M12%2012c2.21%200%204-1.79%204-4s-1.79-4-4-4-4%201.79-4%204%201.79%204%204%204zm0%202c-2.67%200-8%201.34-8%204v2h16v-2c0-2.66-5.33-4-8-4z%22%2F%3E%3C%2Fsvg%3E';">
+            <mat-icon *ngIf="!element.image" class="avatar-icon">person</mat-icon>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Matricule Column -->
+      <ng-container matColumnDef="matricule">
+        <th mat-header-cell *matHeaderCellDef> N° Matricule </th>
+        <td mat-cell *matCellDef="let element" class="matricule-col"> #{{element.matricule}} </td>
+      </ng-container>
+
+      <!-- Numero Column -->
+      <ng-container matColumnDef="numero">
+        <th mat-header-cell *matHeaderCellDef> N° </th>
+        <td mat-cell *matCellDef="let element"> {{element.numero}} </td>
+      </ng-container>
+
+      <!-- Nom Column -->
+      <ng-container matColumnDef="nom">
+        <th mat-header-cell *matHeaderCellDef> Nom </th>
+        <td mat-cell *matCellDef="let element" style="font-weight: 500;"> {{element.nom}} </td>
+      </ng-container>
+
+      <!-- Prenom Column -->
+      <ng-container matColumnDef="prenom">
+        <th mat-header-cell *matHeaderCellDef> Prénom </th>
+        <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+      </ng-container>
+
+      <!-- Classe Column -->
+      <ng-container matColumnDef="classe">
+        <th mat-header-cell *matHeaderCellDef> Classe </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field appearance="outline" class="compact-field">
+            <mat-select class="classe-select" [value]="element.classe" (selectionChange)="updateClasse(element, $event.value)">
+              <mat-option *ngFor="let cls of availableClasses" [value]="cls.name">{{cls.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <!-- Année Scolaire Column -->
+      <ng-container matColumnDef="anneeScolaire">
+        <th mat-header-cell *matHeaderCellDef> Année Scolaire </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field appearance="outline" class="compact-field">
+            <mat-select class="annee-scolaire-select" [value]="element.anneeScolaire" (selectionChange)="updateAnneeScolaire(element, $event.value)">
+              <mat-option *ngFor="let year of yearsSchools" [value]="year.annee_scolaire">{{year.annee_scolaire}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef style="text-align: right;"> Réinscription</th>
+        <td mat-cell *matCellDef="let element" style="text-align: right;">
+          <div class="action-buttons">
+            <button mat-icon-button class="action-btn view" matTooltip="Voir Profil" matTooltipPosition="above" [routerLink]="['/back-office/etudiant/profilEtudiant', encode(element.matricule)]">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button class="action-btn grades" matTooltip="Notes et Résultats" matTooltipPosition="above" (click)="displayId(element.matricule)">
+              <mat-icon>school</mat-icon>
+            </button>
+            <button mat-icon-button class="action-btn schedule" matTooltip="Emploi du temps" matTooltipPosition="above" (click)="displayIdE(element.matricule)">
+              <mat-icon>event_note</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+      <!-- Ligne si aucun résultat -->
+      <tr class="mat-row empty-row" *matNoDataRow>
+        <td class="mat-cell" colspan="7">
+          <div class="empty-state">
+            <div class="empty-icon-wrapper">
+              <mat-icon>person_search</mat-icon>
+            </div>
+            <h3>Aucun étudiant trouvé</h3>
+            <p>Veuillez modifier vos critères de recherche ou ajouter un nouvel étudiant.</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    
+    <div class="paginator-wrapper">
+      <mat-paginator [pageSizeOptions]="[10, 20, 30, 40, 50]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

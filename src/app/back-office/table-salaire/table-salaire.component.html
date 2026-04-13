@@ -1,0 +1,135 @@
+<div class="headerTable">
+  <h1>Listes des Salaires</h1>
+  <div class="ajout">
+    <button mat-stroked-button color="primary" class="btnAdd" [routerLink]="['/back-office/salaire']">
+      Ajouter un salaire
+    </button>
+  </div>
+</div>
+
+<div class="filter-section">
+  <mat-form-field appearance="outline" class="modern-filter">
+    <mat-label>Filtrer par Professeur</mat-label>
+    <mat-icon matPrefix class="filter-icon">search</mat-icon>
+    <input matInput [(ngModel)]="filterNom" (keyup)="applyFilter()" placeholder="Ex: Rakoto...">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="modern-filter">
+    <mat-label>Filtrer par Année Scolaire</mat-label>
+    <mat-icon matPrefix class="filter-icon">event</mat-icon>
+    <input matInput [(ngModel)]="filterAnnee" (keyup)="applyFilter()" placeholder="Ex: 2023-2024">
+  </mat-form-field>
+</div>
+
+<div class="table-container">
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 modern-table">
+
+      <ng-container matColumnDef="profName">
+        <th mat-header-cell *matHeaderCellDef class="header-cell">
+          <span class="header-content">
+            <span class="header-icon">👨‍🏫</span>
+            Professeur
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let salaire" class="prof-name-cell">
+          <span class="cell-content">{{ salaire.profName }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mois">
+        <th mat-header-cell *matHeaderCellDef class="header-cell">
+          <span class="header-content">
+            <span class="header-icon">📅</span>
+            Mois
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let salaire" class="month-cell">
+          <span class="badge-month">{{ salaire.mois }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="valeur">
+        <th mat-header-cell *matHeaderCellDef class="header-cell">
+          <span class="header-content">
+            <span class="header-icon">💰</span>
+            Salaire
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let salaire" class="salary-cell">
+          <span class="salary-amount">{{ salaire.valeur | currency:'EUR' }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="annee_scolaire">
+        <th mat-header-cell *matHeaderCellDef class="header-cell">
+          <span class="header-content">
+            <span class="header-icon">🎓</span>
+            Année Scolaire
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let salaire" class="year-cell">
+          <span class="badge-year">{{ salaire.annee_scolaire }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef class="header-cell">
+          <span class="header-content">
+            <span class="header-icon">📆</span>
+            Date
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let salaire" class="date-cell">
+          <span class="date-value">{{ salaire.date | date:'dd/MM/yyyy' }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="statut">
+        <th mat-header-cell *matHeaderCellDef class="header-cell">
+          <span class="header-content">
+            <span class="header-icon">📊</span>
+            Statut
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let salaire" class="status-cell">
+          <span class="status-badge" [ngClass]="getStatusClass(salaire.statut)">
+            {{ getStatusIcon(salaire.statut) }} {{ salaire.statut }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="header-cell header-actions">
+          <span class="header-content">
+            <span class="header-icon">⚙️</span>
+            Actions
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let salaire" class="actions-cell">
+          <button mat-icon-button *ngIf="salaire.statut === 'Payé' || salaire.statut === 'Paye'" class="receipt-btn" (click)="openReceiptDialog(salaire)" matTooltip="Imprimer le Reçu">
+            <mat-icon>receipt</mat-icon>
+          </button>
+          <button mat-icon-button class="delete-btn" (click)="deleteElement(salaire.idSal)"
+            matTooltip="Supprimer ce salaire">
+            <mat-icon class="delete-icon">delete</mat-icon>
+          </button>
+          <button mat-icon-button class="edit-btn" matTooltip="Modifier ce salaire">
+            <mat-icon class="edit-icon">edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="data-row"></tr>
+
+    </table>
+  </div>
+
+  <div class="paginator-wrapper">
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="modern-paginator"></mat-paginator>
+  </div>
+</div>

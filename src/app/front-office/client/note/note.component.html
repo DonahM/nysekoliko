@@ -1,0 +1,173 @@
+<div class="notes-container">
+  <!-- Header avec statistiques -->
+  <div class="notes-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">school</mat-icon>
+          Mes Notes
+        </h1>
+        <p class="page-subtitle">Consultez vos résultats académiques par semestre</p>
+      </div>
+      <div class="stats-section">
+        <div class="stat-card">
+          <mat-icon class="stat-icon">trending_up</mat-icon>
+          <div class="stat-info">
+            <span class="stat-value">{{ getAverageGrade() }}</span>
+            <span class="stat-label">Moyenne</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <mat-icon class="stat-icon">assignment_turned_in</mat-icon>
+          <div class="stat-info">
+            <span class="stat-value">{{ getTotalSubjects() }}</span>
+            <span class="stat-label">Matières</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <mat-icon class="stat-icon">emoji_events</mat-icon>
+          <div class="stat-info">
+            <span class="stat-value">{{ getBestGrade() }}</span>
+            <span class="stat-label">Meilleure note</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtres et sélection -->
+  <div class="filters-section">
+    <mat-card class="filter-card">
+      <mat-card-content>
+        <div class="filter-content">
+          <mat-form-field appearance="outline" class="year-field">
+            <mat-label>
+              <mat-icon>calendar_today</mat-icon>
+              Année scolaire
+            </mat-label>
+            <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange()">
+              <mat-option *ngFor="let year of years" [value]="year.annee_scolaire">
+                <div class="option-content">
+                  <mat-icon>school</mat-icon>
+                  {{ year.annee_scolaire }}
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <div class="quick-actions">
+            <button mat-icon-button class="refresh-btn" (click)="refreshData()">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <button mat-icon-button class="download-btn" (click)="downloadNotes()">
+              <mat-icon>download</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="main-content">
+    <!-- Années scolaires -->
+    <div *ngIf="filteredYears.length > 0; else noData" class="years-grid">
+      <mat-card 
+        *ngFor="let year of filteredYears" 
+        class="year-card enhanced"
+        [class.top-year]="isCurrentYear(year.annee_scolaire)"
+      >
+        <mat-card-header class="year-header">
+          <div class="header-left">
+            <div class="year-info">
+              <mat-icon class="year-icon">calendar_today</mat-icon>
+              <div>
+                <mat-card-title class="year-title">{{ year.annee_scolaire }}</mat-card-title>
+                <p class="year-subtitle">{{ getSemestreCount(year) }} semestres</p>
+              </div>
+            </div>
+          </div>
+          <div class="header-right">
+            <mat-chip 
+              *ngIf="isCurrentYear(year.annee_scolaire)" 
+              class="current-chip"
+              color="primary"
+            >
+              <mat-icon>star</mat-icon>
+              En cours
+            </mat-chip>
+          </div>
+        </mat-card-header>
+        
+        <mat-card-content class="year-content">
+          <div *ngIf="year.semestres.length > 0; else noSemestres" class="semestres-grid">
+            <mat-card 
+              *ngFor="let semestre of year.semestres" 
+              class="semestre-card"
+              [routerLink]="['/front-office/client', encode(client?.idEdt), 'semestre']"
+            >
+              <div class="semestre-content">
+                <div class="semestre-header">
+                  <mat-icon class="semestre-icon">date_range</mat-icon>
+                  <h3 class="semestre-title">{{ semestre.name }}</h3>
+                </div>
+                <div class="semestre-info">
+                  <div class="info-item">
+                    <mat-icon class="info-icon">assessment</mat-icon>
+                    <span>{{ getSubjectCount(semestre) }} matières</span>
+                  </div>
+                  <div class="info-item">
+                    <mat-icon class="info-icon">grade</mat-icon>
+                    <span>Moyenne: {{ getSemestreAverage(semestre) }}</span>
+                  </div>
+                </div>
+                <div class="semestre-footer">
+                  <mat-chip class="grade-chip" [color]="getGradeColor(semestre)">
+                    {{ getSemestreGrade(semestre) }}
+                  </mat-chip>
+                  <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <ng-template #noSemestres>
+            <div class="empty-semestre">
+              <mat-icon class="empty-icon">event_busy</mat-icon>
+              <p>Aucun semestre disponible pour cette année</p>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Message de données vides -->
+    <ng-template #noData>
+      <mat-card class="empty-card">
+        <mat-card-content class="empty-content">
+          <mat-icon class="empty-icon">assignment_late</mat-icon>
+          <h3>Aucune note disponible</h3>
+          <p>Vos notes ne sont pas encore disponibles. Veuillez réessayer plus tard.</p>
+          <button mat-raised-button color="primary" (click)="refreshData()">
+            <mat-icon>refresh</mat-icon>
+            Actualiser
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+  </div>
+
+  <!-- Message d'erreur -->
+  <mat-card *ngIf="errorMessage" class="error-card">
+    <mat-card-content class="error-content">
+      <mat-icon class="error-icon">error</mat-icon>
+      <div class="error-text">
+        <h3>Erreur de chargement</h3>
+        <p>{{ errorMessage }}</p>
+        <button mat-stroked-button (click)="retryLoad()">
+          <mat-icon>refresh</mat-icon>
+          Réessayer
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
