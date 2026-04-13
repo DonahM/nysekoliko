@@ -1,4 +1,7 @@
 import {
+  _MatInternalFormField
+} from "./chunk-TTX64TXY.js";
+import {
   MAT_OPTGROUP,
   MAT_OPTION_PARENT_COMPONENT,
   MatOptgroup,
@@ -10,9 +13,6 @@ import {
   _countGroupLabelsBeforeOption,
   _getOptionScrollPosition
 } from "./chunk-PCPPSY7Y.js";
-import {
-  _MatInternalFormField
-} from "./chunk-TTX64TXY.js";
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -44,11 +44,11 @@ import {
 import "./chunk-3C6IINAT.js";
 import "./chunk-42FJBLFI.js";
 import "./chunk-JXBCBRYI.js";
+import "./chunk-2O4WY5GE.js";
 import {
   MATERIAL_SANITY_CHECKS,
   MatCommonModule
 } from "./chunk-WEF24SSU.js";
-import "./chunk-2O4WY5GE.js";
 import "./chunk-7NMYTT45.js";
 import "./chunk-OHHCD46B.js";
 import "./chunk-IK7KRF5U.js";

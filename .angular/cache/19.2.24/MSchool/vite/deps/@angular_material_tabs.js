@@ -1,3 +1,6 @@
+import {
+  SharedResizeObserver
+} from "./chunk-6EOAJ43J.js";
 import "./chunk-OIBNGD5S.js";
 import {
   CdkPortal,
@@ -10,9 +13,6 @@ import {
 } from "./chunk-YDHFMRM4.js";
 import "./chunk-ULVKHOTM.js";
 import {
-  SharedResizeObserver
-} from "./chunk-6EOAJ43J.js";
-import {
   MAT_RIPPLE_GLOBAL_OPTIONS,
   MatRipple
 } from "./chunk-EKEG57VW.js";
@@ -22,6 +22,7 @@ import {
 import "./chunk-3C6IINAT.js";
 import "./chunk-42FJBLFI.js";
 import "./chunk-JXBCBRYI.js";
+import "./chunk-2O4WY5GE.js";
 import {
   CdkMonitorFocus,
   CdkObserveContent,
@@ -33,7 +34,6 @@ import {
   _IdGenerator,
   hasModifierKey
 } from "./chunk-WEF24SSU.js";
-import "./chunk-2O4WY5GE.js";
 import {
   Directionality
 } from "./chunk-7NMYTT45.js";

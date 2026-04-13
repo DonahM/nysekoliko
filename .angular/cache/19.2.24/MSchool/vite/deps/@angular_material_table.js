@@ -13,10 +13,10 @@ import {
   isDataSource
 } from "./chunk-ULVKHOTM.js";
 import "./chunk-JXBCBRYI.js";
+import "./chunk-2O4WY5GE.js";
 import {
   MatCommonModule
 } from "./chunk-WEF24SSU.js";
-import "./chunk-2O4WY5GE.js";
 import {
   Directionality
 } from "./chunk-7NMYTT45.js";
