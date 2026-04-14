@@ -3,7 +3,20 @@
   <mat-dialog-content>
     <mat-form-field>
       <mat-label>Mois</mat-label>
-      <input matInput formControlName="mois" />
+      <mat-select formControlName="mois">
+        <mat-option value="Janvier">Janvier</mat-option>
+        <mat-option value="Février">Février</mat-option>
+        <mat-option value="Mars">Mars</mat-option>
+        <mat-option value="Avril">Avril</mat-option>
+        <mat-option value="Mai">Mai</mat-option>
+        <mat-option value="Juin">Juin</mat-option>
+        <mat-option value="Juillet">Juillet</mat-option>
+        <mat-option value="Août">Août</mat-option>
+        <mat-option value="Septembre">Septembre</mat-option>
+        <mat-option value="Octobre">Octobre</mat-option>
+        <mat-option value="Novembre">Novembre</mat-option>
+        <mat-option value="Décembre">Décembre</mat-option>
+      </mat-select>
       <mat-error *ngIf="ecolageForm.get('mois')?.hasError('required')">
         Le mois est requis.
       </mat-error>

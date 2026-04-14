@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { EditStudentDialogComponent } from '../edit-student-dialog/edit-student-dialog.component';
 import { CommonModule } from '@angular/common';
 import { BadgeDialogComponent } from '../badge-dialog/badge-dialog.component';
-import { AddecolageComponent } from '../addecolage/addecolage.component';
 import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.component';
 import { StudentNotesDialogComponent } from '../student-notes-dialog/student-notes-dialog.component';
 import { ReceiptDialogComponent } from '../receipt-dialog/receipt-dialog.component';
@@ -228,14 +227,16 @@ export class ProfilEtudiantComponent implements OnInit {
   }
 
   openAddEcolageDialog(): void {
-    const dialogRef = this.dialog.open(AddecolageComponent, {
-      data: { studentId: this.student!.idEdt },
-    });
+    import('../addecolage/addecolage.component').then(({ AddecolageComponent }) => {
+      const dialogRef = this.dialog.open(AddecolageComponent, {
+        data: { studentId: this.student!.idEdt },
+      });
 
-    dialogRef.afterClosed().subscribe(() => {
-      if (this.studentId) {
-        this.fetchStudentData(this.studentId);
-      }
+      dialogRef.afterClosed().subscribe(() => {
+        if (this.studentId) {
+          this.fetchStudentData(this.studentId);
+        }
+      });
     });
   }
 

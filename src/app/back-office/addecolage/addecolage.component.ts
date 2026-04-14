@@ -1,5 +1,5 @@
 import { environment } from '../../../environments/environment';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -23,11 +23,13 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './addecolage.component.html',
   styleUrl: './addecolage.component.css'
 })
-export class AddecolageComponent {
+export class AddecolageComponent implements OnInit {
   baseUrl = environment.baseUrl;
   ecolageForm: FormGroup;
   studentId: number;
   statusOptions = ['Payer', 'Non Payer'];
+  student: any = null;
+  anneeScolaire: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +45,26 @@ export class AddecolageComponent {
       date: ['', Validators.required],
       // idEdt: ['', Validators.required],
       idSchool: ['', Validators.required]
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadStudentData();
+  }
+
+  loadStudentData(): void {
+    this.http.get(`${environment.apiUrl}/etudiants/${this.studentId}`).subscribe({
+      next: (studentData: any) => {
+        this.student = studentData;
+        this.anneeScolaire = studentData.anneeScolaire || '';
+        // Pré-remplir le champ idSchool avec l'année scolaire
+        this.ecolageForm.patchValue({
+          idSchool: this.anneeScolaire
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des données de l\'étudiant:', err);
+      }
     });
   }
 
