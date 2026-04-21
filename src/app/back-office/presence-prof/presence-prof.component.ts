@@ -74,7 +74,7 @@ export class PresenceProfComponent implements OnInit {
     this.http.get<any[]>(environment.apiUrl + '/professeurs').subscribe(profs => {
       const userDataStr = localStorage.getItem('userData');
       const userId = userDataStr ? JSON.parse(userDataStr).idUser : null;
-      this.professeurs = profs.filter(p => p.idUser === userId && p.idSchool === this.selectedYear);
+      this.professeurs = profs.filter(p => p.idUser === userId && p.years_schools?.some((ys: any) => ys.idSchool === this.selectedYear));
       
       // Mise en place d'un filtre personnalisé pour inclure ID Prof, Nom et Prénom
       this.dataSource = new MatTableDataSource(this.professeurs);

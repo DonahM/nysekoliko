@@ -1,0 +1,283 @@
+/* Container de la modale */
+.bulletin-container {
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: #f0f2f5;
+  padding: 20px;
+}
+
+/* Actions flottantes en haut */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Base Feuille A4 */
+.printable-a4 {
+  background: white;
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 20mm;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  color: #1a202c;
+  font-family: 'Times New Roman', Times, serif;
+  box-sizing: border-box;
+}
+
+/* En-tête de l'école */
+.school-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo-space {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.placeholder-logo {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #94a3b8;
+}
+
+.school-logo-img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.school-info h1 {
+  font-size: 24px;
+  margin: 0 0 5px 0;
+  color: #2d3748;
+  letter-spacing: 2px;
+}
+
+.school-info p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.school-motto {
+  text-align: right;
+  font-size: 14px;
+  color: #718096;
+}
+
+.divider {
+  border-bottom: 2px solid #2d3748;
+  margin: 15px 0 25px 0;
+}
+
+/* Titre */
+.document-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.document-title h2 {
+  font-size: 28px;
+  margin: 0 0 5px 0;
+  color: #1a202c;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.document-title h3 {
+  font-size: 18px;
+  margin: 0;
+  color: #4a5568;
+  font-weight: normal;
+}
+
+/* Infos étudiant */
+.student-info-section {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+}
+
+.info-block p {
+  margin: 5px 0;
+  font-size: 15px;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* Tableau principal */
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.grades-table th, .grades-table td {
+  border: 1px solid #cbd5e0;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.grades-table th {
+  background-color: #edf2f7;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #4a5568;
+}
+
+.subject-name {
+  font-weight: 500;
+}
+
+.center {
+  text-align: center;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.text-warning {
+  color: #e53e3e;
+}
+
+.remarks {
+  font-style: italic;
+  color: #4a5568;
+  width: 30%;
+}
+
+/* Section Récapitulatif */
+.summary-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 40px;
+}
+
+.summary-table {
+  border-collapse: collapse;
+  width: 350px;
+}
+
+.summary-table td {
+  border: 1px solid #cbd5e0;
+  padding: 12px 15px;
+}
+
+.summary-table td:first-child {
+  background-color: #edf2f7;
+}
+
+.highlight-row {
+  background-color: #e2e8f0;
+}
+
+.highlight-row td {
+  border-top: 2px solid #a0aec0;
+  border-bottom: 2px solid #a0aec0;
+}
+
+.text-large {
+  font-size: 18px;
+}
+
+/* Signatures */
+.footer-section {
+  margin-top: 50px;
+}
+
+.remarks-global {
+  margin-bottom: 40px;
+}
+
+.dotted-line {
+  border-bottom: 1px dotted #a0aec0;
+  margin-top: 25px;
+  height: 1px;
+}
+
+.signatures {
+  display: flex;
+  justify-content: space-between;
+}
+
+.signature-box {
+  width: 250px;
+}
+
+.signature-box p {
+  margin: 5px 0;
+}
+
+.signature-box.right {
+  text-align: center;
+}
+
+/* --- OPTIMISATION IMPRESSION --- */
+@media print {
+  /* On cache le conteneur principal du body, l'en-tête du dashboard, etc. Angular Material s'en charge partiellement 
+     mais on force la feuille à prendre tout l'espace d'impression */
+  
+  body * {
+    visibility: hidden !important;
+  }
+
+  .bulletin-container {
+    padding: 0;
+    max-height: none;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .bulletin-container * {
+    visibility: visible !important;
+  }
+
+  .printable-a4 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    margin: 0;
+    padding: 15mm;
+    border: none;
+    box-shadow: none;
+  }
+
+  .no-print, .no-print * {
+    display: none !important;
+  }
+
+  /* Forcer les couleurs d'arrière-plan à s'imprimer */
+  .student-info-section, .grades-table th, .summary-table td:first-child, .highlight-row, .highlight-row td {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { EditUserDialogComponent } from './edit-user-dialog.component';
 
 @Component({
   selector: 'app-ecole',
@@ -85,20 +86,15 @@ export class EcoleComponent implements OnInit {
   }
 
   editUser(user: any): void {
-    // Pour l'instant, rediriger vers une page de modification
-    // Plus tard, vous pouvez implémenter un dialogue ici
-    console.log('Modifier utilisateur:', user);
+    const dialogRef = this.dialog.open(EditUserDialogComponent, {
+      width: '600px',
+      data: { user: user }
+    });
     
-    // Option 1: Rediriger vers une page de modification
-    // this.router.navigate(['/back-office/ecole/edit-user', user.idUser]);
-    
-    // Option 2: Afficher un message temporaire
-    alert(`Fonctionnalité de modification pour l'école: ${user.name} ${user.surname}\n\nCette fonctionnalité sera bientôt disponible avec un formulaire de modification complet.`);
-    
-    // Option 3: Vous pouvez créer un dialogue ici plus tard
-    // const dialogRef = this.dialog.open(EditUserDialogComponent, {
-    //   width: '600px',
-    //   data: { user: user }
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadUsers();
+      }
+    });
   }
 }

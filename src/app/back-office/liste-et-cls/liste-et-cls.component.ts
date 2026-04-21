@@ -6,7 +6,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -30,7 +30,8 @@ import { encodeId, decodeId } from '../../shared/utils/crypto.utils';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FormsModule
   ],
   templateUrl: './liste-et-cls.component.html',
   styleUrls: ['./liste-et-cls.component.css']
@@ -79,6 +80,16 @@ export class ListeEtClsComponent implements OnInit {
     this.http.get<any>(environment.apiUrl + '/years-school').subscribe((res) => {
       this.yearsList = Array.isArray(res?.data) ? res.data : Array.isArray(res) ? res : [];
     });
+  }
+
+  getFilteredMatieres(idSchool: any) {
+    if (!idSchool) return this.matieresList;
+    return this.matieresList.filter(m => m.idSchool == idSchool);
+  }
+
+  getFilteredSemestres(idSchool: any) {
+    if (!idSchool) return this.semestresList;
+    return this.semestresList.filter(s => s.idSchool == idSchool);
   }
 
   loadStudents(idCls: number) {

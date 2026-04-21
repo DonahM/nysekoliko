@@ -8,6 +8,9 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatiereDialogComponent } from './matiere-dialog/matiere-dialog.component';
+import { EditMatiereDialogComponent } from './edit-matiere-dialog/edit-matiere-dialog.component';
 
 @Component({
   selector: 'app-tablematiere',
@@ -20,7 +23,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CommonModule,
     HttpClientModule,
     RouterModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   templateUrl: './tablematiere.component.html',
   styleUrls: ['./tablematiere.component.css']
@@ -32,10 +36,11 @@ export class TablematiereComponent implements OnInit {
   errorMessage: string | null = null;
   apiUrl: string = environment.apiUrl + '/matieres'; 
   userId: number | null = null;
+  anneesScolaires: Array<{ idSchool: number; annee_scolaire: string }> = [];
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
@@ -46,13 +51,34 @@ export class TablematiereComponent implements OnInit {
       this.userId = userData.idUser;
     }
 
-    this.loadMatieres();
+    this.getAnneesScolaires();
+  }
+
+  getAnneesScolaires(): void {
+    this.http.get<{ data: any[], total: number }>(environment.apiUrl + '/years-school')
+      .subscribe({
+        next: (response) => {
+          this.anneesScolaires = response.data;
+          this.loadMatieres();
+        },
+        error: (error) => {
+          console.error("Erreur", error);
+          this.loadMatieres();
+        }
+      });
   }
 
   loadMatieres(): void {
     this.http.get<Matiere[]>(this.apiUrl).subscribe({
       next: (data) => {
-        this.dataSource.data = data.filter((m: any) => m.idUser === this.userId);
+        const filtered = data.filter((m: any) => m.idUser === this.userId);
+        this.dataSource.data = filtered.map(m => {
+          const annee = this.anneesScolaires.find(a => a.idSchool === m.idSchool);
+          return {
+            ...m,
+            annee_scolaire: annee ? annee.annee_scolaire : undefined
+          };
+        });
       },
       error: (error) => {
         console.error('Erreur lors du chargement des matières:', error);
@@ -76,8 +102,70 @@ export class TablematiereComponent implements OnInit {
   }
 
   deleteElement(idMat: number) {
-    this.dataSource.data = this.dataSource.data.filter((matiere) => matiere.idMat !== idMat);
-    this.updatePaginator();
+    if (confirm('Voulez-vous vraiment supprimer cette matière ?')) {
+      this.http.delete(environment.apiUrl + '/matieres/' + idMat).subscribe({
+        next: () => {
+          this.loadMatieres();
+        },
+        error: (err) => {
+          alert('Erreur lors de la suppression de la matière.');
+          console.error(err);
+        }
+      });
+    }
+  }
+
+  openEditDialog(matiere: Matiere) {
+    const dialogRef = this.dialog.open(EditMatiereDialogComponent, {
+      width: '400px',
+      data: {
+        matiere: matiere,
+        anneesScolaires: this.anneesScolaires
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadMatieres();
+      }
+    });
+  }
+
+  openReinscriptionDialog(matiere: Matiere) {
+    if (!this.userId) {
+      alert("Erreur: utilisateur non identifié.");
+      return;
+    }
+
+    // Récupérer les ID des années où une matière avec exactement le même nom existe déjà
+    const normalizedName = matiere.name.toLowerCase().trim();
+    const existingYearsForName = this.dataSource.data
+      .filter(m => m.name.toLowerCase().trim() === normalizedName)
+      .map(m => m.idSchool);
+
+    // Filtrer les années pour ne garder que celles où cette matière n'existe pas encore
+    const availableYears = this.anneesScolaires.filter(y => !existingYearsForName.includes(y.idSchool));
+
+    if (availableYears.length === 0) {
+      alert("Cette matière existe déjà dans toutes les années scolaires disponibles.");
+      return;
+    }
+
+    const dialogRef = this.dialog.open(MatiereDialogComponent, {
+      width: '400px',
+      data: {
+        matiereName: matiere.name,
+        idUser: this.userId,
+        anneesScolaires: availableYears
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Reload table if successfully duplicated
+        this.loadMatieres();
+      }
+    });
   }
 
   private updatePaginator() {
@@ -97,4 +185,5 @@ export interface Matiere {
   idUser?: number;
   etudiants: any[];
   notes: any[];
+  annee_scolaire?: string;
 }

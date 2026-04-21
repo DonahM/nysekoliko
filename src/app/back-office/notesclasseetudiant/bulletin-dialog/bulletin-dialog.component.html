@@ -1,0 +1,120 @@
+<div class="bulletin-container">
+  <!-- Actions non imprimables -->
+  <div class="no-print dialog-actions">
+    <button mat-icon-button (click)="close()" class="close-btn" matTooltip="Fermer">
+      <mat-icon>close</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" (click)="printBulletin()">
+      <mat-icon>print</mat-icon>
+      Imprimer le bulletin
+    </button>
+  </div>
+
+  <!-- Contenu Imprimable (Format A4) -->
+  <div class="printable-a4" id="bulletin-content">
+    
+    <!-- En-tête de l'école -->
+    <div class="school-header">
+      <div class="logo-space">
+        <!-- Vous pourrez ajouter le logo ici avec une vraie balise img -->
+        <mat-icon *ngIf="!data.schoolInfo?.logo" class="placeholder-logo">school</mat-icon>
+        <img *ngIf="data.schoolInfo?.logo" [src]="'http://localhost:3000/upload/users/' + data.schoolInfo.logo" class="school-logo-img" alt="Logo">
+      </div>
+      <div class="school-info">
+        <h1>{{ data.schoolInfo?.name || 'ÉCOLE SYSTEM' }}</h1>
+        <p>Adresse de l'établissement</p>
+        <p>Tel: {{ data.schoolInfo?.tel }} | Email: {{ data.schoolInfo?.email }}</p>
+      </div>
+      <div class="school-motto">
+        <p><em>Excellence et Discipline</em></p>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+
+    <!-- Titre du document -->
+    <div class="document-title">
+      <h2>BULLETIN DE NOTES</h2>
+      <h3>{{ data.year }} - {{ data.semestre }}</h3>
+    </div>
+
+    <!-- Informations sur l'étudiant -->
+    <div class="student-info-section">
+      <div class="info-block">
+        <p><strong>Nom et Prénom : </strong> {{ data.student.name }} {{ data.student.surname }}</p>
+        <p><strong>Classe : </strong> {{ data.classeName }}</p>
+      </div>
+      <div class="info-block align-right">
+        <p><strong>Matricule : </strong> {{ data.student.idUser || data.student.idEdt || 'N/A' }}</p>
+        <p><strong>Effectif classe : </strong> {{ data.totalStudents }}</p>
+      </div>
+    </div>
+
+    <!-- Tableau des notes -->
+    <table class="grades-table">
+      <thead>
+        <tr>
+          <th>Matières</th>
+          <th class="center">Coéf.</th>
+          <th class="center">Note /20</th>
+          <th class="center">Total</th>
+          <th>Appréciations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let result of data.results">
+          <td class="subject-name">{{ result.matiere }}</td>
+          <td class="center">{{ result.coeff }}</td>
+          <td class="center font-bold" [ngClass]="{'text-warning': result.note < 10}">
+            {{ result.note !== '-' && result.note !== undefined ? result.note : 'Abs' }}
+          </td>
+          <td class="center">{{ result.total !== '-' ? result.total : '-' }}</td>
+          <td class="remarks">{{ result.remark }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Récapitulatif -->
+    <div class="summary-section">
+      <table class="summary-table">
+        <tr>
+          <td><strong>Total des Coefficients :</strong></td>
+          <td class="center">{{ data.summary.totalCoeffs }}</td>
+        </tr>
+        <tr>
+          <td><strong>Total des Points :</strong></td>
+          <td class="center">{{ data.summary.totalNotes }}</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>MOYENNE GÉNÉRALE :</strong></td>
+          <td class="center font-bold text-large">{{ data.summary.average !== '-' ? data.summary.average + ' / 20' : '-' }}</td>
+        </tr>
+        <tr>
+          <td><strong>Rang de l'élève :</strong></td>
+          <td class="center font-bold">{{ data.summary.rank }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Décision et Signatures -->
+    <div class="footer-section">
+      <div class="remarks-global">
+        <strong>Appréciation globale : </strong>
+        <p class="dotted-line"></p>
+        <p class="dotted-line"></p>
+      </div>
+      
+      <div class="signatures">
+        <div class="signature-box left">
+          <p>Fait à ___________________, le {{ currentDate | date:'dd/MM/yyyy' }}</p>
+          <p><strong>Le Titulaire</strong></p>
+        </div>
+        <div class="signature-box right">
+          <p>&nbsp;</p>
+          <p><strong>La Direction / Le Chef d'établissement</strong></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

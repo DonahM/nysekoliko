@@ -1,19 +1,43 @@
-<form #editForm="ngForm" (ngSubmit)="onSave()">
-  <mat-form-field appearance="fill">
-    <mat-label>{{ data.field | titlecase }}</mat-label>
-    <input
-      matInput
-      [(ngModel)]="data.value"
-      name="valueField"
-      required
-      #valueField="ngModel"
-    />
-    <mat-error *ngIf="valueField.invalid && valueField.touched">
-      Ce champ est requis
-    </mat-error>
-  </mat-form-field>
-  <div class="dialog-actions">
-    <button mat-button type="button" (click)="onNoClick()">Annuler</button>
-    <button mat-button color="primary" type="submit" [disabled]="editForm.invalid">Enregistrer</button>
+<div class="modern-dialog">
+  <div class="dialog-header">
+    <div class="header-icon-container">
+      <mat-icon class="header-icon">edit_square</mat-icon>
+    </div>
+    <div class="header-text">
+      <h2 class="dialog-title">Modifier l'information</h2>
+      <p class="dialog-subtitle">Mise à jour pour: <strong>{{ getFieldLabel(data.field) }}</strong></p>
+    </div>
+    <button mat-icon-button class="close-btn" (click)="onNoClick()" tabIndex="-1">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
-</form>
+
+  <form #editForm="ngForm" (ngSubmit)="onSave()" class="modern-form">
+    <div class="dialog-content">
+      <mat-form-field appearance="outline" class="modern-input">
+        <mat-label>{{ getFieldLabel(data.field) }}</mat-label>
+        <input
+          matInput
+          [(ngModel)]="data.value"
+          name="valueField"
+          required
+          #valueField="ngModel"
+          autocomplete="off"
+        />
+        <mat-icon matSuffix class="input-icon">edit</mat-icon>
+        <mat-error *ngIf="valueField.invalid && valueField.touched">
+          <mat-icon class="error-icon">error</mat-icon> Ce champ est requis
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="dialog-footer">
+      <button mat-stroked-button type="button" class="btn-cancel" (click)="onNoClick()">
+        Annuler
+      </button>
+      <button mat-flat-button type="submit" class="btn-save" [disabled]="editForm.invalid">
+        Enregistrer les modifications
+      </button>
+    </div>
+  </form>
+</div>

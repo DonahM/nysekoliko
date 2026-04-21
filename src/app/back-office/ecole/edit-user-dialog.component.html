@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Modifier l'établissement / l'utilisateur</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="editForm" class="edit-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Prénom / Nom d'usage</mat-label>
+      <input matInput formControlName="surname" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>CODE</mat-label>
+      <input matInput formControlName="cin" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Lieu</mat-label>
+      <input matInput formControlName="lieu" />
+    </mat-form-field>
+
+    <div class="file-upload-section">
+      <p><strong>Nouveau Logo (optionnel) :</strong></p>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+    </div>
+
+    <div class="roles-section">
+      <p><strong>Rôles :</strong></p>
+      <mat-checkbox [checked]="selectedRoles.admin" (change)="onRoleChange('admin', $event)">Admin</mat-checkbox>
+      <mat-checkbox [checked]="selectedRoles.user" (change)="onRoleChange('user', $event)">User</mat-checkbox>
+      <mat-checkbox [checked]="selectedRoles.enseignant" (change)="onRoleChange('enseignant', $event)">Enseignant</mat-checkbox>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" [disabled]="editForm.invalid" (click)="onSubmit()">Enregistrer</button>
+</mat-dialog-actions>

@@ -77,13 +77,14 @@ export class ProfComponent implements OnInit {
         this.profsByYear = years.map((y: any) => ({
           yearLabel: y.annee_scolaire ?? `Année #${y.idSchool}`,
           idSchool: y.idSchool,
-          profs: mapped.filter((p) => p.idSchool === y.idSchool),
+          profs: mapped.filter((p) => p.years_schools?.some((ys: any) => ys.idSchool === y.idSchool)),
         }));
-        const knownIds = new Set(years.map((y: any) => y.idSchool));
-        const orphans = mapped.filter((p) => !knownIds.has(p.idSchool));
+        
+        // Find professors with no associated years (orphans)
+        const orphans = mapped.filter((p) => !p.years_schools || p.years_schools.length === 0);
         if (orphans.length > 0) {
           this.profsByYear.push({
-            yearLabel: 'Autre année scolaire',
+            yearLabel: 'Autre (Année non spécifiée)',
             idSchool: -1,
             profs: orphans,
           });
@@ -101,9 +102,8 @@ export class ProfComponent implements OnInit {
       nom: prof.name,
       prenom: prof.surname,
       matiere: prof.matiere,
-      idSchool: prof.idSchool,
       idUser: prof.idUser,
-      anneeScolaire: prof.years_schools?.annee_scolaire,
+      years_schools: prof.years_schools || []
     }));
   }
 
@@ -111,9 +111,25 @@ export class ProfComponent implements OnInit {
     this.router.navigate(['/back-office/prof/profile', encodeId(matricule)]);
   }
 
-  /** ✅ Obtient le nombre total de professeurs */
+  deleteProffesseur(matricule: number) {
+    if (confirm('Voulez-vous vraiment supprimer ce professeur de la base de données ?')) {
+      this.http.delete(environment.apiUrl + '/professeurs/' + matricule).subscribe({
+        next: () => {
+          this.loadProfs();
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Impossible de supprimer ce professeur. Il est peut-être associé à des salaires ou des cours existants.');
+        }
+      });
+    }
+  }
+
+  /** ✅ Obtient le nombre total de professeurs (uniques) */
   getTotalProfesseurs(): number {
-    return this.profsByYear.reduce((total, group) => total + group.profs.length, 0);
+    const ids = new Set<number>();
+    this.profsByYear.forEach(group => group.profs.forEach(p => ids.add(p.matricule)));
+    return ids.size;
   }
 
   /** ✅ Obtient le nombre de matières uniques pour un groupe */
@@ -139,7 +155,6 @@ export interface Prof {
   nom: string;
   prenom: string;
   matiere: string;
-  idSchool?: number;
   idUser?: number;
-  anneeScolaire?: string;
+  years_schools?: any[];
 }

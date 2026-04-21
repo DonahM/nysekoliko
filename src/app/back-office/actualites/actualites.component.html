@@ -23,10 +23,10 @@
       <div class="file-upload-wrapper">
         <label for="file-upload" class="custom-file-upload">
           <mat-icon>cloud_upload</mat-icon>
-          Joindre une image ou une vidéo
+          Joindre des images ou vidéos
         </label>
-        <input id="file-upload" type="file" (change)="onFileSelected($event)" accept="image/*,video/*"/>
-        <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        <input id="file-upload" type="file" (change)="onFileSelected($event)" accept="image/*,video/*" multiple/>
+        <span class="file-name" *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} fichier(s) sélectionné(s)</span>
       </div>
     </mat-card-content>
     <mat-card-actions align="end" style="padding-bottom: 10px;">
@@ -38,27 +38,45 @@
 
   <div class="news-list">
     <h3 class="section-title">Dernières Actualités</h3>
-    <div class="news-card" *ngFor="let act of actualites">
+    <div class="news-card" *ngFor="let act of actualites" [ngClass]="{'is-inactive': act.isActive === false}">
       <div class="news-header">
         <div class="news-author">
           <mat-icon>account_circle</mat-icon>
           <span>{{ act.user ? act.user.name + ' ' + act.user.surname : 'Administrateur' }}</span>
+          <span class="status-badge" *ngIf="act.isActive === false">Inactif</span>
         </div>
         <span class="news-date">{{ act.datePublication | date:'dd MMM yyyy, HH:mm' }}</span>
       </div>
       
       <div class="news-body">
-        <div class="news-text" [innerHTML]="act.texte"></div>
+        <div class="news-text" *ngIf="editingId !== act.idActualite" [innerHTML]="act.texte"></div>
+        <div class="edit-area" *ngIf="editingId === act.idActualite">
+          <textarea matInput [(ngModel)]="editText" rows="4" class="edit-textarea"></textarea>
+          <div class="edit-actions">
+            <button mat-button (click)="cancelEdit()">Annuler</button>
+            <button mat-raised-button color="primary" (click)="saveEdit(act.idActualite)" [disabled]="!editText">Enregistrer</button>
+          </div>
+        </div>
         
-        <div class="news-media" *ngIf="act.mediaUrl">
-          <img *ngIf="act.mediaType === 'IMAGE'" [src]="baseUrl + '/upload/actualites/' + act.mediaUrl" alt="Media" class="media-preview"/>
-          <video *ngIf="act.mediaType === 'VIDEO'" [src]="baseUrl + '/upload/actualites/' + act.mediaUrl" controls class="media-preview"></video>
+        <div class="news-media gallery" *ngIf="act.mediaUrl && editingId !== act.idActualite">
+          <ng-container *ngFor="let mUrl of getMediaUrls(act.mediaUrl)">
+            <img *ngIf="isImage(mUrl)" [src]="baseUrl + '/upload/actualites/' + mUrl" alt="Media" class="media-preview"/>
+            <video *ngIf="isVideo(mUrl)" [src]="baseUrl + '/upload/actualites/' + mUrl" controls class="media-preview"></video>
+          </ng-container>
         </div>
       </div>
       
-      <button mat-icon-button class="delete-btn" (click)="deleteActualite(act.idActualite)" matTooltip="Supprimer cette publication">
-        <mat-icon>delete_outline</mat-icon>
-      </button>
+      <div class="card-actions" *ngIf="hasRole(['ADMIN', 'SUPPER ADMIN'])">
+        <button mat-icon-button color="primary" *ngIf="editingId !== act.idActualite" (click)="startEdit(act)" matTooltip="Modifier le texte">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button [color]="act.isActive === false ? 'accent' : 'warn'" (click)="toggleStatus(act.idActualite)" [matTooltip]="act.isActive === false ? 'Publier (Activer)' : 'Masquer (Désactiver)'">
+          <mat-icon>{{ act.isActive === false ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+        <button mat-icon-button class="delete-btn" color="warn" *ngIf="hasRole(['SUPPER ADMIN'])" (click)="deleteActualite(act.idActualite)" matTooltip="Supprimer définitivement">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </div>
     </div>
     
     <div class="empty-state" *ngIf="actualites.length === 0">

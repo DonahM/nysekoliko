@@ -149,12 +149,24 @@ export class ProfilEtudiantComponent implements OnInit {
     this.http.get<Student>(apiUrl).subscribe({
       next: (data) => {
         if (data) {
-          this.student = data;
-          console.log('Données de l’étudiant récupérées :', this.student);
+          const studentData = { ...data };
 
-          if (this.student.idSchool) {
-            this.fetchYearSchool(this.student.idSchool);
+          if (Array.isArray(studentData.years_schools) && studentData.years_schools.length > 0) {
+            const sortedYears = [...studentData.years_schools].sort((a: any, b: any) => (b.id || b.idSchool || 0) - (a.id || a.idSchool || 0));
+            studentData.years_schools = sortedYears[0].years_schools || sortedYears[0];
+          } else if (studentData.idSchool) {
+            this.fetchYearSchool(studentData.idSchool);
           }
+
+          if (Array.isArray(studentData.classE) && studentData.classE.length > 0) {
+            const sortedClasses = [...studentData.classE].sort((a: any, b: any) => (b.id || b.idCls || 0) - (a.id || a.idCls || 0));
+            studentData.classE = sortedClasses[0].classE || sortedClasses[0];
+          }
+
+          this.student = studentData;
+          this.cdr.detectChanges();
+
+          console.log('Mapped Student Data:', this.student);
 
           if (Array.isArray(data.ecolages)) {
             const sortedEcolages = data.ecolages.sort((a, b) => b.idEco - a.idEco);
@@ -647,16 +659,10 @@ export interface Student {
   adress_titeur: string;
   ecole_anter: string;
   image: string;
-  idCls: number;
-  classE?: {
-    idCls: number;
-    name: string;
-  };
-  idSchool: number;
-  years_schools?: {
-    idSchool: number;
-    annee_scolaire: string;
-  };
+  idCls?: number;
+  classE?: any;
+  idSchool?: number;
+  years_schools?: any;
   ecolages?: {
     mois: string;
     valeur: number;

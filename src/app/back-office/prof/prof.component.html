@@ -105,13 +105,13 @@
               <th mat-header-cell *matHeaderCellDef style="text-align: right;"> Actions </th>
               <td mat-cell *matCellDef="let element" style="text-align: right;">
                 <div class="action-buttons" style="justify-content: flex-end;">
-                  <button mat-icon-button class="btn-icon-action view" (click)="viewDetails(element.matricule)">
+                  <button mat-icon-button class="btn-icon-action view" (click)="viewDetails(element.matricule)" title="Voir profil">
                     <mat-icon>visibility</mat-icon>
                   </button>
-                  <button mat-icon-button class="btn-icon-action edit">
+                  <button mat-icon-button class="btn-icon-action edit" (click)="viewDetails(element.matricule)" title="Modifier (via profil)">
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-icon-button class="btn-icon-action delete">
+                  <button mat-icon-button class="btn-icon-action delete" (click)="deleteProffesseur(element.matricule)" title="Supprimer">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>

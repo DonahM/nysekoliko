@@ -32,7 +32,46 @@
             </mat-select>
           </mat-form-field>
           
-          <button mat-stroked-button class="add-class-btn" [routerLink]="['/back-office/class/addClass']">
+          <mat-form-field appearance="fill" class="year-selector" style="margin-left: 12px;">
+            <mat-label>
+              <mat-icon>category</mat-icon>
+              Niveau
+            </mat-label>
+            <mat-select [(value)]="selectedNiveau" (selectionChange)="onNiveauChange()">
+              <mat-option [value]="null">
+                <div class="option-content">
+                  <mat-icon>all_inclusive</mat-icon>
+                  Tous niveaux
+                </div>
+              </mat-option>
+              <mat-option value="Primaire">
+                <div class="option-content">
+                  <mat-icon>child_care</mat-icon>
+                  Primaire
+                </div>
+              </mat-option>
+              <mat-option value="Collège">
+                <div class="option-content">
+                  <mat-icon>school</mat-icon>
+                  Collège
+                </div>
+              </mat-option>
+              <mat-option value="Lycée">
+                <div class="option-content">
+                  <mat-icon>account_balance</mat-icon>
+                  Lycée
+                </div>
+              </mat-option>
+              <mat-option value="Supérieur">
+                <div class="option-content">
+                  <mat-icon>psychology</mat-icon>
+                  Supérieur
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <button mat-stroked-button class="add-class-btn" style="margin-left: 12px;" [routerLink]="['/back-office/class/addClass']">
             <mat-icon class="btn-icon">add_circle</mat-icon>
             Ajouter une classe
           </button>
@@ -132,7 +171,7 @@
                 <mat-icon class="info-icon">category</mat-icon>
                 <div class="info-content">
                   <div class="info-label">Niveau</div>
-                  <div class="info-value">{{ class.level || 'Non défini' }}</div>
+                  <div class="info-value">{{ class.niveau || 'Non défini' }}</div>
                 </div>
               </div>
             </div>

@@ -132,7 +132,7 @@
                     <td class="table-cell-select">
                       <select class="modern-select" [id]="'idMat' + student.idEdt">
                         <option value="">— Matière —</option>
-                        <option *ngFor="let m of matieresList" [value]="m.idMat">
+                        <option *ngFor="let m of getFilteredMatieres(student.selectedSchool)" [value]="m.idMat">
                           {{ m.name }}
                         </option>
                       </select>
@@ -142,7 +142,7 @@
                     <td class="table-cell-select">
                       <select class="modern-select" [id]="'idSem' + student.idEdt">
                         <option value="">— Semestre —</option>
-                        <option *ngFor="let s of semestresList" [value]="s.idSem">
+                        <option *ngFor="let s of getFilteredSemestres(student.selectedSchool)" [value]="s.idSem">
                           {{ s.name }}
                         </option>
                       </select>
@@ -150,7 +150,8 @@
                     
                     <!-- Année -->
                     <td class="table-cell-select">
-                      <select class="modern-select" [id]="'idSchool' + student.idEdt">
+                      <!-- On met à jour student.selectedSchool lors du changement -->
+                      <select class="modern-select" [id]="'idSchool' + student.idEdt" [ngModelOptions]="{standalone: true}" [(ngModel)]="student.selectedSchool">
                         <option value="">— Année scolaire —</option>
                         <option *ngFor="let y of yearsList" [value]="y.idSchool">
                           {{ y.annee_scolaire }}

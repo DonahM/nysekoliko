@@ -55,7 +55,7 @@ export class AddFormComponent {
       titulaire: ['', Validators.required],
       num: ['', Validators.required],
       idSchool: ['', Validators.required],
-      level: [''],
+      niveau: [''],
       capacity: [''],
       room: [''],
       enableAttendance: [true],

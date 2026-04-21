@@ -9,10 +9,13 @@ import { Matiere } from '../../models/matiere.model';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BulletinDialogComponent } from './bulletin-dialog/bulletin-dialog.component';
 
 @Component({
   selector: 'app-notesclasseetudiant',
-  imports: [HttpClientModule, CommonModule, FormsModule, MatButtonModule, MatIconModule],
+  imports: [HttpClientModule, CommonModule, FormsModule, MatButtonModule, MatIconModule, MatDialogModule, MatTooltipModule],
   providers: [ClasseService],
   templateUrl: './notesclasseetudiant.component.html',
   styleUrls: ['./notesclasseetudiant.component.css']
@@ -27,11 +30,14 @@ export class NotesclasseetudiantComponent implements OnInit {
   selectedYearId: number | null = null;
   selectedSemId: number | null = null;
   studentRanks: Map<number, number> = new Map();
+  classeInfo: any = null;
+  schoolInfo: any = { name: 'ÉCOLE SYSTEM', email: 'contact@ecole.mg', tel: '+261 34 00 000 00' };
 
   constructor(
     private route: ActivatedRoute,
     private classeService: ClasseService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -70,10 +76,26 @@ export class NotesclasseetudiantComponent implements OnInit {
     // Conserver le chargement de la classe pour l'année scolaire par défaut
     this.classeService.getClasses().subscribe(data => {
       const classe = data.find(c => c.idCls.toString() === idCls);
-      if (classe?.idSchool && !this.selectedYearId) {
-        this.selectedYearId = classe.idSchool;
+      if (classe) {
+        this.classeInfo = classe;
+        if (classe.idSchool && !this.selectedYearId) {
+          this.selectedYearId = classe.idSchool;
+        }
       }
     });
+
+    const userDataStr = localStorage.getItem('userData');
+    if (userDataStr) {
+      try {
+        const user = JSON.parse(userDataStr);
+        this.schoolInfo = {
+          name: (user.name + ' ' + (user.surname || '')).trim() || 'ÉCOLE SYSTEM',
+          email: user.email || 'contact@ecole.mg',
+          tel: user.cin || '+261 34 00 000 00', // Cin appears to hold custom codes/tels in some setups
+          logo: user.logo || null
+        };
+      } catch (e) {}
+    }
   }
 
   loadMatieres(idCls: string): void {
@@ -256,6 +278,62 @@ getTotalCoefficients(studentId: string): number {
     if (rank === 1) return `${rank}er`;
     if (rank === 2) return `${rank}e`;
     return `${rank}e`;
+  }
+
+  openBulletin(student: any): void {
+    const yearName = this.years.find(y => y.idSchool === this.selectedYearId)?.annee_scolaire || 'Toutes les années';
+    const semName = this.semestres.find(s => s.idSem === this.selectedSemId)?.name || 'Tous les semestres';
+
+    const results = this.matieres.map(matiere => {
+      const note = this.getNoteForStudent(student.idEdt, matiere);
+      const coeff = this.getCoefficientForMatiere(matiere);
+      const isNoteNum = typeof note === 'number';
+      const isCoeffNum = typeof coeff === 'number';
+      
+      const total = (isNoteNum && isCoeffNum) ? note * coeff : '-';
+      
+      let remark = '';
+      if (isNoteNum) {
+        if (note >= 16) remark = 'Excellent';
+        else if (note >= 14) remark = 'Bien';
+        else if (note >= 12) remark = 'Assez Bien';
+        else if (note >= 10) remark = 'Passable';
+        else remark = 'Peut mieux faire';
+      }
+
+      return {
+        matiere: matiere.name,
+        coeff: coeff !== '-' ? coeff : 1,
+        note: note,
+        total: total,
+        remark: remark
+      };
+    });
+
+    const average = this.calculateAverageForStudent(student.idEdt);
+    const totalCoeffs = results.reduce((acc, curr) => typeof curr.coeff === 'number' ? acc + curr.coeff : acc, 0);
+    const totalPoints = results.reduce((acc, curr) => typeof curr.total === 'number' ? acc + curr.total : acc, 0);
+    const rank = this.getRankDisplay(this.getStudentRank(student.idEdt));
+
+    this.dialog.open(BulletinDialogComponent, {
+      width: '100%',
+      maxWidth: '1000px',
+      data: {
+        student: student,
+        classeName: this.classeInfo?.name || `Classe ${this.idCls}`,
+        year: yearName,
+        semestre: semName,
+        schoolInfo: this.schoolInfo,
+        totalStudents: this.students.length,
+        results: results,
+        summary: {
+          totalCoeffs: totalCoeffs,
+          totalNotes: totalPoints,
+          average: average,
+          rank: rank
+        }
+      }
+    });
   }
 
   /**

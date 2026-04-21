@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { encodeId } from '../../shared/utils/crypto.utils';
 import { environment } from '../../../environments/environment';
 
@@ -33,13 +34,14 @@ import { environment } from '../../../environments/environment';
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSlideToggleModule
   ],
   templateUrl: './etudiant.component.html',
   styleUrls: ['./etudiant.component.css'],
 })
 export class EtudiantComponent implements OnInit {
-  displayedColumns: string[] = ['photo', 'matricule','numero', 'nom', 'prenom', 'classe', 'anneeScolaire', 'actions'];
+  displayedColumns: string[] = ['photo', 'matricule','numero', 'nom', 'prenom', 'classe', 'anneeScolaire', 'acces', 'actions'];
   dataSource: MatTableDataSource<Etudiant> = new MatTableDataSource<Etudiant>([]);
   data: any[] = [];
   errorMessage: string | null = null;
@@ -225,6 +227,7 @@ export class EtudiantComponent implements OnInit {
         classe: className,
         anneeScolaire: anneeScolaire,
         image: etudiant.image,
+        isActive: etudiant.isActive,
       };
     });
   }
@@ -312,6 +315,23 @@ export class EtudiantComponent implements OnInit {
     return encodeId(id);
   }
 
+  toggleAccess(student: Etudiant): void {
+    const newStatus = !student.isActive;
+    student.isActive = newStatus;
+    
+    this.http.patch(`${environment.apiUrl}/etudiants/${student.matricule}`, {
+      isActive: newStatus
+    }).subscribe({
+      next: () => {
+        console.log(`Statut d'accès mis à jour avec succès`);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la mise à jour du statut:', error);
+        student.isActive = !newStatus;
+      }
+    });
+  }
+
 }
 
 export interface Etudiant {
@@ -322,4 +342,5 @@ export interface Etudiant {
   classe: string;
   anneeScolaire: string;
   image?: string;
+  isActive?: boolean;
 }

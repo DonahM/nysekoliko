@@ -29,7 +29,11 @@ export class AddUserComponent implements OnInit {
     roles: [] as string[],
     logo: '',
     lieu: '',
-    password: ''
+    password: '',
+    drene: '',
+    cisco: '',
+    zap: '',
+    code: ''
   };
   selectedRoles = {
     admin: false,

@@ -1,0 +1,81 @@
+<div class="chat-container">
+  <!-- Liste des contacts -->
+  <div class="contacts-sidebar">
+    <div class="sidebar-header">
+      <h2>Messagerie</h2>
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput placeholder="Rechercher..." [(ngModel)]="searchQuery" (keyup)="filterUsers()">
+      </mat-form-field>
+    </div>
+    
+    <mat-list class="contacts-list">
+      <mat-list-item *ngFor="let user of filteredUsers" 
+                     (click)="selectUser(user)" 
+                     [class.active]="selectedUser?.idUser === user.idUser"
+                     class="contact-item">
+        <div class="avatar" matListItemAvatar>
+          <img *ngIf="user.logo" [src]="getAvatar(user)" alt="avatar">
+          <mat-icon *ngIf="!user.logo" class="fallback-avatar">account_circle</mat-icon>
+        </div>
+        <div matListItemTitle class="contact-name">
+          {{ user.name }} {{ user.surname }}
+        </div>
+        <div matListItemLine class="contact-role">
+          {{ user.roles }}
+        </div>
+      </mat-list-item>
+      
+      <div *ngIf="filteredUsers.length === 0" class="no-contacts">
+        Aucun contact trouvé
+      </div>
+    </mat-list>
+  </div>
+
+  <!-- Zone de discussion -->
+  <div class="chat-area" *ngIf="selectedUser">
+    <!-- Header discussion -->
+    <div class="chat-header">
+      <div class="avatar header-avatar">
+        <img *ngIf="selectedUser.logo" [src]="getAvatar(selectedUser)" alt="avatar">
+        <mat-icon *ngIf="!selectedUser.logo" class="fallback-avatar">account_circle</mat-icon>
+      </div>
+      <div class="header-info">
+        <h3>{{ selectedUser.name }} {{ selectedUser.surname }}</h3>
+        <span>{{ selectedUser.roles }}</span>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-container" #scrollMe>
+      <div class="message-wrapper" *ngFor="let msg of messages" 
+           [ngClass]="{'sent': msg.senderId === currentUser.idUser, 'received': msg.senderId !== currentUser.idUser}">
+        <div class="message-bubble">
+          {{ msg.content }}
+          <div class="message-time">{{ msg.dateEnvoi | date:'HH:mm' }}</div>
+        </div>
+      </div>
+      
+      <div *ngIf="messages.length === 0" class="no-messages">
+        C'est le début de votre discussion.
+      </div>
+    </div>
+
+    <!-- Saisie -->
+    <div class="chat-input-area">
+      <textarea [(ngModel)]="newMessage" 
+                placeholder="Écrivez un message..." 
+                (keydown.enter)="handleEnter($event)"
+                rows="1"></textarea>
+      <button mat-fab color="primary" class="send-btn" [disabled]="!newMessage.trim()" (click)="sendMessage()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
+  
+  <div class="chat-area empty-state-chat" *ngIf="!selectedUser">
+    <mat-icon class="huge-icon">chat</mat-icon>
+    <h3>Vos Messages</h3>
+    <p>Sélectionnez un contact pour démarrer ou continuer une discussion.</p>
+  </div>
+</div>

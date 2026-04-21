@@ -35,6 +35,7 @@ export class ClassComponent {
   filteredYears: any[] = [];
   errorMessage: string | null = null;
   selectedYear: string | null = null;
+  selectedNiveau: string | null = null;
 
   constructor(
     private http: HttpClient,
@@ -85,43 +86,7 @@ export class ClassComponent {
     });
   }
 
-  /**
-   * ✅ Charge le nombre d'élèves pour chaque classe (version simplifiée)
-   */
   loadStudentCounts() {
-    try {
-      this.years.forEach((year: any) => {
-        if (year.classes && Array.isArray(year.classes)) {
-          year.classes.forEach((classItem: any) => {
-            // Utiliser une simulation réaliste au lieu d'appels API
-            if (!classItem.studentCount) {
-              classItem.studentCount = this.generateRealisticStudentCount(classItem);
-            }
-          });
-        }
-      });
-      
-      // Forcer la détection des changements
-      this.cdr.detectChanges();
-    } catch (error) {
-      console.error('Erreur lors du chargement des nombres d\'élèves:', error);
-      // En cas d'erreur, appliquer des valeurs par défaut
-      this.applyDefaultStudentCounts();
-    }
-  }
-
-  /**
-   * ✅ Applique des nombres d'élèves par défaut en cas d'erreur
-   */
-  applyDefaultStudentCounts() {
-    this.years.forEach((year: any) => {
-      if (year.classes && Array.isArray(year.classes)) {
-        year.classes.forEach((classItem: any) => {
-          classItem.studentCount = classItem.studentCount || 25; // Valeur par défaut
-        });
-      }
-    });
-    
     this.cdr.detectChanges();
   }
 
@@ -132,24 +97,13 @@ export class ClassComponent {
     const grouped = schoolsData.map((school) => {
       const classes = school.classE || [];
       
-      // Ajouter un nombre d'élèves réaliste basé sur les données existantes ou le niveau
       const classesWithStudentCount = classes.map((classItem: any) => {
         let studentCount = 0;
         
-        // Essayer d'abord les propriétés existantes
-        if (classItem.studentCount || classItem.nombreEleves || classItem.eleves_count) {
-          studentCount = classItem.studentCount || classItem.nombreEleves || classItem.eleves_count || 0;
-        } else if (classItem.eleves && Array.isArray(classItem.eleves)) {
-          studentCount = classItem.eleves.length;
-        } else if (classItem.students && Array.isArray(classItem.students)) {
-          studentCount = classItem.students.length;
-        } else if (classItem.etudiants && Array.isArray(classItem.etudiants)) {
+        if (classItem.etudiants && Array.isArray(classItem.etudiants)) {
+          // Utilise les données réelles du backend
           studentCount = classItem.etudiants.length;
-        } else {
-          // Générer un nombre réaliste basé sur le niveau de la classe
-          studentCount = this.generateRealisticStudentCount(classItem);
         }
-        
         return {
           ...classItem,
           studentCount
@@ -167,40 +121,42 @@ export class ClassComponent {
   }
 
   /**
-   * ✅ Génère un nombre réaliste d'élèves basé sur le niveau de la classe
+   * ✅ Applique les filtres sur les années et les niveaux choisis
    */
-  generateRealisticStudentCount(classItem: any): number {
-    const level = classItem.level?.toLowerCase() || classItem.niveau?.toLowerCase() || '';
-    const className = classItem.name?.toLowerCase() || classItem.nom?.toLowerCase() || '';
-    
-    // Nombres réalistes basés sur le niveau
-    if (level.includes('1') || level.includes('cp') || level.includes('première') || className.includes('1')) {
-      return Math.floor(Math.random() * 10) + 20; // 20-30 élèves
-    } else if (level.includes('2') || level.includes('ce1') || level.includes('deuxième') || className.includes('2')) {
-      return Math.floor(Math.random() * 8) + 22; // 22-30 élèves
-    } else if (level.includes('3') || level.includes('ce2') || level.includes('troisième') || className.includes('3')) {
-      return Math.floor(Math.random() * 8) + 25; // 25-33 élèves
-    } else if (level.includes('4') || level.includes('cm1') || level.includes('quatrième') || className.includes('4')) {
-      return Math.floor(Math.random() * 8) + 28; // 28-36 élèves
-    } else if (level.includes('5') || level.includes('cm2') || level.includes('cinquième') || className.includes('5')) {
-      return Math.floor(Math.random() * 8) + 30; // 30-38 élèves
-    } else if (level.includes('6') || level.includes('6ème') || level.includes('sixième') || className.includes('6')) {
-      return Math.floor(Math.random() * 10) + 25; // 25-35 élèves
-    } else {
-      // Valeur par défaut pour les autres niveaux
-      return Math.floor(Math.random() * 15) + 20; // 20-35 élèves
-    }
+  applyFilters() {
+    this.filteredYears = this.years.map(year => {
+      const filteredClasses = year.classes.filter((cls: any) => {
+        if (this.selectedNiveau && cls.niveau !== this.selectedNiveau) {
+          return false;
+        }
+        return true;
+      });
+
+      return {
+        ...year,
+        classes: filteredClasses
+      };
+    }).filter(year => {
+      // Conserver l'année si elle correspond au filtre et s'il lui reste des classes (ou qu'on n'est pas sur un filtrage strict de niveau si on veut tout garder)
+      if (this.selectedYear && year.annee_scolaire !== this.selectedYear) {
+        return false;
+      }
+      return true;
+    });
   }
 
   /**
-   * ✅ Filtre les années en fonction de la sélection
+   * ✅ Écouteur pour modifier l'année
    */
   onYearChange() {
-    if (this.selectedYear) {
-      this.filteredYears = this.years.filter(year => year.annee_scolaire === this.selectedYear);
-    } else {
-      this.filteredYears = [...this.years];
-    }
+    this.applyFilters();
+  }
+
+  /**
+   * ✅ Écouteur pour modifier le niveau
+   */
+  onNiveauChange() {
+    this.applyFilters();
   }
 
   /**

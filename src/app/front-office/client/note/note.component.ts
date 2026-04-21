@@ -15,6 +15,8 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialog } from '@angular/material/dialog';
+import { BulletinDialogComponent } from '../../../back-office/notesclasseetudiant/bulletin-dialog/bulletin-dialog.component';
 import { catchError, throwError } from 'rxjs';
 
 @Component({
@@ -60,7 +62,8 @@ client: any;
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -179,7 +182,78 @@ client: any;
     this.router.navigate(['/semestre', encodeId(semestre.idSem)]);
   }
 
-  
+  openBulletin(year: any, semestre: any, event: Event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    const schoolInfoStr = localStorage.getItem('userData');
+    let schoolInfoObj = { name: 'ÉCOLE SYSTEM', email: 'contact@ecole.mg', tel: '+261 34 00 000 00', logo: null };
+    try {
+      if (schoolInfoStr) {
+        const user = JSON.parse(schoolInfoStr);
+        schoolInfoObj = {
+          name: user.name ? `${user.name} ${user.surname || ''}`.trim() : 'ÉCOLE SYSTEM',
+          email: user.email || 'contact@ecole.mg',
+          tel: user.cin || '+261 34 00 000 00',
+          logo: user.logo || null
+        };
+      }
+    } catch(e) {}
+
+    const results = semestre.notes.map((note: any) => {
+      const isNoteNum = typeof note.note === 'number';
+      const isCoeffNum = typeof note.coefficient === 'number';
+      const total = (isNoteNum && isCoeffNum) ? note.note * note.coefficient : '-';
+      
+      let remark = '';
+      if (isNoteNum) {
+        if (note.note >= 16) remark = 'Excellent';
+        else if (note.note >= 14) remark = 'Bien';
+        else if (note.note >= 12) remark = 'Assez Bien';
+        else if (note.note >= 10) remark = 'Passable';
+        else remark = 'Peut mieux faire';
+      }
+
+      return {
+        matiere: note.matieres?.name || 'Matière',
+        coeff: isCoeffNum ? note.coefficient : 1,
+        note: note.note,
+        total: total,
+        remark: remark
+      };
+    });
+
+    const average = this.getSemestreAverage(semestre);
+    const totalCoeffs = results.reduce((acc: any, curr: any) => typeof curr.coeff === 'number' ? acc + curr.coeff : acc, 0);
+    const totalPoints = results.reduce((acc: any, curr: any) => typeof curr.total === 'number' ? acc + curr.total : acc, 0);
+
+    let className = 'Non spécifié';
+    if (this.client?.classE && this.client.classE.length > 0) {
+      className = this.client.classE[this.client.classE.length - 1].name;
+    }
+
+    this.dialog.open(BulletinDialogComponent, {
+      width: '100%',
+      maxWidth: '1000px',
+      data: {
+        student: this.client,
+        classeName: className,
+        year: year.annee_scolaire,
+        semestre: semestre.name,
+        schoolInfo: schoolInfoObj,
+        totalStudents: 'N/A',
+        results: results,
+        summary: {
+          totalCoeffs: totalCoeffs,
+          totalNotes: totalPoints,
+          average: average !== '0' ? average : '-',
+          rank: '-'
+        }
+      }
+    });
+  }
   
   onYearChange() {
     this.filteredYears = this.selectedYear

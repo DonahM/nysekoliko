@@ -1,0 +1,84 @@
+<div class="page-container">
+  <div class="content-wrapper">
+    
+    <!-- Page Header -->
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+      <div class="header-title-group">
+        <h1>
+          <mat-icon>settings</mat-icon>
+          Paramètres
+        </h1>
+        <p>Gérez les informations de sécurité de votre compte</p>
+      </div>
+      <div class="header-actions">
+        <button mat-stroked-button color="primary" (click)="openProfileDialog()" style="background: white; border-radius: 8px; font-weight: 500;">
+          <mat-icon>account_circle</mat-icon> Mon Profil
+        </button>
+      </div>
+    </div>
+
+    <!-- Security Form Card -->
+    <div class="settings-card">
+      <div class="card-header">
+        <mat-icon class="card-icon">lock</mat-icon>
+        <h2>Changer le mot de passe</h2>
+      </div>
+
+      <div class="card-content">
+        <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()" class="premium-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="modern-field">
+              <mat-label>Mot de passe actuel</mat-label>
+              <input matInput [type]="hideActual ? 'password' : 'text'" formControlName="actualPassword" placeholder="Saisir l'ancien mot de passe">
+              <button mat-icon-button matSuffix (click)="hideActual = !hideActual" type="button">
+                <mat-icon>{{hideActual ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="passwordForm.get('actualPassword')?.hasError('required')">Champ requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="modern-field">
+              <mat-label>Nouveau mot de passe</mat-label>
+              <input matInput [type]="hideNew ? 'password' : 'text'" formControlName="newPassword" placeholder="Saisir le nouveau mot de passe">
+              <button mat-icon-button matSuffix (click)="hideNew = !hideNew" type="button">
+                <mat-icon>{{hideNew ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('required')">Champ requis</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="modern-field">
+              <mat-label>Confirmer le nouveau mot de passe</mat-label>
+              <input matInput [type]="hideConfirm ? 'password' : 'text'" formControlName="confirmPassword" placeholder="Répéter le nouveau mot de passe">
+              <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm" type="button">
+                <mat-icon>{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="passwordForm.hasError('mismatch') || passwordForm.get('confirmPassword')?.hasError('required')">
+                {{ passwordForm.hasError('mismatch') ? 'Les mots de passe ne correspondent pas' : 'Champ requis' }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Messages -->
+          <div class="message-banner error" *ngIf="errorMessage">
+            <mat-icon>error</mat-icon> {{ errorMessage }}
+          </div>
+          <div class="message-banner success" *ngIf="successMessage">
+            <mat-icon>check_circle</mat-icon> {{ successMessage }}
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button mat-raised-button color="primary" class="btn-submit" type="submit" [disabled]="passwordForm.invalid || isLoading">
+              <mat-icon *ngIf="isLoading" class="spinner">autorenew</mat-icon>
+              {{ isLoading ? 'Enregistrement...' : 'Mettre à jour le mot de passe' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+  </div>
+</div>

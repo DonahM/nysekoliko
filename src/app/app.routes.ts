@@ -104,6 +104,18 @@ export const routes: Routes = [
                 path: 'depenses', 
                 loadComponent: () => import('./back-office/depenses/depenses.component').then(m => m.DepensesComponent) 
             },
+            { 
+                path: 'revenus', 
+                loadComponent: () => import('./back-office/revenus/revenus.component').then(m => m.RevenusComponent) 
+            },
+            { 
+                path: 'chat', 
+                loadComponent: () => import('./back-office/chat/chat.component').then(m => m.ChatComponent) 
+            },
+            { 
+                path: 'parametres', 
+                loadComponent: () => import('./back-office/parametres/parametres.component').then(m => m.ParametresComponent) 
+            },
         ]
     },
     

@@ -51,6 +51,38 @@
         </div>
 
         <div class="input-group">
+          <label for="drene">DREN</label>
+          <div class="input-wrapper">
+            <mat-icon>domain</mat-icon>
+            <input id="drene" type="text" [(ngModel)]="user.drene" name="drene" placeholder="Ex: Analamanga" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="cisco">CISCO</label>
+          <div class="input-wrapper">
+            <mat-icon>account_balance</mat-icon>
+            <input id="cisco" type="text" [(ngModel)]="user.cisco" name="cisco" placeholder="Ex: Antananarivo Renivohitra" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="zap">ZAP</label>
+          <div class="input-wrapper">
+            <mat-icon>location_city</mat-icon>
+            <input id="zap" type="text" [(ngModel)]="user.zap" name="zap" placeholder="Ex: ZAP ..." />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="code">Code de l'établissement</label>
+          <div class="input-wrapper">
+            <mat-icon>qr_code</mat-icon>
+            <input id="code" type="text" [(ngModel)]="user.code" name="code" placeholder="Ex: 50123" />
+          </div>
+        </div>
+
+        <div class="input-group">
           <label for="password">Mot de passe</label>
           <div class="input-wrapper">
             <mat-icon>lock_outline</mat-icon>

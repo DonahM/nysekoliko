@@ -33,6 +33,7 @@ export class AddSalaireComponent {
   matiereForm: FormGroup;
   apiUrl = environment.apiUrl + '/salaires';
   anneesScolaires: Array<{ idSchool: number; annee_scolaire: string }> = []; // Récupère depuis l'API
+  allProfesseurs: any[] = [];
   professeur: any[] = [];
 
   yersStudent = {
@@ -49,7 +50,10 @@ export class AddSalaireComponent {
       valeur: ['', [Validators.required, Validators.maxLength(225)]],
       date: ['', [Validators.required, Validators.maxLength(225)]],
       idProf: ['', Validators.required],
-      idSchool: ['', Validators.required]
+      idSchool: ['', Validators.required],
+      heures_totales: [''],
+      calcStart: [''],
+      calcEnd: ['']
     });
   }
 
@@ -71,6 +75,21 @@ export class AddSalaireComponent {
   ngOnInit(): void {
     this.getAnneesScolaires();
     this.getProfesseur();
+
+    // Filtre les professeurs selon l'année choisie
+    this.matiereForm.get('idSchool')?.valueChanges.subscribe(selectedSchoolId => {
+      if (selectedSchoolId) {
+        this.professeur = this.allProfesseurs.filter(p => p.idSchool === selectedSchoolId);
+        
+        // Réinitialise le prof choisi si non valide dans la nouvelle liste
+        const currentProfId = this.matiereForm.get('idProf')?.value;
+        if (currentProfId && !this.professeur.find(p => p.idProf === currentProfId)) {
+          this.matiereForm.get('idProf')?.setValue('');
+        }
+      } else {
+        this.professeur = [...this.allProfesseurs];
+      }
+    });
   }
 
   getAnneesScolaires(): void {
@@ -90,8 +109,15 @@ export class AddSalaireComponent {
     this.http.get<any[]>(environment.apiUrl + '/professeurs') 
       .subscribe({
         next: (response) => {
-          console.log('prof récupérées :', response); 
-          this.professeur = response; // Affecte les données
+          this.allProfesseurs = response; 
+          
+          // Si une année est déjà sélectionnée, on filtre immédiatement
+          const currentSchoolId = this.matiereForm.get('idSchool')?.value;
+          if (currentSchoolId) {
+            this.professeur = this.allProfesseurs.filter(p => p.idSchool === currentSchoolId);
+          } else {
+            this.professeur = [...response];
+          }
         },
         error: (error) => {
           console.error('Erreur lors de la récupération des prof :', error);
@@ -110,5 +136,32 @@ export class AddSalaireComponent {
         console.error('Erreur lors de l\'ajout de la salaire', error);
       }
     );
+  }
+
+  calculerSalaireFromPresence() {
+    const idProf = this.matiereForm.get('idProf')?.value;
+    const start = this.matiereForm.get('calcStart')?.value;
+    const end = this.matiereForm.get('calcEnd')?.value;
+
+    if (!idProf || !start || !end) {
+      alert('Veuillez sélectionner un professeur, une date de début et une date de fin pour le calcul.');
+      return;
+    }
+
+    this.http.get<any>(`${environment.apiUrl}/salaires/calcul/${idProf}?start=${start}&end=${end}`)
+      .subscribe({
+        next: (res) => {
+          console.log('Résultat calcul :', res);
+          this.matiereForm.patchValue({
+            valeur: res.montant_calcule,
+            heures_totales: res.heures_totales
+          });
+          alert(`Calcul réussi : ${res.heures_totales} heures trouvées au taux de ${res.taux_horaire} Ar/h.`);
+        },
+        error: (err) => {
+          console.error('Erreur calcul :', err);
+          alert('Impossible de calculer le salaire. Vérifiez la connexion ou si le professeur a des présences.');
+        }
+      });
   }
 }

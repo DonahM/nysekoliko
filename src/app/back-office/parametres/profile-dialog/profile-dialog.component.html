@@ -1,0 +1,88 @@
+<div class="profile-dialog-container">
+  <!-- Header with Avatar -->
+  <div class="profile-header">
+    <div class="avatar-container">
+       <img *ngIf="data?.logo; else defaultAvatar" [src]="data.logo" alt="Photo de profil" class="avatar-img">
+       <ng-template #defaultAvatar>
+         <mat-icon class="avatar-icon">account_circle</mat-icon>
+       </ng-template>
+    </div>
+    <div class="profile-name">{{ data?.name }} {{ data?.surname || '' }}</div>
+    
+    <!-- Badges for Roles / Access -->
+    <div class="profile-roles" *ngIf="data?.roles">
+      <div class="role-badge" *ngFor="let role of getRolesArray(data?.roles)">
+        {{ role | uppercase }}
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-body">
+    <!-- Contact & Credentials -->
+    <div class="info-section">
+      <h3 class="section-title"><mat-icon>contact_mail</mat-icon> Informations Personnelles</h3>
+      <div class="info-grid">
+        <div class="info-item" *ngIf="data?.email">
+          <mat-icon>email</mat-icon>
+          <div class="info-content">
+            <span class="info-label">Email</span>
+            <span class="info-value">{{ data.email }}</span>
+          </div>
+        </div>
+        <div class="info-item" *ngIf="data?.cin">
+          <mat-icon>badge</mat-icon>
+          <div class="info-content">
+            <span class="info-label">CIN</span>
+            <span class="info-value">{{ data.cin }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Administrative / Affectation details -->
+    <div class="info-section">
+      <h3 class="section-title"><mat-icon>apartment</mat-icon> Affectation & Administration</h3>
+      <div class="info-grid">
+        <div class="info-item" *ngIf="data?.lieu">
+          <mat-icon>location_on</mat-icon>
+          <div class="info-content">
+            <span class="info-label">Lieu</span>
+            <span class="info-value">{{ data.lieu }}</span>
+          </div>
+        </div>
+        <div class="info-item" *ngIf="data?.drene">
+          <mat-icon>account_balance</mat-icon>
+          <div class="info-content">
+            <span class="info-label">DREN</span>
+            <span class="info-value">{{ data.drene }}</span>
+          </div>
+        </div>
+        <div class="info-item" *ngIf="data?.cisco">
+          <mat-icon>domain</mat-icon>
+          <div class="info-content">
+            <span class="info-label">CISCO</span>
+            <span class="info-value">{{ data.cisco }}</span>
+          </div>
+        </div>
+        <div class="info-item" *ngIf="data?.zap">
+          <mat-icon>map</mat-icon>
+          <div class="info-content">
+            <span class="info-label">ZAP</span>
+            <span class="info-value">{{ data.zap }}</span>
+          </div>
+        </div>
+        <div class="info-item" *ngIf="data?.code">
+          <mat-icon>tag</mat-icon>
+          <div class="info-content">
+            <span class="info-label">Code École</span>
+            <span class="info-value">{{ data.code }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-actions">
+    <button mat-flat-button color="primary" class="close-btn" (click)="close()">Fermer</button>
+  </div>
+</div>

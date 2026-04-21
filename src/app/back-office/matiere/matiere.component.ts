@@ -21,14 +21,22 @@ export class MatiereComponent {
   matiereForm: FormGroup;
   apiUrl = environment.apiUrl + '/matieres';
   currentUser: any;
+  yearsList: any[] = [];
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.matiereForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(225)]],
-      idSchool: [{value: '', disabled: true}, Validators.required]
+      idSchool: ['', Validators.required]
     });
     
     this.checkUserConnection();
+    this.loadYears();
+  }
+
+  loadYears() {
+    this.http.get<any>(environment.apiUrl + '/years-school').subscribe((res) => {
+      this.yearsList = Array.isArray(res?.data) ? res.data : Array.isArray(res) ? res : [];
+    });
   }
 
   checkUserConnection(): void {
@@ -42,30 +50,17 @@ export class MatiereComponent {
 
     this.currentUser = JSON.parse(userData);
     console.log('Utilisateur connecté :', this.currentUser);
-    
-    // Pré-remplir automatiquement l'idSchool avec l'idUser de l'utilisateur connecté
-    if (this.currentUser && this.currentUser.idUser && this.matiereForm) {
-      this.matiereForm.patchValue({
-        idSchool: this.currentUser.idUser
-      });
-    }
   }
 
   onSubmit() {
     if (this.matiereForm.valid) {
-      // Activer le champ idSchool temporairement pour l'envoi
-      this.matiereForm.get('idSchool')?.enable();
-      
       const matiereData = {
         ...this.matiereForm.value,
-        idUser: this.currentUser.idUser,
-        idSchool: this.currentUser.idUser
+        idSchool: parseInt(this.matiereForm.value.idSchool, 10),
+        idUser: this.currentUser.idUser
       };
       
       this.addMatiere(matiereData);
-      
-      // Désactiver à nouveau le champ après l'envoi
-      this.matiereForm.get('idSchool')?.disable();
     } else {
       console.log('Le formulaire est invalide');
     }
@@ -75,12 +70,6 @@ export class MatiereComponent {
       response => {
         console.log('Matière ajoutée avec succès', response);
         this.matiereForm.reset();
-        // Réactiver et pré-remplir idSchool après reset
-        this.matiereForm.get('idSchool')?.enable();
-        this.matiereForm.patchValue({
-          idSchool: this.currentUser.idUser
-        });
-        this.matiereForm.get('idSchool')?.disable();
         alert('Matière ajoutée avec succès!');
       },
       error => {

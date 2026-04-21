@@ -50,9 +50,10 @@ export class AnneescolaireComponent implements OnInit {
   }
 
   loadExistingYears(): void {
-    this.http.get<Year[]>(environment.apiUrl + '/years-school').subscribe({
-      next: (data) => {
-        this.existingYears = data.map((year) => year.annee_scolaire); // Assurez-vous que 'annee_scolaire' existe dans 'year'
+    this.http.get<any>(environment.apiUrl + '/years-school').subscribe({
+      next: (res) => {
+        const yearsArray = Array.isArray(res?.data) ? res.data : Array.isArray(res) ? res : [];
+        this.existingYears = yearsArray.map((year: any) => year.annee_scolaire);
       },
       error: (error) => {
         console.error('Erreur lors du chargement des années scolaires :', error);
@@ -64,7 +65,7 @@ export class AnneescolaireComponent implements OnInit {
   addYear(): void {
     const newYear = this.form.value.annee_scolaire;
 
-    // Vérifier si l'année scolaire existe déjà
+    // Vérifier si l'année scolaire existe déjà en frontend
     if (this.existingYears.includes(newYear)) {
       this.errorMessage = 'Cette année scolaire existe déjà.';
       return;
@@ -79,7 +80,7 @@ export class AnneescolaireComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors de l\'ajout de l\'année scolaire :', error);
-        this.errorMessage = 'Erreur lors de l’ajout de l’année scolaire.';
+        this.errorMessage = error.error?.message || 'Erreur lors de l’ajout de l’année scolaire.';
       },
     });
   }

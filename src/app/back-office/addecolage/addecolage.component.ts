@@ -30,6 +30,7 @@ export class AddecolageComponent implements OnInit {
   statusOptions = ['Payer', 'Non Payer'];
   student: any = null;
   anneeScolaire: string = '';
+  yearsSchools: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +51,18 @@ export class AddecolageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadStudentData();
+    this.loadYearsSchools();
+  }
+
+  loadYearsSchools(): void {
+    this.http.get<{ data: any[] }>(`${environment.apiUrl}/years-school`).subscribe({
+      next: (response) => {
+        this.yearsSchools = response.data;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des années scolaires :', error);
+      },
+    });
   }
 
   loadStudentData(): void {
@@ -58,8 +71,10 @@ export class AddecolageComponent implements OnInit {
         this.student = studentData;
         this.anneeScolaire = studentData.anneeScolaire || '';
         // Pré-remplir le champ idSchool avec l'année scolaire
+        // Assurez-vous d'utiliser idSchool car le select s'attend à l'identifiant (nombre)
+        const idSchool = studentData.idSchool || studentData.anneeScolaire || '';
         this.ecolageForm.patchValue({
-          idSchool: this.anneeScolaire
+          idSchool: idSchool
         });
       },
       error: (err) => {

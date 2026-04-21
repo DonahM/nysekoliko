@@ -35,7 +35,7 @@ import { ReceiptDialogComponent } from '../receipt-dialog/receipt-dialog.compone
 })
 export class TableSalaireComponent implements OnInit {
   baseUrl = environment.baseUrl;
-  displayedColumns: string[] = ['profName', 'mois', 'valeur', 'annee_scolaire', 'date', 'statut', 'actions'];
+  displayedColumns: string[] = ['profName', 'mois', 'heures_totales', 'valeur', 'annee_scolaire', 'date', 'statut', 'actions'];
   dataSource: MatTableDataSource<Salaire> = new MatTableDataSource<Salaire>([]);
   errorMessage: string | null = null;
 
@@ -194,4 +194,5 @@ export interface Salaire {
   idSchool: number;
   profName?: string;
   annee_scolaire?: string;
+  heures_totales?: number;
 }

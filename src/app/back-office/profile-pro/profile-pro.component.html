@@ -9,6 +9,34 @@
       <span class="badge">ID #{{ prof.idProf }}</span>
     </div>
 
+    <div class="re-enroll-container" style="padding: 16px 24px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column;">
+        <strong>Années assignées</strong>
+        <span style="font-size: 14px; color: #64748b;" *ngIf="prof.years_schools && prof.years_schools.length > 0">
+           <span *ngFor="let ys of prof.years_schools; let last = last">{{ ys.years_schools?.annee_scolaire }}<span *ngIf="!last">, </span></span>
+        </span>
+        <span style="font-size: 14px; color: #64748b;" *ngIf="!prof.years_schools || prof.years_schools.length === 0">Aucune année</span>
+      </div>
+      <div *ngIf="filteredYears.length > 0">
+        <button *ngIf="!reEnrolling" (click)="reEnrolling = true" style="padding: 8px 16px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px;">library_add</mat-icon> Réinscrire
+        </button>
+        <div *ngIf="reEnrolling" style="display: flex; gap: 8px; align-items: center;">
+          <select [(ngModel)]="selectedYearForReEnroll" style="padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+            <option [value]="null" disabled selected>Choisir une année</option>
+            <option *ngFor="let y of filteredYears" [value]="y.idSchool">{{ y.annee_scolaire }}</option>
+          </select>
+          <button (click)="reEnroll()" [disabled]="!selectedYearForReEnroll" style="padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Valider</button>
+          <button (click)="reEnrolling = false; selectedYearForReEnroll = null" style="padding: 8px 16px; background: #94a3b8; color: white; border: none; border-radius: 6px; cursor: pointer;">Annuler</button>
+        </div>
+      </div>
+      <div *ngIf="filteredYears.length === 0">
+        <span style="font-size: 13px; color: #10b981; display: flex; align-items: center; gap: 4px;">
+          <mat-icon style="font-size: 16px; width: 16px; height: 16px;">check_circle</mat-icon> Inscrit partout
+        </span>
+      </div>
+    </div>
+
     <div class="info-grid">
       <div class="info-item">
         <span class="label">Nom</span>
@@ -21,6 +49,18 @@
       <div class="info-item full">
         <span class="label">Matiere</span>
         <span class="value">{{ prof.matiere }}</span>
+      </div>
+      <div class="info-item full" style="margin-top: 10px;">
+        <span class="label">Taux Horaire (Ar/h)</span>
+        <span class="value" *ngIf="!editingTaux">
+          {{ prof.taux_horaire || 0 }} Ar/h 
+          <button (click)="editingTaux = true" style="margin-left: 10px; background: none; border: none; cursor: pointer; color: #4338ca;"><mat-icon style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle;">edit</mat-icon></button>
+        </span>
+        <div *ngIf="editingTaux" style="display: flex; gap: 10px; margin-top: 5px;">
+           <input type="number" [(ngModel)]="newTaux" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; width: 120px;">
+           <button (click)="saveTaux()" style="padding: 5px 15px; border-radius: 4px; border: none; background: #10b981; color: white; cursor: pointer;">Sauvegarder</button>
+           <button (click)="editingTaux = false" style="padding: 5px 15px; border-radius: 4px; border: none; background: #64748b; color: white; cursor: pointer;">Annuler</button>
+        </div>
       </div>
     </div>
 

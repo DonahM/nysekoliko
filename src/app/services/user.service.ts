@@ -19,6 +19,10 @@ export class UserService {
     return this.http.post<any>(this.apiUrl, user);
   }
 
+  updateUser(id: number, user: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}`, user);
+  }
+
   uploadLogo(file: File): Observable<{ filePath: string }> {
     const formData = new FormData();
     formData.append('image', file);

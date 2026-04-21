@@ -2,7 +2,7 @@
   <section class="student-container">
     <div class="table-header">
       <div>
-        <h2>Notes des etudiants - Classe {{ idCls }}</h2>
+        <h2>Notes des etudiants - {{ classeInfo?.name || 'Classe ' + idCls }}</h2>
         <p class="subtitle">Consultez les notes par matiere, annee scolaire et semestre</p>
       </div>
       <div class="header-actions">
@@ -41,6 +41,7 @@
             <th>Moyenne</th>
             <th>Total</th>
             <th>Rang</th>
+            <th class="no-print">Bulletin</th>
           </tr>
           <tr class="coef-row">
             <th class="sticky-col">Coefficient</th>
@@ -48,6 +49,7 @@
             <th>-</th>
             <th>-</th>
             <th>-</th>
+            <th class="no-print">-</th>
           </tr>
         </thead>
         <tbody>
@@ -59,6 +61,11 @@
             <td class="value-rank" [class.rank-1]="getStudentRank(student.idEdt) === 1"
               [class.rank-2]="getStudentRank(student.idEdt) === 2" [class.rank-3]="getStudentRank(student.idEdt) === 3">
               {{ getRankDisplay(getStudentRank(student.idEdt)) }}
+            </td>
+            <td class="no-print">
+              <button mat-icon-button color="primary" (click)="openBulletin(student)" matTooltip="Générer le bulletin">
+                <mat-icon>assignment</mat-icon>
+              </button>
             </td>
           </tr>
         </tbody>

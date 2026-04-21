@@ -9,10 +9,12 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ForgotPasswordDialogComponent } from './forgot-password-dialog/forgot-password-dialog.component';
 
 @Component({
   selector: 'app-form-admin',
-  imports: [MatButtonModule, RouterModule, CommonModule, ReactiveFormsModule, FormsModule, HttpClientModule, MatFormFieldModule, MatInputModule, MatIconModule],
+  imports: [MatButtonModule, RouterModule, CommonModule, ReactiveFormsModule, FormsModule, HttpClientModule, MatFormFieldModule, MatInputModule, MatIconModule, MatDialogModule],
   templateUrl: './form-admin.component.html',
   styleUrls: ['./form-admin.component.css']
 })
@@ -23,7 +25,8 @@ export class FormAdminComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -55,4 +58,13 @@ export class FormAdminComponent {
 
     }
   }
+
+  openForgotPasswordDialog(event: Event) {
+    event.preventDefault();
+    this.dialog.open(ForgotPasswordDialogComponent, {
+      width: '500px',
+      disableClose: true // On force la fermeture par l'un des boutons
+    });
+  }
 }
+
